@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Web_Food_4TL.Models;
 
-namespace Web_Food_4TL.Controllers
+namespace Web_Food_4TL.Areas.Customer.Controllers
 {
     public class HomeController : Controller
     {
