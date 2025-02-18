@@ -4,7 +4,7 @@
 
 <!-- Stats Section -->
 <section id="stats" class="stats section">
-    <div class="container position-relative">
+    <div class="container-fluid position-relative">
         <div class="row gy-4">
             <div class="col-lg-3 col-md-6">
                 <div class="stats-item text-center w-100 h-100">
@@ -26,8 +26,9 @@
     </div>
 </section>
 
+
 <section id="menu" class="menu section">
-<div class="container mt-5">
+<div class="container-fluid mt-5">
     <div class="text-center py-4">
         <!-- Thêm padding trên dưới -->
         <h2 class="mt-3 fs-6">OUR MENU</h2> <!-- Thêm margin trên -->
@@ -151,3 +152,204 @@
         }
     }
 </script>
+@* event *@
+<section id="events" class="events section">
+    <div class="container-fluid py-5">
+        <div id="serviceContainer" class="d-flex flex-nowrap justify-content-center gap-3" style="height: 500px; overflow: hidden;">
+        </div>
+        <div id="dotsContainer" class="d-flex justify-content-center mt-3">
+        </div>
+    </div>
+    <script>
+        const services = [
+          { title: "Birthday Parties", price: "$499", description: "Laborum aperiam atque omnis minus omnis est qui assumenda quos.", image: "/img/events-1.jpg" },
+          { title: "Wedding Parties", price: "$899", description: "Esse quisquam ducimus officia ipsum ut quibusdam maxime.", image: "/img/events-2.jpg" },
+          { title: "Custom Parties", price: "$99", description: "Enim facilis veritatis id est rem repudiandae nulla expedita quas.", image: "/img/events-3.jpg" },
+          { title: "Private Parties", price: "$289", description: "In delectus sint qui et enim. Et ab repudiandae inventore quaerat.", image: "/img/events-4.jpg" }
+        ];
+        let startIndex = 0;
+        let isTransitioning = false;
+
+        function renderServices(direction = "right") {
+          const container = document.getElementById("serviceContainer");
+          const dotsContainer = document.getElementById("dotsContainer");
+          const currentCards = container.querySelectorAll(".service-card");
+          currentCards.forEach(card => {
+            card.classList.add(direction === "right" ? "hidden-left" : "hidden-right");
+            card.classList.remove("visible");
+          });
+          isTransitioning = true;
+          setTimeout(() => {
+            container.innerHTML = "";
+            dotsContainer.innerHTML = "";
+            for (let i = 0; i < 3; i++) {
+              let index = (startIndex + i) % services.length;
+              const service = services[index];
+              const card = document.createElement("div");
+              card.classList.add("card", "text-white", "bg-dark", "shadow", "service-card", "hidden-right");
+              card.style.backgroundImage = `url('${service.image}')`;
+              card.style.backgroundSize = "cover";
+              card.style.backgroundPosition = "center";
+              card.style.height = "500px";
+              card.style.borderRadius = "15px";
+
+              card.innerHTML = `
+                <div class="card-img-overlay d-flex flex-column justify-content-end" style="background: rgba(0, 0, 0, 0.6); padding: 20px;">
+                  <h4 class="card-title">${service.title}</h4>
+                  <h2 class="card-text" style="text-decoration: underline; text-decoration-color: red; text-underline-offset: 5px;">${service.price}</h2>
+                  <p class="card-text">${service.description}</p>
+                </div>
+              `;
+              container.appendChild(card);
+              // Kích hoạt hiệu ứng chuyển động
+              setTimeout(() => {
+                card.classList.add("visible");
+                card.classList.remove("hidden-left", "hidden-right");
+              }, 50);
+            }
+
+            // Tạo các dot điều hướng, sử dụng rounded-circle và margin của Bootstrap
+            for (let i = 0; i < services.length; i++) {
+              let dot = document.createElement("div");
+              dot.classList.add("rounded-circle", "m-1");
+              dot.style.width = "15px";
+              dot.style.height = "15px";
+              dot.style.backgroundColor = (i === startIndex) ? "blue" : "gray";
+              dot.style.cursor = "pointer";
+              dot.onclick = () => goToService(i);
+              dotsContainer.appendChild(dot);
+            }
+            isTransitioning = false;
+          }, 100);
+        }
+
+        function nextServices() {
+          if (isTransitioning) return;
+          startIndex = (startIndex + 1) % services.length;
+          renderServices("right");
+        }
+
+        function goToService(index) {
+          if (isTransitioning) return;
+          const direction = index > startIndex ? "right" : "left";
+          startIndex = index;
+          renderServices(direction);
+        }
+
+        renderServices();
+        setInterval(nextServices, 10000);
+
+        // Hỗ trợ kéo và vuốt
+        let startX, isDragging = false;
+
+        function onMouseDown(e) {
+          startX = e.clientX || e.touches[0].clientX;
+          isDragging = true;
+        }
+
+        function onMouseMove(e) {
+          if (!isDragging) return;
+          const currentX = e.clientX || e.touches[0].clientX;
+          const deltaX = currentX - startX;
+
+          if (Math.abs(deltaX) > 100) {
+            if (deltaX > 0) {
+              startIndex = (startIndex - 1 + services.length) % services.length;
+              renderServices("left");
+            } else {
+              startIndex = (startIndex + 1) % services.length;
+              renderServices("right");
+            }
+            isDragging = false;
+          }
+        }
+
+        function onMouseUp() {
+          isDragging = false;
+        }
+
+        const container = document.getElementById("serviceContainer");
+        container.addEventListener("mousedown", onMouseDown);
+        container.addEventListener("mousemove", onMouseMove);
+        container.addEventListener("mouseup", onMouseUp);
+        container.addEventListener("mouseleave", onMouseUp);
+        container.addEventListener("touchstart", onMouseDown);
+        container.addEventListener("touchmove", onMouseMove);
+        container.addEventListener("touchend", onMouseUp);
+    </script>
+</section>
+@* chefs *@
+<section id="chefs" class="container mt-5">
+    <div class="text-center mb-4">
+        <p class="text-muted">CHEFS</p>
+        <h2 class="fw-bold"><span class="text-dark">Our</span> <span class="text-danger">Professional Chefs</span></h2>
+    </div>
+    <div class="row justify-content-center">
+        <!-- Card 1 -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="/image-container">
+                    <img src="/img/chefs-1.jpg" class="card-img-top rounded-top-4" alt="Walter White">
+                    <svg class="wave" xmlns="img/team-shape.svg" viewBox="0 0 500 150" preserveAspectRatio="none">
+                        <path d="M0.00,49.98 C150.00,150.00 350.00,0.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" fill="#ffffff" />
+                    </svg>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">Walter White</h5>
+                    <p class="text-muted">Master Chef</p>
+                    <p class="card-text">Velit aut quia fugit et et. Dolorum ea voluptate vel tempore tenetur ipsa quae aut.</p>
+                    <div class="social-icons">
+                        <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="image-container">
+                    <img src="/img/chefs-2.jpg" class="card-img-top rounded-top-4" alt="Sarah Johnson">
+                    <svg class="wave" xmlns="/img/team-shape.svg" viewBox="0 0 500 150" preserveAspectRatio="none">
+                        <path d="M0.00,49.98 C150.00,150.00 350.00,0.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" fill="#ffffff" />
+                    </svg>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">Sarah Johnson</h5>
+                    <p class="text-muted">Patissier</p>
+                    <p class="card-text">Quo esse repellendus quia id. Est eum et accusantium pariatur fugit nihil minima suscipit corporis.</p>
+                    <div class="social-icons">
+                        <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="image-container">
+                    <img src="/img/chefs-3.jpg" class="card-img-top rounded-top-4" alt="William Anderson">
+                    <svg class="wave" xmlns="/img/team-shape.svg" viewBox="0 0 500 150" preserveAspectRatio="none">
+                        <path d="M0.00,49.98 C150.00,150.00 350.00,0.00 500.00,49.98 L500.00,150.00 L0.00,150.00 Z" fill="#ffffff" />
+                    </svg>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">William Anderson</h5>
+                    <p class="text-muted">Cook</p>
+                    <p class="card-text">Vero omnis enim consequatur. Voluptas consectetur unde qui molestiae deserunt voluptates.</p>
+                    <div class="social-icons">
+                        <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
