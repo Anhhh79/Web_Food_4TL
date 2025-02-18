@@ -2,7 +2,160 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Stats Section -->
+<section id="stats" class="stats section">
+    <div class="container position-relative">
+        <div class="row gy-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-item text-center w-100 h-100">
+                    <span>232</span>
+                    <p>Clients</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-item text-center w-100 h-100">
+                    <span>521</span>
+                    <p>Projects</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-item text-center w-100 h-100">
+                    <span>1453</span>
+                    <p>Hours Of Support</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-item text-center w-100 h-100">
+                    <span>32</span>
+                    <p>Workers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="menu" class="menu section">
+<div class="container mt-5">
+    <div class="text-center py-4">
+        <!-- Thêm padding trên dưới -->
+        <h2 class="mt-3 fs-6">OUR MENU</h2> <!-- Thêm margin trên -->
+        <p class="mb-3">
+            <!-- Thêm margin dưới -->
+            <span class="fs-2 me-2">Check Our</span>
+            <span class="menu-subtitle">4TL Menu</span>
+        </p>
+    </div>
+
+
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs justify-content-center my-3">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#starters">Starters</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#breakfast">Breakfast</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#lunch">Lunch</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#dinner">Dinner</a></li>
+    </ul>
+
+    <!-- Nội dung của từng danh mục -->
+    <div class="tab-content">
+        <!-- Starters -->
+        <div class="tab-pane fade show active" id="starters">
+            <h3 class="menu-subtitle py-4">Starters</h3>
+            <div class="row">
+              
+                <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
+                    <div class="menu-item">
+                        <img src="~/img/menu-item-1.png" alt="Starter 2">
+                        <h5>Starter 2</h5>
+                        <p>Lorem ipsum dolor sit.</p>
+                        <p class="price">$6.50</p>
+                        <!-- Số lượng + Thêm vào giỏ -->
+                        <div class="d-flex justify-content-center align-items-center">
+                            <button class="btn btn-outline-secondary btn-sm" onclick="decreaseQty(this)">−</button>
+                            <input type="text" class="form-control text-center mx-2" value="1" style="width: 50px;" readonly>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="increaseQty(this)">+</button>
+                        </div>
+                        <button class="btn btn-primary mt-2">Add to Cart</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Breakfast -->
+        <div class="tab-pane fade" id="breakfast">
+            <h3 class="menu-subtitle py-4">Breakfast</h3>
+            <div class="row">
+                <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
+                    <div class="menu-item">
+                        <img src="~/img/menu-item-1.png" alt="Breakfast 1">
+                        <h5>Breakfast 1</h5>
+                        <p>Lorem ipsum dolor sit.</p>
+                        <p class="price">$7.95</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lunch -->
+        <div class="tab-pane fade" id="lunch">
+            <h3 class="menu-subtitle py-4">Lunch</h3>
+            <div class="row">
+                <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
+                    <div class="menu-item">
+                        <img src="~/img/menu-item-1.png" alt="Lunch 1">
+                        <h5>Lunch 1</h5>
+                        <p>Lorem ipsum dolor sit.</p>
+                        <p class="price">$9.95</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dinner -->
+        <div class="tab-pane fade" id="dinner">
+            <h3 class="menu-subtitle py-4">Dinner</h3>
+            <div class="row">
+                <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
+                    <div class="menu-item">
+                        <img src="~/img/menu-item-1.png" alt="Dinner 1">
+                        <h5>Magnam Tiste</h5>
+                        <p>Lorem, deren, trataro, filede, nerada</p>
+                        <p class="price">$5.95</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
+                    <div class="menu-item">
+                        <img src="~/img/menu-item-1.png" alt="Dinner 2">
+                        <h5>Aut Luia</h5>
+                        <p>Lorem, deren, trataro, filede, nerada</p>
+                        <p class="price">$14.95</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
+                    <div class="menu-item">
+                        <img src="~/img/menu-item-1.png" alt="Dinner 3">
+                        <h5>Est Eligendi</h5>
+                        <p>Lorem, deren, trataro, filede, nerada</p>
+                        <p class="price">$8.95</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+</section>
+<!-- JavaScript tăng/giảm số lượng -->
+<script>
+    function increaseQty(button) {
+        let input = button.parentElement.querySelector("input");
+        input.value = parseInt(input.value) + 1;
+    }
+
+    function decreaseQty(button) {
+        let input = button.parentElement.querySelector("input");
+        if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+        }
+    }
+</script>
