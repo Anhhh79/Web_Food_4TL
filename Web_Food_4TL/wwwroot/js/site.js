@@ -16,10 +16,8 @@ function adjustCarouselItems() {
 
     // Xác định số lượng clone cần thêm dựa trên kích thước màn hình
     let cloneCount;
-    if (window.innerWidth >= 992) {      // Màn hình lớn: hiển thị 3 card (1 ban đầu + 2 clone)
+    if (window.innerWidth >= 768) {      // Màn hình lớn + trung: hiển thị 3 card (1 ban đầu + 2 clone)
         cloneCount = 2;
-    } else if (window.innerWidth >= 768) { // Màn hình trung: hiển thị 2 card (1 ban đầu + 1 clone)
-        cloneCount = 1;
     } else {                             // Màn hình nhỏ: hiển thị 1 card (không clone)
         cloneCount = 0;
     }
