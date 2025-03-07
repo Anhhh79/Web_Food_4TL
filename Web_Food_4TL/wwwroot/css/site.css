@@ -223,4 +223,61 @@ p {
     color:red !important;
 }
 
+/*check out gallery*/
+#checkOut_Picture{
+    background-color: rgb(242,242,242);
+}
+.gallery-container {
+    width: 100%;
+    margin: auto; /*Căn giữa container.*/
+    position: relative;
+}
+
+.swiper {
+    width: 100%;
+    height: 270px;
+    padding-bottom: 55px; /* Thêm khoảng trống cho dấu chấm */
+}
+
+.swiper-slide {
+    text-align: center;
+    transition: transform 0.3s ease-in-out; /*Khi slide thay đổi trạng thái, hiệu ứng sẽ chạy mượt trong 0.3 giây.
+*/
+}
+
+    .swiper-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+        transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out; /*Khi ảnh thay đổi trạng thái, hiệu ứng zoom và filter sẽ chạy mượt.*/
+    }
+
+.swiper-slide-active {
+    transform: scale(1.05); /*Slide hiện tại sẽ phóng to 5% để nổi bật.*/
+    border: 5px solid red;
+    border-radius: 15px;
+}
+
+.swiper-slide:not(.swiper-slide-active) img {
+    filter: blur(1px); /*Làm mờ ảnh không active*/
+}
+
+.swiper-pagination { /*Thiết lập các dấu chấm*/
+    position: absolute; /*Định vị dấu chấm trong container chính.*/
+    bottom: -20px; /* Đưa dấu chấm ra ngoài ảnh */
+    left: 0;
+    width: 100%;
+}
+
+.swiper-pagination-bullet {
+    background-color: #ccc;
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: rgb(207, 19, 19);
+}
 
