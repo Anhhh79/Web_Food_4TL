@@ -24,123 +24,114 @@ namespace Web_Food_4TL.Migrations
 
             modelBuilder.Entity("Web_Food_4TL.Models.AnhMonAn", b =>
                 {
-                    b.Property<int>("MaAnhMonAnh")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaAnhMonAnh"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("MaMonAnh")
+                    b.Property<int>("MonAnId")
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MaAnhMonAnh");
+                    b.HasKey("Id");
 
-                    b.HasIndex("MaMonAnh");
+                    b.HasIndex("MonAnId");
 
                     b.ToTable("AnhMonAns");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.DanhMuc", b =>
                 {
-                    b.Property<int>("MaDanhMuc")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaDanhMuc"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("TenDanhMuc")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MaDanhMuc");
+                    b.HasKey("Id");
 
                     b.ToTable("DanhMucs");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.GioHang", b =>
                 {
-                    b.Property<int>("MaGioHang")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaGioHang"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("MaMonAn")
+                    b.Property<int>("MonAnId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaNguoiDung")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MonAnMaMonAn")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NguoiDungMaNguoiDung")
+                    b.Property<int>("NguoiDungId")
                         .HasColumnType("int");
 
                     b.Property<int>("SoLuong")
                         .HasColumnType("int");
 
-                    b.HasKey("MaGioHang");
+                    b.HasKey("Id");
 
-                    b.HasIndex("MonAnMaMonAn");
+                    b.HasIndex("MonAnId");
 
-                    b.HasIndex("NguoiDungMaNguoiDung");
+                    b.HasIndex("NguoiDungId");
 
                     b.ToTable("GioHangs");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.HoaDon", b =>
                 {
-                    b.Property<int>("MaHoaDon")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaHoaDon"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<double>("Gia")
                         .HasColumnType("float");
 
-                    b.Property<int>("MaMonAn")
+                    b.Property<int>("MonAnId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaNguoiDung")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaThongTinDatBan")
+                    b.Property<int>("NguoiDungId")
                         .HasColumnType("int");
 
                     b.Property<int>("SoLuong")
                         .HasColumnType("int");
 
-                    b.HasKey("MaHoaDon");
+                    b.Property<int>("ThongTinDatBanId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("MaMonAn");
+                    b.HasKey("Id");
 
-                    b.HasIndex("MaThongTinDatBan");
+                    b.HasIndex("MonAnId");
+
+                    b.HasIndex("NguoiDungId");
 
                     b.ToTable("HoaDons");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.MonAn", b =>
                 {
-                    b.Property<int>("MaMonAn")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaMonAn"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DanhMucMaDanhMuc")
+                    b.Property<int>("DanhMucId")
                         .HasColumnType("int");
 
                     b.Property<double>("Gia")
                         .HasColumnType("float");
-
-                    b.Property<int>("MaDanhMuc")
-                        .HasColumnType("int");
 
                     b.Property<string>("MoTa")
                         .IsRequired()
@@ -150,20 +141,20 @@ namespace Web_Food_4TL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MaMonAn");
+                    b.HasKey("Id");
 
-                    b.HasIndex("DanhMucMaDanhMuc");
+                    b.HasIndex("DanhMucId");
 
                     b.ToTable("MonAns");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.NguoiDung", b =>
                 {
-                    b.Property<int>("MaNguoiDung")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaNguoiDung"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -181,27 +172,24 @@ namespace Web_Food_4TL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MaNguoiDung");
+                    b.HasKey("Id");
 
                     b.ToTable("NguoiDungs");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.ThongTinDatBan", b =>
                 {
-                    b.Property<int>("MaThongTinDatBan")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaThongTinDatBan"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MaNguoiDung")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NguoiDungMaNguoiDung")
+                    b.Property<int>("NguoiDungId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("OrderDate")
@@ -218,49 +206,49 @@ namespace Web_Food_4TL.Migrations
                     b.Property<double>("TongTien")
                         .HasColumnType("float");
 
-                    b.HasKey("MaThongTinDatBan");
+                    b.HasKey("Id");
 
-                    b.HasIndex("NguoiDungMaNguoiDung");
+                    b.HasIndex("NguoiDungId");
 
                     b.ToTable("ThongTinDatBans");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.VaiTro", b =>
                 {
-                    b.Property<int>("MaVaiTro")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaVaiTro"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("TenVaiTro")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MaVaiTro");
+                    b.HasKey("Id");
 
                     b.ToTable("VaiTros");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.VaiTroNguoiDung", b =>
                 {
-                    b.Property<int>("MaVaiTroNguoiDung")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaVaiTroNguoiDung"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("MaNguoiDung")
+                    b.Property<int>("NguoiDungId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaVaiTro")
+                    b.Property<int>("VaiTroId")
                         .HasColumnType("int");
 
-                    b.HasKey("MaVaiTroNguoiDung");
+                    b.HasKey("Id");
 
-                    b.HasIndex("MaNguoiDung");
+                    b.HasIndex("NguoiDungId");
 
-                    b.HasIndex("MaVaiTro");
+                    b.HasIndex("VaiTroId");
 
                     b.ToTable("VaiTroNguoiDungs");
                 });
@@ -269,7 +257,7 @@ namespace Web_Food_4TL.Migrations
                 {
                     b.HasOne("Web_Food_4TL.Models.MonAn", "MonAnh")
                         .WithMany("AnhMonAnh")
-                        .HasForeignKey("MaMonAnh")
+                        .HasForeignKey("MonAnId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -280,13 +268,13 @@ namespace Web_Food_4TL.Migrations
                 {
                     b.HasOne("Web_Food_4TL.Models.MonAn", "MonAn")
                         .WithMany()
-                        .HasForeignKey("MonAnMaMonAn")
+                        .HasForeignKey("MonAnId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Web_Food_4TL.Models.NguoiDung", "NguoiDung")
                         .WithMany()
-                        .HasForeignKey("NguoiDungMaNguoiDung")
+                        .HasForeignKey("NguoiDungId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -299,14 +287,14 @@ namespace Web_Food_4TL.Migrations
                 {
                     b.HasOne("Web_Food_4TL.Models.MonAn", "MonAn")
                         .WithMany()
-                        .HasForeignKey("MaMonAn")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasForeignKey("MonAnId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Web_Food_4TL.Models.ThongTinDatBan", "ThongTinDatBan")
                         .WithMany()
-                        .HasForeignKey("MaThongTinDatBan")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasForeignKey("NguoiDungId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("MonAn");
@@ -318,7 +306,7 @@ namespace Web_Food_4TL.Migrations
                 {
                     b.HasOne("Web_Food_4TL.Models.DanhMuc", "DanhMuc")
                         .WithMany()
-                        .HasForeignKey("DanhMucMaDanhMuc")
+                        .HasForeignKey("DanhMucId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -329,7 +317,7 @@ namespace Web_Food_4TL.Migrations
                 {
                     b.HasOne("Web_Food_4TL.Models.NguoiDung", "NguoiDung")
                         .WithMany()
-                        .HasForeignKey("NguoiDungMaNguoiDung")
+                        .HasForeignKey("NguoiDungId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -340,13 +328,13 @@ namespace Web_Food_4TL.Migrations
                 {
                     b.HasOne("Web_Food_4TL.Models.NguoiDung", "NguoiDung")
                         .WithMany()
-                        .HasForeignKey("MaNguoiDung")
+                        .HasForeignKey("NguoiDungId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Web_Food_4TL.Models.VaiTro", "VaiTro")
                         .WithMany()
-                        .HasForeignKey("MaVaiTro")
+                        .HasForeignKey("VaiTroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -22,19 +22,6 @@ namespace Web_Food_4TL.Data
         {
             base.OnModelCreating(modelBuilder);
 
-           
-
-            modelBuilder.Entity<HoaDon>()
-                .HasOne(h => h.ThongTinDatBan)
-                .WithMany()
-                .HasForeignKey(h => h.MaThongTinDatBan)
-                .OnDelete(DeleteBehavior.NoAction); // ⛔ Ngăn chặn xóa theo cascade
-
-            modelBuilder.Entity<HoaDon>()
-                .HasOne(h => h.MonAn)
-                .WithMany()
-                .HasForeignKey(h => h.MaMonAn)
-                .OnDelete(DeleteBehavior.NoAction); // ⛔ Ngăn chặn xóa theo cascade
         }
 
     }

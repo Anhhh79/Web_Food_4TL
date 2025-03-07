@@ -7,7 +7,7 @@ namespace Web_Food_4TL.Models
     public class ThongTinDatBan
     {
         [Key]
-        public int MaThongTinDatBan { get; set; }
+        public int Id { get; set; }
 
         public string TenNguoiDung {  get; set; }
 
@@ -17,10 +17,8 @@ namespace Web_Food_4TL.Models
         public string SoDienThoai { get; set; }
         public string Email { get; set; }
 
-        [ForeignKey("MaNguoiDung")]
-        public int MaNguoiDung { get; set; }
-        [ValidateNever]
-
+        public int NguoiDungId { get; set; }
+        [ForeignKey("NguoiDungId")]
         public NguoiDung NguoiDung { get; set; }
 
     }
