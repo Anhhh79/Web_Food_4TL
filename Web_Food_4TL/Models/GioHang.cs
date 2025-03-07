@@ -7,22 +7,18 @@ namespace Web_Food_4TL.Models
     public class GioHang
     {
         [Key]
-        public int MaGioHang { get; set; }
+        public int Id { get; set; }
 
         [NotMapped]
         public double Gia { get; set; }
         public int SoLuong { get; set; }
 
-        [ForeignKey("MaNguoiDung")]
-        public int MaNguoiDung { get; set; }
-        [ValidateNever]
-
+        public int NguoiDungId { get; set; }
+        [ForeignKey("NguoiDungId")]
         public NguoiDung NguoiDung { get; set; }
 
-        [ForeignKey("MaMonAn")]
-        public int MaMonAn { get; set; }
-        [ValidateNever]
-
+        public int MonAnId { get; set; }
+        [ForeignKey("MonAnId")]
         public MonAn MonAn { get; set; } 
 
     }

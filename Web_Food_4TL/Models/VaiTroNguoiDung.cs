@@ -7,16 +7,14 @@ namespace Web_Food_4TL.Models
     public class VaiTroNguoiDung
     {
         [Key]
-        public int MaVaiTroNguoiDung { get; set; }
+        public int Id { get; set; }
 
-        [ForeignKey("NguoiDung")]
-        public int MaNguoiDung { get; set; }
-        [ValidateNever]
-        public NguoiDung NguoiDung { get; set; }  
+        public int NguoiDungId { get; set; }
+        [ForeignKey("NguoiDungId")]
+        public NguoiDung NguoiDung { get; set; }
 
-        [ForeignKey("VaiTro")]
-        public int MaVaiTro { get; set; }
-        [ValidateNever]
+        public int VaiTroId { get; set; }
+        [ForeignKey("VaiTroId")]
         public VaiTro VaiTro { get; set; }  
     }
 }

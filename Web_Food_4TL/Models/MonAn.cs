@@ -7,16 +7,13 @@ namespace Web_Food_4TL.Models
     public class MonAn
     {
         [Key]
-        public int MaMonAn {  get; set; }
+        public int Id {  get; set; }
         public string TenMonAn { get; set; }
         public string MoTa {  get; set; }
         public double Gia { get; set; }
 
-        [ForeignKey("MaDanhMuc")]
-        public int MaDanhMuc { get; set; }
-
-        [ValidateNever]
-
+        public int DanhMucId { get; set; }
+        [ForeignKey("DanhMucId")]
         public DanhMuc DanhMuc { get; set; }
 
         public List<AnhMonAn> AnhMonAnh { get; set; }

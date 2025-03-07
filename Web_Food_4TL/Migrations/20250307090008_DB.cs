@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Web_Food_4TL.Migrations
 {
     /// <inheritdoc />
-    public partial class db : Migration
+    public partial class DB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,20 +15,20 @@ namespace Web_Food_4TL.Migrations
                 name: "DanhMucs",
                 columns: table => new
                 {
-                    MaDanhMuc = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenDanhMuc = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DanhMucs", x => x.MaDanhMuc);
+                    table.PrimaryKey("PK_DanhMucs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "NguoiDungs",
                 columns: table => new
                 {
-                    MaNguoiDung = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenNguoiDung = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MatKhau = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -37,42 +37,41 @@ namespace Web_Food_4TL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NguoiDungs", x => x.MaNguoiDung);
+                    table.PrimaryKey("PK_NguoiDungs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "VaiTros",
                 columns: table => new
                 {
-                    MaVaiTro = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenVaiTro = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VaiTros", x => x.MaVaiTro);
+                    table.PrimaryKey("PK_VaiTros", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "MonAns",
                 columns: table => new
                 {
-                    MaMonAn = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenMonAn = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MoTa = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gia = table.Column<double>(type: "float", nullable: false),
-                    MaDanhMuc = table.Column<int>(type: "int", nullable: false),
-                    DanhMucMaDanhMuc = table.Column<int>(type: "int", nullable: false)
+                    DanhMucId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MonAns", x => x.MaMonAn);
+                    table.PrimaryKey("PK_MonAns", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MonAns_DanhMucs_DanhMucMaDanhMuc",
-                        column: x => x.DanhMucMaDanhMuc,
+                        name: "FK_MonAns_DanhMucs_DanhMucId",
+                        column: x => x.DanhMucId,
                         principalTable: "DanhMucs",
-                        principalColumn: "MaDanhMuc",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -80,24 +79,23 @@ namespace Web_Food_4TL.Migrations
                 name: "ThongTinDatBans",
                 columns: table => new
                 {
-                    MaThongTinDatBan = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenNguoiDung = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TongTien = table.Column<double>(type: "float", nullable: false),
                     SoDienThoai = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MaNguoiDung = table.Column<int>(type: "int", nullable: false),
-                    NguoiDungMaNguoiDung = table.Column<int>(type: "int", nullable: false)
+                    NguoiDungId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ThongTinDatBans", x => x.MaThongTinDatBan);
+                    table.PrimaryKey("PK_ThongTinDatBans", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ThongTinDatBans_NguoiDungs_NguoiDungMaNguoiDung",
-                        column: x => x.NguoiDungMaNguoiDung,
+                        name: "FK_ThongTinDatBans_NguoiDungs_NguoiDungId",
+                        column: x => x.NguoiDungId,
                         principalTable: "NguoiDungs",
-                        principalColumn: "MaNguoiDung",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -105,25 +103,25 @@ namespace Web_Food_4TL.Migrations
                 name: "VaiTroNguoiDungs",
                 columns: table => new
                 {
-                    MaVaiTroNguoiDung = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MaNguoiDung = table.Column<int>(type: "int", nullable: false),
-                    MaVaiTro = table.Column<int>(type: "int", nullable: false)
+                    NguoiDungId = table.Column<int>(type: "int", nullable: false),
+                    VaiTroId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VaiTroNguoiDungs", x => x.MaVaiTroNguoiDung);
+                    table.PrimaryKey("PK_VaiTroNguoiDungs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_VaiTroNguoiDungs_NguoiDungs_MaNguoiDung",
-                        column: x => x.MaNguoiDung,
+                        name: "FK_VaiTroNguoiDungs_NguoiDungs_NguoiDungId",
+                        column: x => x.NguoiDungId,
                         principalTable: "NguoiDungs",
-                        principalColumn: "MaNguoiDung",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_VaiTroNguoiDungs_VaiTros_MaVaiTro",
-                        column: x => x.MaVaiTro,
+                        name: "FK_VaiTroNguoiDungs_VaiTros_VaiTroId",
+                        column: x => x.VaiTroId,
                         principalTable: "VaiTros",
-                        principalColumn: "MaVaiTro",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -131,19 +129,19 @@ namespace Web_Food_4TL.Migrations
                 name: "AnhMonAns",
                 columns: table => new
                 {
-                    MaAnhMonAnh = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MaMonAnh = table.Column<int>(type: "int", nullable: false)
+                    MonAnId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AnhMonAns", x => x.MaAnhMonAnh);
+                    table.PrimaryKey("PK_AnhMonAns", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AnhMonAns_MonAns_MaMonAnh",
-                        column: x => x.MaMonAnh,
+                        name: "FK_AnhMonAns_MonAns_MonAnId",
+                        column: x => x.MonAnId,
                         principalTable: "MonAns",
-                        principalColumn: "MaMonAn",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -151,28 +149,26 @@ namespace Web_Food_4TL.Migrations
                 name: "GioHangs",
                 columns: table => new
                 {
-                    MaGioHang = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SoLuong = table.Column<int>(type: "int", nullable: false),
-                    MaNguoiDung = table.Column<int>(type: "int", nullable: false),
-                    NguoiDungMaNguoiDung = table.Column<int>(type: "int", nullable: false),
-                    MaMonAn = table.Column<int>(type: "int", nullable: false),
-                    MonAnMaMonAn = table.Column<int>(type: "int", nullable: false)
+                    NguoiDungId = table.Column<int>(type: "int", nullable: false),
+                    MonAnId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GioHangs", x => x.MaGioHang);
+                    table.PrimaryKey("PK_GioHangs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GioHangs_MonAns_MonAnMaMonAn",
-                        column: x => x.MonAnMaMonAn,
+                        name: "FK_GioHangs_MonAns_MonAnId",
+                        column: x => x.MonAnId,
                         principalTable: "MonAns",
-                        principalColumn: "MaMonAn",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GioHangs_NguoiDungs_NguoiDungMaNguoiDung",
-                        column: x => x.NguoiDungMaNguoiDung,
+                        name: "FK_GioHangs_NguoiDungs_NguoiDungId",
+                        column: x => x.NguoiDungId,
                         principalTable: "NguoiDungs",
-                        principalColumn: "MaNguoiDung",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -180,73 +176,75 @@ namespace Web_Food_4TL.Migrations
                 name: "HoaDons",
                 columns: table => new
                 {
-                    MaHoaDon = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SoLuong = table.Column<int>(type: "int", nullable: false),
                     Gia = table.Column<double>(type: "float", nullable: false),
-                    MaThongTinDatBan = table.Column<int>(type: "int", nullable: false),
-                    MaMonAn = table.Column<int>(type: "int", nullable: false),
-                    MaNguoiDung = table.Column<int>(type: "int", nullable: false)
+                    ThongTinDatBanId = table.Column<int>(type: "int", nullable: false),
+                    NguoiDungId = table.Column<int>(type: "int", nullable: false),
+                    MonAnId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HoaDons", x => x.MaHoaDon);
+                    table.PrimaryKey("PK_HoaDons", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HoaDons_MonAns_MaMonAn",
-                        column: x => x.MaMonAn,
+                        name: "FK_HoaDons_MonAns_MonAnId",
+                        column: x => x.MonAnId,
                         principalTable: "MonAns",
-                        principalColumn: "MaMonAn");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_HoaDons_ThongTinDatBans_MaThongTinDatBan",
-                        column: x => x.MaThongTinDatBan,
+                        name: "FK_HoaDons_ThongTinDatBans_NguoiDungId",
+                        column: x => x.NguoiDungId,
                         principalTable: "ThongTinDatBans",
-                        principalColumn: "MaThongTinDatBan");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AnhMonAns_MaMonAnh",
+                name: "IX_AnhMonAns_MonAnId",
                 table: "AnhMonAns",
-                column: "MaMonAnh");
+                column: "MonAnId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GioHangs_MonAnMaMonAn",
+                name: "IX_GioHangs_MonAnId",
                 table: "GioHangs",
-                column: "MonAnMaMonAn");
+                column: "MonAnId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GioHangs_NguoiDungMaNguoiDung",
+                name: "IX_GioHangs_NguoiDungId",
                 table: "GioHangs",
-                column: "NguoiDungMaNguoiDung");
+                column: "NguoiDungId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HoaDons_MaMonAn",
+                name: "IX_HoaDons_MonAnId",
                 table: "HoaDons",
-                column: "MaMonAn");
+                column: "MonAnId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HoaDons_MaThongTinDatBan",
+                name: "IX_HoaDons_NguoiDungId",
                 table: "HoaDons",
-                column: "MaThongTinDatBan");
+                column: "NguoiDungId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MonAns_DanhMucMaDanhMuc",
+                name: "IX_MonAns_DanhMucId",
                 table: "MonAns",
-                column: "DanhMucMaDanhMuc");
+                column: "DanhMucId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ThongTinDatBans_NguoiDungMaNguoiDung",
+                name: "IX_ThongTinDatBans_NguoiDungId",
                 table: "ThongTinDatBans",
-                column: "NguoiDungMaNguoiDung");
+                column: "NguoiDungId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VaiTroNguoiDungs_MaNguoiDung",
+                name: "IX_VaiTroNguoiDungs_NguoiDungId",
                 table: "VaiTroNguoiDungs",
-                column: "MaNguoiDung");
+                column: "NguoiDungId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_VaiTroNguoiDungs_MaVaiTro",
+                name: "IX_VaiTroNguoiDungs_VaiTroId",
                 table: "VaiTroNguoiDungs",
-                column: "MaVaiTro");
+                column: "VaiTroId");
         }
 
         /// <inheritdoc />
