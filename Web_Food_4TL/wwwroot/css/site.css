@@ -200,6 +200,13 @@ p {
 .hv-cl:hover {
     color:red !important;
 }
+.footer[b-7u8ksmaznx] {
+    position: absolute!important;
+    /* bottom: 0; */
+    width: 100%!important;
+    white-space: nowrap!important;
+    line-height: 60px!important;
+}
 
 /*check out gallery*/
 #checkOut_Picture{

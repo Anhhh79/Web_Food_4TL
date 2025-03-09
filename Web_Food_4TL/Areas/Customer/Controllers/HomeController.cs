@@ -4,6 +4,7 @@ using Web_Food_4TL.Models;
 
 namespace Web_Food_4TL.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
