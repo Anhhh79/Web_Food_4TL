@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Web_Food_4TL.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +10,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
+// add session
+builder.Services.AddDistributedMemoryCache(); // Lưu session vào bộ nhớ
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian hết hạn session (30 phút)
+    options.Cookie.HttpOnly = true;  // Chỉ cho phép truy cập session qua HTTP, bảo mật hơn
+    options.Cookie.IsEssential = true; // Đảm bảo cookie session luôn được gửi đi
+});
 
 var app = builder.Build();
 
@@ -24,6 +32,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseSession(); // Kích hoạt session
 app.UseRouting();
 
 app.UseAuthorization();
