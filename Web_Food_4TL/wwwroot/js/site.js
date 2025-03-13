@@ -118,3 +118,86 @@ document.addEventListener('DOMContentLoaded', function () {
         currentDelta = 0;
     });
 });
+$(document).ready(function () {
+    $(".view-detail").click(function () {
+        var monAnId = $(this).data("id"); // Lấy ID món ăn
+
+        $.ajax({
+            url: "/Customer/Home/GetMonAnDetail",
+            type: "GET",
+            data: { id: monAnId },
+            success: function (data) {
+                $("#modalContent").html(data); // Load nội dung vào modal
+
+                // Kiểm tra modal có tồn tại không
+                var modalElement = document.getElementById("monAnDetailModal");
+                if (modalElement) {
+                    var modalInstance = new bootstrap.Modal(modalElement);
+                    modalInstance.show(); // Hiển thị modal
+                } else {
+                    console.error("Không tìm thấy modal với ID monAnDetailModal");
+                }
+            },
+            error: function () {
+                alert("Có lỗi xảy ra khi tải dữ liệu.");
+            }
+        });
+    });
+});
+
+$(document).on("click", "#addToCart", function () {
+    var monAnId = $(this).data("id");
+    var quantity = parseInt($("#quantity").val()) || 1; // Chuyển về số, mặc định là 1 nếu lỗi
+
+    console.log("Thêm vào giỏ hàng: ID =", monAnId, "Số lượng =", quantity);
+
+    $.ajax({
+        url: "/Customer/Cart/AddToCart",
+        type: "POST",
+        data: { monAnId: monAnId, quantity: quantity },
+        success: function (response) {
+            if (response.success) {
+                // Cập nhật số lượng giỏ hàng nếu phần tử tồn tại
+                if ($("#cartCount").length > 0) {
+                    $("#cartCount").text(response.cartCount);
+                } else {
+                    console.warn("Không tìm thấy #cartCount để cập nhật!");
+                }
+
+                // Đóng modal nếu tồn tại
+                if ($("#monAnDetailModal").length > 0) {
+                    $("#monAnDetailModal").modal("hide");
+                } else {
+                    console.error("Không tìm thấy modal!");
+                }
+
+                // Hiển thị thông báo thành công
+                toastr.success(response.message);
+            } else {
+                // Hiển thị lỗi từ server
+                toastr.error(response.message);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Lỗi khi thêm vào giỏ hàng:", xhr.responseText);
+            toastr.error("Có lỗi xảy ra khi thêm vào giỏ hàng!", "Lỗi", { timeOut: 3000 });
+        }
+    });
+});
+
+
+
+
+
+function formatVND(amount) {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+}
+
+// Cập nhật giá trong giỏ hàng
+document.querySelectorAll(".cart-price").forEach(el => {
+    let price = parseInt(el.innerText);
+    el.innerText = formatVND(price);
+});
+
+
+

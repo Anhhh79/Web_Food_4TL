@@ -10,7 +10,7 @@ namespace Web_Food_4TL.Models
         public int Id {  get; set; }
         public string TenMonAn { get; set; }
         public string MoTa {  get; set; }
-        public double Gia { get; set; }
+        public decimal Gia { get; set; }
 
         public int DanhMucId { get; set; }
         [ForeignKey("DanhMucId")]

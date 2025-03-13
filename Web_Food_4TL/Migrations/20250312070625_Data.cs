@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Web_Food_4TL.Migrations
 {
     /// <inheritdoc />
-    public partial class DB : Migration
+    public partial class Data : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -61,7 +61,7 @@ namespace Web_Food_4TL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenMonAn = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MoTa = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Gia = table.Column<double>(type: "float", nullable: false),
+                    Gia = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     DanhMucId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -76,23 +76,21 @@ namespace Web_Food_4TL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ThongTinDatBans",
+                name: "HoaDons",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TenNguoiDung = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TongTien = table.Column<double>(type: "float", nullable: false),
-                    SoDienThoai = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TongTien = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TrangThai = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     NguoiDungId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ThongTinDatBans", x => x.Id);
+                    table.PrimaryKey("PK_HoaDons", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ThongTinDatBans_NguoiDungs_NguoiDungId",
+                        name: "FK_HoaDons_NguoiDungs_NguoiDungId",
                         column: x => x.NguoiDungId,
                         principalTable: "NguoiDungs",
                         principalColumn: "Id",
@@ -151,6 +149,7 @@ namespace Web_Food_4TL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Gia = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     SoLuong = table.Column<int>(type: "int", nullable: false),
                     NguoiDungId = table.Column<int>(type: "int", nullable: false),
                     MonAnId = table.Column<int>(type: "int", nullable: false)
@@ -173,33 +172,49 @@ namespace Web_Food_4TL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "HoaDons",
+                name: "HoaDonChiTiets",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    TenMonAn = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SoLuong = table.Column<int>(type: "int", nullable: false),
-                    Gia = table.Column<double>(type: "float", nullable: false),
-                    ThongTinDatBanId = table.Column<int>(type: "int", nullable: false),
+                    Gia = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    HoaDonId = table.Column<int>(type: "int", nullable: false),
                     NguoiDungId = table.Column<int>(type: "int", nullable: false),
                     MonAnId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HoaDons", x => x.Id);
+                    table.PrimaryKey("PK_HoaDonChiTiets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HoaDons_MonAns_MonAnId",
+                        name: "FK_HoaDonChiTiets_HoaDons_NguoiDungId",
+                        column: x => x.NguoiDungId,
+                        principalTable: "HoaDons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HoaDonChiTiets_MonAns_MonAnId",
                         column: x => x.MonAnId,
                         principalTable: "MonAns",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_HoaDons_ThongTinDatBans_NguoiDungId",
-                        column: x => x.NguoiDungId,
-                        principalTable: "ThongTinDatBans",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "DanhMucs",
+                columns: new[] { "Id", "TenDanhMuc" },
+                values: new object[] { 1, "Breakfast" });
+
+            migrationBuilder.InsertData(
+                table: "NguoiDungs",
+                columns: new[] { "Id", "Email", "MatKhau", "SoDienThoai", "TenNguoiDung" },
+                values: new object[] { 1, "@123", "012", "123", "H" });
+
+            migrationBuilder.InsertData(
+                table: "MonAns",
+                columns: new[] { "Id", "DanhMucId", "Gia", "MoTa", "TenMonAn" },
+                values: new object[] { 1, 1, 15000m, "Ngon", "Banh Mi" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AnhMonAns_MonAnId",
@@ -217,9 +232,14 @@ namespace Web_Food_4TL.Migrations
                 column: "NguoiDungId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_HoaDons_MonAnId",
-                table: "HoaDons",
+                name: "IX_HoaDonChiTiets_MonAnId",
+                table: "HoaDonChiTiets",
                 column: "MonAnId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HoaDonChiTiets_NguoiDungId",
+                table: "HoaDonChiTiets",
+                column: "NguoiDungId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HoaDons_NguoiDungId",
@@ -230,11 +250,6 @@ namespace Web_Food_4TL.Migrations
                 name: "IX_MonAns_DanhMucId",
                 table: "MonAns",
                 column: "DanhMucId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ThongTinDatBans_NguoiDungId",
-                table: "ThongTinDatBans",
-                column: "NguoiDungId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_VaiTroNguoiDungs_NguoiDungId",
@@ -257,25 +272,25 @@ namespace Web_Food_4TL.Migrations
                 name: "GioHangs");
 
             migrationBuilder.DropTable(
-                name: "HoaDons");
+                name: "HoaDonChiTiets");
 
             migrationBuilder.DropTable(
                 name: "VaiTroNguoiDungs");
 
             migrationBuilder.DropTable(
-                name: "MonAns");
+                name: "HoaDons");
 
             migrationBuilder.DropTable(
-                name: "ThongTinDatBans");
+                name: "MonAns");
 
             migrationBuilder.DropTable(
                 name: "VaiTros");
 
             migrationBuilder.DropTable(
-                name: "DanhMucs");
+                name: "NguoiDungs");
 
             migrationBuilder.DropTable(
-                name: "NguoiDungs");
+                name: "DanhMucs");
         }
     }
 }

@@ -1,0 +1,97 @@
+﻿@model List<Web_Food_4TL.Models.GioHang>
+
+<section class="h-100 h-custom" style="background-color: #eee;">
+    <div class="container h-100 py-5">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col">
+                <div class="card shopping-cart" style="border-radius: 15px;">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <!-- Cột trái: Danh sách sản phẩm -->
+                            <div class="col-lg-6 px-5 py-4">
+                                <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Giỏ Hàng</h3>
+
+                                @foreach (var item in Model)
+                                {
+                                    <div class="d-flex align-items-center mb-4 p-3 border rounded bg-white shadow-sm" id="item-@item.Id">
+                                        <div class="flex-shrink-0">
+                                            <img src="@item.MonAn.AnhMonAnh" class="img-fluid rounded" style="width: 120px; height: 80px; object-fit: cover;"
+                                                 alt="@item.MonAn.TenMonAn">
+                                        </div>
+
+                                        <div class="flex-grow-1 ms-4">
+                                            <h5 class="text-primary mb-1">@item.MonAn.TenMonAn</h5>
+                                            <p class="fw-bold mb-2 text-danger">@string.Format("{0:N0} VND", item.MonAn.Gia)</p>
+
+                                            <div class="d-flex align-items-center">
+                                                <!-- Nút giảm số lượng -->
+                                                <button onclick="giamSoLuong(@item.Id)" class="btn btn-outline-secondary btn-sm rounded-circle me-2"
+                                                @(item.SoLuong <= 1 ? "disabled" : "")>
+                                                    <i class="fa-solid fa-minus"></i>
+                                                </button>
+
+                                                <!-- Hiển thị số lượng -->
+                                                <input class="form-control text-center mx-2 fw-bold"
+                                                       id="soLuong-@item.Id"
+                                                       value="@item.SoLuong"
+                                                       type="text"
+                                                       style="width: 50px;" readonly>
+
+                                                <!-- Nút tăng số lượng -->
+                                                <button onclick="tangSoLuong(@item.Id)" class="btn btn-outline-primary btn-sm rounded-circle ms-2">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </button>
+
+                                                <!-- Nút xóa món -->
+                                                <button onclick="xoaMonAn(@item.Id)" class="btn btn-danger btn-sm rounded-circle ms-3">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+                                <hr class="mb-4" style="height: 2px; background-color: #1266f1; opacity: 1;">
+
+                                <div class="d-flex justify-content-between px-x">
+                                    <p class="fw-bold">Tổng tiền:</p>
+                                    <p class="fw-bold">@string.Format("{0:N0} VND", Model.Sum(x => x.MonAn.Gia * x.SoLuong))</p>
+                                </div>
+                            </div>
+
+                            <!-- Cột phải: Nhập thông tin giao hàng -->
+                            <div class="col-lg-6 px-5 py-4">
+                                <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Thông tin giao hàng</h3>
+
+                                <form asp-area="Customer" asp-controller="VnPay" asp-action="Payment" method="post">
+                                    <div class="mb-3">
+                                        <label for="DiaChiGiaoHang" class="form-label">Địa chỉ giao hàng</label>
+                                        <input type="text" name="DiaChiGiaoHang" id="DiaChiGiaoHang" class="form-control" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="SoDienThoai" class="form-label">Số điện thoại</label>
+                                        <input type="tel" name="SoDienThoai" id="SoDienThoai" class="form-control" required pattern="[0-9]{10,11}" title="Nhập số điện thoại hợp lệ (10-11 chữ số)">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary btn-block btn-lg">Thanh toán VNPay</button>
+
+                                    <h5 class="fw-bold mt-4">
+                                        <a href="/Customer/Home" class="text-decoration-none"><i class="fas fa-angle-left me-2"></i>Quay lại mua hàng</a>
+                                    </h5>
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
