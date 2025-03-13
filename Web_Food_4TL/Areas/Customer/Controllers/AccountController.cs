@@ -62,7 +62,7 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 var userRole = new VaiTroNguoiDung
                 {
                     NguoiDungId = newUser.Id, // ID của người dùng vừa tạo
-                    VaiTroId = 3 // 3 là ID vai trò mặc định (khách hàng)
+                    VaiTroId = 1 // 1 là ID vai trò mặc định (khách hàng)
                 };
 
                 await _context.VaiTroNguoiDungs.AddAsync(userRole);
