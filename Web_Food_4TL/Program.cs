@@ -35,6 +35,7 @@ app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseSession(); // Kích hoạt session
 app.UseRouting();
 
 app.UseAuthorization();
@@ -42,5 +43,4 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
-
 app.Run();
