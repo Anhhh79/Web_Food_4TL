@@ -1,6 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model List<MonAn>
 
 <!-- Stats Section -->
 <section id="stats" class="stats section">
@@ -64,21 +62,23 @@
             <h3 class="menu-subtitle py-4">Starters</h3>
             <div class="row">
               
+            @foreach (var monAn in Model)
+            {
                 <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
-                    <div class="menu-item">
-                        <img src="~/img/menu-item-1.png" alt="Starter 2">
-                        <h5>Starter 2</h5>
-                        <p>Lorem ipsum dolor sit.</p>
-                        <p class="price">$6.50</p>
-                        <!-- Số lượng + Thêm vào giỏ -->
-                        <div class="d-flex justify-content-center align-items-center">
-                            <button class="btn btn-outline-secondary btn-sm" onclick="decreaseQty(this)">−</button>
-                            <input type="text" class="form-control text-center mx-2" value="1" style="width: 50px;" readonly>
-                            <button class="btn btn-outline-secondary btn-sm" onclick="increaseQty(this)">+</button>
-                        </div>
-                        <button class="btn btn-primary mt-2">Add to Cart</button>
-                    </div>
+                     <div class="menu-item">
+                            @if(monAn.AnhMonAnh!=null && monAn.AnhMonAnh.Count() > 0) {
+                            <img src="@monAn.AnhMonAnh.FirstOrDefault().Url" class="card-img-top rounded" />
+                        }
+                        else {
+                            <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+                        }
+                       <h5>@monAn.TenMonAn</h5>
+                       <p>@monAn.MoTa</p>
+                       <p class="price">$@monAn.Gia</p>
+                       <button class="btn btn-primary view-detail" data-id="@monAn.Id">Xem Chi Tiết</button>
+                     </div>
                 </div>
+            }
 
             </div>
         </div>
@@ -125,42 +125,12 @@
                         <p class="price">$5.95</p>
                     </div>
                 </div>
-                <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
-                    <div class="menu-item">
-                        <img src="~/img/menu-item-1.png" alt="Dinner 2">
-                        <h5>Aut Luia</h5>
-                        <p>Lorem, deren, trataro, filede, nerada</p>
-                        <p class="price">$14.95</p>
-                    </div>
-                </div>
-                <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
-                    <div class="menu-item">
-                        <img src="~/img/menu-item-1.png" alt="Dinner 3">
-                        <h5>Est Eligendi</h5>
-                        <p>Lorem, deren, trataro, filede, nerada</p>
-                        <p class="price">$8.95</p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
 </section>
-<!-- JavaScript tăng/giảm số lượng -->
-<script>
-    function increaseQty(button) {
-        let input = button.parentElement.querySelector("input");
-        input.value = parseInt(input.value) + 1;
-    }
 
-    function decreaseQty(button) {
-        let input = button.parentElement.querySelector("input");
-        if (parseInt(input.value) > 1) {
-            input.value = parseInt(input.value) - 1;
-        }
-    }
-</script>
-@* event *@
   <section id="event" class="container mt-5">
     <div class="container py-5">
       <!-- Carousel -->
@@ -338,3 +308,14 @@
             </div>
         </div>
     </section>
+
+
+<!-- Đặt modal ở cuối Index.cshtml của HomeController -->
+<div class="modal fade" id="monAnDetailModal" tabindex="-1" aria-labelledby="monAnDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"> <!-- Thêm modal-lg để mở rộng kích thước -->
+        <div class="modal-content" id="modalContent">
+            <!-- Nội dung sẽ được load bằng AJAX -->
+        </div>
+    </div>
+</div>
+

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web_Food_4TL.Data;
 
@@ -11,9 +12,11 @@ using Web_Food_4TL.Data;
 namespace Web_Food_4TL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250312070625_Data")]
+    partial class Data
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,19 +108,11 @@ namespace Web_Food_4TL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DiaChiGiaoHang")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("NguoiDungId")
                         .HasColumnType("int");
-
-                    b.Property<string>("SoDienThoai")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TongTien")
                         .HasColumnType("decimal(18,2)");
@@ -150,6 +145,9 @@ namespace Web_Food_4TL.Migrations
                     b.Property<int>("MonAnId")
                         .HasColumnType("int");
 
+                    b.Property<int>("NguoiDungId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SoLuong")
                         .HasColumnType("int");
 
@@ -159,9 +157,9 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HoaDonId");
-
                     b.HasIndex("MonAnId");
+
+                    b.HasIndex("NguoiDungId");
 
                     b.ToTable("HoaDonChiTiets");
                 });
@@ -327,15 +325,15 @@ namespace Web_Food_4TL.Migrations
 
             modelBuilder.Entity("Web_Food_4TL.Models.HoaDonChiTiet", b =>
                 {
-                    b.HasOne("Web_Food_4TL.Models.HoaDon", "HoaDon")
-                        .WithMany("HoaDonChiTiets")
-                        .HasForeignKey("HoaDonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Web_Food_4TL.Models.MonAn", "MonAn")
                         .WithMany()
                         .HasForeignKey("MonAnId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Web_Food_4TL.Models.HoaDon", "HoaDon")
+                        .WithMany("HoaDonChiTiets")
+                        .HasForeignKey("NguoiDungId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

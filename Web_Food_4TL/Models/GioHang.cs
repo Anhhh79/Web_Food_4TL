@@ -9,8 +9,7 @@ namespace Web_Food_4TL.Models
         [Key]
         public int Id { get; set; }
 
-        [NotMapped]
-        public double Gia { get; set; }
+        public decimal Gia { get; set; }
         public int SoLuong { get; set; }
 
         public int NguoiDungId { get; set; }

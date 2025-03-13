@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -7,19 +8,24 @@ namespace Web_Food_4TL.Models
     public class HoaDon
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; set; } // Mã hóa đơn
 
-        public int SoLuong { get; set; }
-        public double Gia { get; set; }
+        [Required]
+        public decimal TongTien { get; set; } // Tổng tiền hóa đơn
 
+        [Required]
+        public string TrangThai { get; set; } // Trạng thái: Chờ xác nhận, Đã thanh toán, Đã hủy
 
-        public int ThongTinDatBanId { get; set; }
+        public DateTime NgayTao { get; set; } = DateTime.Now; // Thời gian tạo hóa đơn
+
+        public string SoDienThoai { get; set; }
+
+        public string DiaChiGiaoHang { get; set; }
+
+        public int NguoiDungId { get; set; }
         [ForeignKey("NguoiDungId")]
-        public ThongTinDatBan ThongTinDatBan { get; set; }
+        public NguoiDung NguoiDung { get; set; }
 
-
-        public int MonAnId { get; set; }
-        [ForeignKey("MonAnId")]
-        public MonAn MonAn { get; set; }
+        public ICollection<HoaDonChiTiet> HoaDonChiTiets { get; set; } // Danh sách món ăn trong hóa đơn
     }
 }
