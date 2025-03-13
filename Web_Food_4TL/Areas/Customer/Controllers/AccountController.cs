@@ -147,7 +147,7 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 }
                 else
                 {
-                    return Json(new { success = true, redirectUrl = Url.Action("Index", "Home", new { area = "Admin" }) });
+                    return Json(new { success = true, redirectUrl = Url.Action("Index", "Home", new { area = "Customer" }) });
 
                 }
             }
