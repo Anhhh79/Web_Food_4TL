@@ -119,7 +119,7 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 }
 
                 // Lưu thông tin vào session
-                HttpContext.Session.SetString("UserId", user.Id.ToString());
+                HttpContext.Session. SetInt32("UserId", user.Id);
                 HttpContext.Session.SetString("UserName", user.TenNguoiDung);
                 HttpContext.Session.SetString("UserEmail", user.Email);
                 HttpContext.Session.SetString("UserPhone", user.SoDienThoai);
@@ -166,6 +166,14 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
 
             return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
+
+        //Đăng xuất
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear(); // Xóa toàn bộ session của người dùng
+            return RedirectToAction("Index", "Home", new { area = "Customer" }); // Chuyển hướng về Customer/Home/Index
+        }
+
 
 
     }

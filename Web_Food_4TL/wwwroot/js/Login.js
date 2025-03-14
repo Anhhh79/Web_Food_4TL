@@ -43,9 +43,9 @@ function checkDataLogin() {
     if (!isValid) {
         return false;
     }
-    else {
-        postdataLogin();
-    }
+    postdataLogin();
+    return true;
+    
 }
 
 //reset thông báo lỗi khi đăng nhập
@@ -119,9 +119,9 @@ function checkDataSignUp() {
     if (!isValid) {
         return false;
     }
-    else {
-        postDataSignUp();
-    }
+    postDataSignUp();
+    return true;
+    
 }
 
 // Hàm xóa lỗi thông tin đăng ký

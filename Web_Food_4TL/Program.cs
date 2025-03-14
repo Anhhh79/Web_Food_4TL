@@ -35,7 +35,6 @@ app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-app.UseSession(); // Kích hoạt session
 app.UseRouting();
 
 app.UseAuthorization();
