@@ -50,6 +50,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item text-danger" href="/Customer/Account/Logout">Đăng xuất</a></li>
+                                <li><a class="dropdown-item text-success" onclick="loadDonHang()">🛒 Đơn hàng</a></li>
                             </ul>
                         </div>
                     }
@@ -94,6 +95,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item text-danger" href="/Customer/Account/Logout">Đăng xuất</a></li>
+                            <li><a class="dropdown-item text-success" onclick="loadDonHang()">🛒 Đơn hàng</a></li>
                         </ul>
                     </div>
                 }
@@ -179,6 +181,33 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal Đơn hàng -->
+    <div class="modal fade" id="modaldonhang">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="border-radius:10px">
+                <div class="modal-body">
+                    <div class="text-end">
+                        <button type="button" class="btn-close" onclick="modalDonHang()"></button>
+                    </div>
+                    <div class="text-center">
+                        <h5 class="modal-title fw-bold mb-2 fs-3">Đơn hàng</h5>
+                    </div>
+                    <hr class="m-0">
+                    <div id="donHangContent" class="scroll-content"></div> <!-- Đổ dữ liệu vào đây -->
+                    <hr class="m-0">
+                    <div class="d-flex justify-content-end mt-3 flex-column flex-md-row">
+                        <span class="f fw-bold me-2 text-center text-md-start"> Tổng thanh toán: </span>
+                        <span class="f text-warning text-center text-md-start" id="tongThanhToan">0 VND</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+    
 
     <section>
     </section>
@@ -274,6 +303,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script> 
     <script src="~/js/Login.js" asp-append-version="true"></script>
+    <script src="~/js/DonHang.js"></script>
 
     <!--Js Toastr message-->
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
