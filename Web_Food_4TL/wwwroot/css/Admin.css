@@ -219,3 +219,24 @@ input[type=number] {
 .text-color {
     color: #fea116 !important;
 }
+
+.scroll-content {
+    height: 350px;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.img-fluid {
+    transform: scale(1); /* Thu nhỏ ảnh mà không giảm chất lượng */
+    transform-origin: center; /* Giữ tâm ảnh không bị lệch */
+}
+
+.fz {
+    font-size: x-large;
+    font-weight: 600;
+}
+
+.f {
+    font-size: larger;
+}

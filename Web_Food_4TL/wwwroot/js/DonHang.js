@@ -15,7 +15,6 @@ function loadDonHang() {
                 donHangs.forEach(donHang => {
                     console.log("📝 Đơn hàng:", donHang);
 
-                    // Kiểm tra chiTiets có tồn tại không
                     if (!donHang.chiTiets || donHang.chiTiets.length === 0) {
                         console.warn("⚠ Không có chi tiết đơn hàng cho đơn hàng:", donHang.id);
                         return;
@@ -25,7 +24,7 @@ function loadDonHang() {
                         htmlContent += `
                             <div class="row">
                                 <div class="col-12 col-md-4 text-center my-2">
-                                    <img src="${chiTiet.anhMonAn || '/img/default-food.png'}" alt="" class="img-fluid" style="height:170px; width:170px;">
+                                    <img src="${chiTiet.anhMonAn}" alt="" class="img-fluid" style="height:170px; width:170px;">
                                 </div>
                                 <div class="col-12 col-md-8">
                                     <div class="row mt-4 pt-3">
@@ -64,11 +63,9 @@ function loadDonHang() {
                     tongTien += donHang.tongTien;
                 });
 
-                // Gán nội dung vào modal
                 $("#donHangContent").html(htmlContent);
                 $("#tongThanhToan").text(`${tongTien.toLocaleString()} VND`);
 
-                // Chỉ mở modal sau khi có dữ liệu
                 $("#modaldonhang").modal("show");
             } else {
                 alert(response.message || "Không có đơn hàng nào.");
