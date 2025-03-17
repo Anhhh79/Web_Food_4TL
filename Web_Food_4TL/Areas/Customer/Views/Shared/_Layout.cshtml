@@ -35,11 +35,21 @@
 
                 <!-- Phần chứa button + icon menu -->
                 <div class="d-flex align-items-center d-lg-none">
-                    <a href="Customer/Cart/Index" class="btn btn-warning me-3 ms-2 d-lg-none">
-                        🛒 Giỏ hàng (<span id="cartCount">0</span>)
-                    </a>
+                    @if (Context.Session.GetInt32("UserId") == null)
+                    {
+                        <a href="Customer/Cart/Index" class="btn btn-warning me-3 ms-2 d-lg-none d-none">
+                            🛒 Giỏ hàng (<span id="cartCount">0</span>)
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="Customer/Cart/Index" class="btn btn-warning me-3 ms-2 d-lg-none">
+                            🛒 Giỏ hàng (<span id="cartCount">0</span>)
+                        </a>
+                    }
+
                     <a href="#" style="color: white;" class="btn btn-success rounded-pill px-4 d-lg-none me-3">ĐẶT HÀNG</a>
-                    @if (Context.Session.GetString("UserId") == null){
+                    @if (Context.Session.GetInt32("UserId") == null){
                         <a class="btn btn-primary rounded-pill px-4 d-lg-none text-light me-2" onclick="modalLogin()">Đăng Nhập</a>
                     }
                     else
@@ -71,15 +81,18 @@
                     </ul>
                 </div>
 
-            
-                <a href="Customer/Cart/Index" class="btn btn-warning me-3 d-none d-lg-block">
-                    🛒 Giỏ hàng (<span id="cartCount">0</span>)
-                </a>
+                @if (Context.Session.GetInt32("UserId") != null)
+                {
+                    <a href="Customer/Cart/Index" class="btn btn-warning me-3 d-none d-lg-block">
+                        🛒 Giỏ hàng (<span id="cartCount">0</span>)
+                    </a>
+                }
+               
                 <!-- Button Desktop -->
                 <div>
                     <a href="#" style="color: white;" class="btn btn-success rounded-pill px-4 d-none d-lg-block">ĐẶT HÀNG</a>
                 </div>
-                @if (Context.Session.GetString("UserId") == null)
+                @if (Context.Session.GetInt32("UserId") == null)
                 {
                     <div class="ms-3">
                         <a class="btn bg-primary rounded-pill px-4 d-none d-lg-block text-light" onclick="modalLogin()">

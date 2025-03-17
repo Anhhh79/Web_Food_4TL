@@ -26,12 +26,32 @@ function giamSoLuong(id) {
 }
 
 // Hàm xóa món ăn khỏi danh sách
-function xoaMonAn(id) {
-    if (confirm("Bạn có chắc chắn muốn xóa món này không?")) {
-        $("#monAn-" + id).remove(); // Xóa phần tử HTML có ID tương ứng
-        capNhatTongTien();
+function xoaMonAn(itemId) {
+    if (!confirm("Bạn có chắc chắn muốn xóa món ăn này khỏi giỏ hàng?")) {
+        return;
     }
+
+    $.ajax({
+        url: "/Customer/Cart/XoaMonAn/" + itemId,
+        type: "POST",
+        success: function (response) {
+            console.log(response);
+            console.log(itemId);
+            if (response.success) {
+                $("#item-" + itemId).remove();
+
+                // Cập nhật tổng tiền
+                capNhatTongTien();
+            } else {
+                alert(response.message);
+            }
+        },
+        error: function () {
+            alert("Có lỗi xảy ra, vui lòng thử lại!");
+        }
+    });
 }
+
 
 // Cập nhật tổng tiền
 function capNhatTongTien() {

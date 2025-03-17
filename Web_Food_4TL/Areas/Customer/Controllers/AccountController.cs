@@ -30,18 +30,18 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             try
             {
                 if (model == null)
-                    return Json( new { succsess = false, message = "Dữ liệu không hợp lệ!" });
+                    return Json( new { success = false, message = "Dữ liệu không hợp lệ!" });
 
                 if (string.IsNullOrEmpty(model.FullName) || string.IsNullOrEmpty(model.Email) ||
                     string.IsNullOrEmpty(model.PassWord) || string.IsNullOrEmpty(model.ConfirmPassWord))
                     return Json(new {success = false, message = "Vui lòng điền đầy đủ thông tin!" });
 
                 if (model.PassWord != model.ConfirmPassWord)
-                    return Json(new { succsess = false, message = "Mật khẩu xác nhận không khớp!" });
+                    return Json(new { success = false, message = "Mật khẩu xác nhận không khớp!" });
 
                 // Kiểm tra email hoặc số điện thoại đã tồn tại chưa
                 if (_context.NguoiDungs.Any(u => u.Email == model.Email || u.SoDienThoai == model.Phone))
-                    return Json(new { succsess = false, message = "Email hoặc số điện thoại đã tồn tại!" });
+                    return Json(new { success = false, message = "Email hoặc số điện thoại đã tồn tại!" });
 
                 // Mã hóa mật khẩu trước khi lưu vào database
                 string passwordHash = HashPassword(model.PassWord);
@@ -70,7 +70,7 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
 
                 _logger.LogInformation($"User {model.Email} đăng ký thành công với vai trò là khách hàng!");
 
-                return Json(new { succsess = true, message = "Đăng ký thành công!" });
+                return Json(new { success = true, message = "Đăng ký thành công!" });
             }
             catch (Exception ex)
             {
@@ -94,7 +94,7 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 // Validate input
                 if (model == null || string.IsNullOrWhiteSpace(model.UserNameOrEmail) || string.IsNullOrWhiteSpace(model.Password))
                 {
-                    return Json(new { succsess = false, message = "Vui lòng nhập đầy đủ thông tin đăng nhập" });
+                    return Json(new { success = false, message = "Vui lòng nhập đầy đủ thông tin đăng nhập" });
                 }
 
                 // Tìm người dùng
@@ -108,18 +108,18 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 if (user == null)
                 {
                     _logger.LogWarning("Đăng nhập thất bại: Không tìm thấy tài khoản với username/email: {0}", model.UserNameOrEmail);
-                    return Json(new { succsess = false, message = $"Tài khoản chưa được đăng ký!" });
+                    return Json(new { success = false, message = $"Tài khoản chưa được đăng ký!" });
                 }
 
                 // Kiểm tra mật khẩu
                 if (!VerifyPassword(model.Password, user.MatKhau))
                 {
                     _logger.LogWarning("Đăng nhập thất bại: Sai mật khẩu cho user: {0}", user.Id);
-                    return Json(new { succsess = false, message = $"Mật khẩu không đúng!" });
+                    return Json(new { success = false, message = $"Mật khẩu không đúng!" });
                 }
 
                 // Lưu thông tin vào session
-                HttpContext.Session. SetInt32("UserId", user.Id);
+                HttpContext.Session.SetInt32("UserId", user.Id);
                 HttpContext.Session.SetString("UserName", user.TenNguoiDung);
                 HttpContext.Session.SetString("UserEmail", user.Email);
                 HttpContext.Session.SetString("UserPhone", user.SoDienThoai);
@@ -154,7 +154,7 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Lỗi trong quá trình đăng nhập cho username/email: {0}", model.UserNameOrEmail);
-                return StatusCode(500, new { succsess = false, message = "Đã xảy ra lỗi server. Vui lòng thử lại sau" });
+                return StatusCode(500, new { success = false, message = "Đã xảy ra lỗi server. Vui lòng thử lại sau" });
             }
         }
 

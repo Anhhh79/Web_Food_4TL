@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Web_Food_4TL.Data;
 using Web_Food_4TL.Models;
@@ -20,7 +22,7 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
         // Hiển thị giỏ hàng
         public async Task<IActionResult> Index()
         {
-            int userId = 1; // Giả sử ID user (cần thay thế bằng ID từ session hoặc Identity)
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0; // Giả sử ID user (cần thay thế bằng ID từ session hoặc Identity)
             var cartItems = await _context.GioHangs
                 .Include(g => g.MonAn)
                 .Where(g => g.NguoiDungId == userId)
@@ -34,6 +36,7 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             return View(cartItems);
         }
 
+        //Them vao gio hang
         [HttpPost]
         public async Task<IActionResult> AddToCart(int monAnId, int quantity)
         {
@@ -42,7 +45,10 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 return BadRequest(new { success = false, message = "Dữ liệu không hợp lệ!" });
             }
 
-            int userId = 1; // Dữ liệu mẫu, sau này lấy từ Session hoặc Identity
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0; // Dữ liệu mẫu, sau này lấy từ Session hoặc Identity
+            if (userId == 0) {
+                return Json(new { success = false, needLogin = true, message = "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!" });
+            }
 
             var cartItem = await _context.GioHangs
                 .FirstOrDefaultAsync(g => g.MonAnId == monAnId && g.NguoiDungId == userId);
@@ -84,8 +90,38 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             return Json(new { success = true, message = "Thêm vào giỏ hàng thành công!", cartCount });
         }
 
-        
+        //xoa mon an khoi gio hang
+        [HttpPost]
+        public async Task<IActionResult> XoaMonAn(int id)
+        {
+            try
+            {
+                // Giả sử bạn lấy ID người dùng từ session hoặc claims
+                int? nguoiDungId = HttpContext.Session.GetInt32("UserId");
+                if (nguoiDungId == null)
+                {
+                    return Json(new { success = false, message = "Bạn chưa đăng nhập!" });
+                }
 
-       
+                // Tìm món ăn trong giỏ hàng của người dùng
+                var item = await _context.GioHangs
+                    .FirstOrDefaultAsync(x => x.Id == id && x.NguoiDungId == nguoiDungId);
+                Console.WriteLine("id mon an: " + item);
+                if (item != null)
+                {
+                    _context.GioHangs.Remove(item);
+                    await _context.SaveChangesAsync();
+                }
+
+                return Json(new { success = true, message = "Xóa thành công!" });
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { success = false, message = "Lỗi server!" });
+            }
+        }
+
+
+
     }
 }
