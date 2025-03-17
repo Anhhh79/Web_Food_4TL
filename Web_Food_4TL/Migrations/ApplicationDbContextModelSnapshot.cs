@@ -41,7 +41,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasIndex("MonAnId");
 
-                    b.ToTable("AnhMonAns");
+                    b.ToTable("AnhMonAns", (string)null);
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.DanhMuc", b =>
@@ -58,7 +58,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DanhMucs");
+                    b.ToTable("DanhMucs", (string)null);
 
                     b.HasData(
                         new
@@ -94,7 +94,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasIndex("NguoiDungId");
 
-                    b.ToTable("GioHangs");
+                    b.ToTable("GioHangs", (string)null);
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.HoaDon", b =>
@@ -130,7 +130,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasIndex("NguoiDungId");
 
-                    b.ToTable("HoaDons");
+                    b.ToTable("HoaDons", (string)null);
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.HoaDonChiTiet", b =>
@@ -163,7 +163,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasIndex("MonAnId");
 
-                    b.ToTable("HoaDonChiTiets");
+                    b.ToTable("HoaDonChiTiets", (string)null);
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.MonAn", b =>
@@ -192,7 +192,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasIndex("DanhMucId");
 
-                    b.ToTable("MonAns");
+                    b.ToTable("MonAns", (string)null);
 
                     b.HasData(
                         new
@@ -231,7 +231,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NguoiDungs");
+                    b.ToTable("NguoiDungs", (string)null);
 
                     b.HasData(
                         new
@@ -258,7 +258,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VaiTros");
+                    b.ToTable("VaiTros", (string)null);
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.VaiTroNguoiDung", b =>
@@ -281,7 +281,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasIndex("VaiTroId");
 
-                    b.ToTable("VaiTroNguoiDungs");
+                    b.ToTable("VaiTroNguoiDungs", (string)null);
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.AnhMonAn", b =>

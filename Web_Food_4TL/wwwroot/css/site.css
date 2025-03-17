@@ -266,3 +266,42 @@ p {
     background-color: rgb(207, 19, 19);
 }
 
+
+/* Định dạng scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+    border: 3px solid #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+        background: #555;
+}
+
+.scroll-content {
+    height: 350px;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.img-fluid {
+    transform: scale(1); /* Thu nhỏ ảnh mà không giảm chất lượng */
+    transform-origin: center; /* Giữ tâm ảnh không bị lệch */
+}
+
+.fz{
+    font-size:x-large;
+    font-weight:600;
+}
+.f {
+    font-size: larger;
+}
