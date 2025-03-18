@@ -156,6 +156,10 @@ $(document).on("click", "#addToCart", function () {
         type: "POST",
         data: { monAnId: monAnId, quantity: quantity },
         success: function (response) {
+            if (response.needLogin) {
+                toastr.warning(response.message);
+                return;
+            }
             if (response.success) {
                 // Cập nhật số lượng giỏ hàng nếu phần tử tồn tại
                 if ($("#cartCount").length > 0) {

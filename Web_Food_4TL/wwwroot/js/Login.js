@@ -43,9 +43,9 @@ function checkDataLogin() {
     if (!isValid) {
         return false;
     }
-    else {
-        postdataLogin();
-    }
+    postdataLogin();
+    return true;
+    
 }
 
 //reset thông báo lỗi khi đăng nhập
@@ -119,9 +119,9 @@ function checkDataSignUp() {
     if (!isValid) {
         return false;
     }
-    else {
-        postDataSignUp();
-    }
+    postDataSignUp();
+    return true;
+    
 }
 
 // Hàm xóa lỗi thông tin đăng ký
@@ -180,14 +180,13 @@ function postDataSignUp() {
             ConfirmPassWord: matKhau2
         }),
         success: function (response) {
-            if (response.succsess) {
+            if (response.success) {
                 alert(response.message);
                 modalSignUp(); // Ẩn modal đăng ký
                 modalLogin(); // Hiển thị modal đăng nhập
                 deleteDataSignUp();
             } else {
                 alert(response.message);
-                deleteDataSignUp();
             }
         },
         error: function (xhr) {
@@ -229,9 +228,9 @@ function postdataLogin() {
         success: function (response) {
             if (response.success) {
                 window.location.href = response.redirectUrl; // Chuyển trang
+                deleteDataLogin();
             } else {
                 alert(response.message);// Hiển thị lỗi nếu có
-                deleteDataLogin();
             }
         },
         error: function (xhr) {
@@ -240,10 +239,8 @@ function postdataLogin() {
                 errorMessage = "Không thể kết nối đến máy chủ. Vui lòng kiểm tra lại mạng!";
             } else {
                 errorMessage = xhr.responseJSON?.message || `Lỗi ${xhr.status}: ${xhr.statusText}`;
-                deleteDataLogin();
             }
             alert(errorMessage);
-            deleteDataLogin();
         },
         complete: function () {
             // Kích hoạt lại nút đăng nhập sau khi xử lý xong

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web_Food_4TL.Data;
 
@@ -11,9 +12,11 @@ using Web_Food_4TL.Data;
 namespace Web_Food_4TL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250313041053_FixDecimalPrecision")]
+    partial class FixDecimalPrecision
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +44,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasIndex("MonAnId");
 
-                    b.ToTable("AnhMonAns", (string)null);
+                    b.ToTable("AnhMonAns");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.DanhMuc", b =>
@@ -58,7 +61,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DanhMucs", (string)null);
+                    b.ToTable("DanhMucs");
 
                     b.HasData(
                         new
@@ -77,6 +80,7 @@ namespace Web_Food_4TL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Gia")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("MonAnId")
@@ -94,7 +98,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasIndex("NguoiDungId");
 
-                    b.ToTable("GioHangs", (string)null);
+                    b.ToTable("GioHangs");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.HoaDon", b =>
@@ -120,6 +124,7 @@ namespace Web_Food_4TL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TongTien")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TrangThai")
@@ -130,7 +135,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasIndex("NguoiDungId");
 
-                    b.ToTable("HoaDons", (string)null);
+                    b.ToTable("HoaDons");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.HoaDonChiTiet", b =>
@@ -142,6 +147,7 @@ namespace Web_Food_4TL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("Gia")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("HoaDonId")
@@ -163,7 +169,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasIndex("MonAnId");
 
-                    b.ToTable("HoaDonChiTiets", (string)null);
+                    b.ToTable("HoaDonChiTiets");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.MonAn", b =>
@@ -178,6 +184,7 @@ namespace Web_Food_4TL.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Gia")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("MoTa")
@@ -192,7 +199,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasIndex("DanhMucId");
 
-                    b.ToTable("MonAns", (string)null);
+                    b.ToTable("MonAns");
 
                     b.HasData(
                         new
@@ -231,7 +238,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NguoiDungs", (string)null);
+                    b.ToTable("NguoiDungs");
 
                     b.HasData(
                         new
@@ -259,18 +266,6 @@ namespace Web_Food_4TL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("VaiTros");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            TenVaiTro = "Khách Hàng"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            TenVaiTro = "Quản lý"
-                        });
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.VaiTroNguoiDung", b =>
@@ -293,7 +288,7 @@ namespace Web_Food_4TL.Migrations
 
                     b.HasIndex("VaiTroId");
 
-                    b.ToTable("VaiTroNguoiDungs", (string)null);
+                    b.ToTable("VaiTroNguoiDungs");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.AnhMonAn", b =>
