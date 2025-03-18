@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Web_Food_4TL.Data;
 using Web_Food_4TL.Models;
@@ -22,21 +20,22 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
         // Hiển thị giỏ hàng
         public async Task<IActionResult> Index()
         {
-            int userId = HttpContext.Session.GetInt32("UserId") ?? 0; // Giả sử ID user (cần thay thế bằng ID từ session hoặc Identity)
+            int? userId = HttpContext.Session.GetInt32("UserId");
+
+            if (userId == null || userId == 0)
+            {
+                return RedirectToAction("Login", "Account"); // Chuyển hướng nếu chưa đăng nhập
+            }
+
             var cartItems = await _context.GioHangs
                 .Include(g => g.MonAn)
                 .Where(g => g.NguoiDungId == userId)
                 .ToListAsync();
 
-            foreach (var item in cartItems)
-            {
-                Console.WriteLine($"Món: {item.MonAn.TenMonAn}, Giá: {item.Gia}, Số lượng: {item.SoLuong}");
-            }
-
             return View(cartItems);
         }
 
-        //Them vao gio hang
+        // Thêm vào giỏ hàng
         [HttpPost]
         public async Task<IActionResult> AddToCart(int monAnId, int quantity)
         {
@@ -45,34 +44,37 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 return BadRequest(new { success = false, message = "Dữ liệu không hợp lệ!" });
             }
 
-            int userId = HttpContext.Session.GetInt32("UserId") ?? 0; // Dữ liệu mẫu, sau này lấy từ Session hoặc Identity
-            if (userId == 0) {
+            int? userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null || userId == 0)
+            {
                 return Json(new { success = false, needLogin = true, message = "Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!" });
             }
 
+            var monAn = await _context.MonAns.FindAsync(monAnId);
+            if (monAn == null)
+            {
+                return NotFound(new { success = false, message = "Món ăn không tồn tại!" });
+            }
+
+            if (monAn.Gia <= 0)
+            {
+                return BadRequest(new { success = false, message = "Giá món ăn không hợp lệ!" });
+            }
+
+            // Kiểm tra món ăn đã có trong giỏ hàng chưa
             var cartItem = await _context.GioHangs
                 .FirstOrDefaultAsync(g => g.MonAnId == monAnId && g.NguoiDungId == userId);
 
             if (cartItem != null)
             {
                 cartItem.SoLuong += quantity;
+                cartItem.Gia = monAn.Gia; // Cập nhật giá mới nếu có thay đổi
             }
             else
             {
-                var monAn = await _context.MonAns.FindAsync(monAnId);
-                if (monAn == null)
-                {
-                    return NotFound(new { success = false, message = "Món ăn không tồn tại!" });
-                }
-
-                if (monAn.Gia <= 0) // Kiểm tra giá hợp lệ
-                {
-                    return BadRequest(new { success = false, message = "Giá món ăn không hợp lệ!" });
-                }
-
                 cartItem = new GioHang
                 {
-                    NguoiDungId = userId,
+                    NguoiDungId = userId.Value,
                     MonAnId = monAnId,
                     SoLuong = quantity,
                     Gia = monAn.Gia
@@ -90,28 +92,28 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             return Json(new { success = true, message = "Thêm vào giỏ hàng thành công!", cartCount });
         }
 
-        //xoa mon an khoi gio hang
+        // Xóa món ăn khỏi giỏ hàng
         [HttpPost]
         public async Task<IActionResult> XoaMonAn(int id)
         {
             try
             {
-                // Giả sử bạn lấy ID người dùng từ session hoặc claims
-                int? nguoiDungId = HttpContext.Session.GetInt32("UserId");
-                if (nguoiDungId == null)
+                int? userId = HttpContext.Session.GetInt32("UserId");
+                if (userId == null || userId == 0)
                 {
                     return Json(new { success = false, message = "Bạn chưa đăng nhập!" });
                 }
 
-                // Tìm món ăn trong giỏ hàng của người dùng
                 var item = await _context.GioHangs
-                    .FirstOrDefaultAsync(x => x.Id == id && x.NguoiDungId == nguoiDungId);
-                Console.WriteLine("id mon an: " + item);
-                if (item != null)
+                    .FirstOrDefaultAsync(x => x.Id == id && x.NguoiDungId == userId);
+
+                if (item == null)
                 {
-                    _context.GioHangs.Remove(item);
-                    await _context.SaveChangesAsync();
+                    return Json(new { success = false, message = "Món ăn không tồn tại trong giỏ hàng!" });
                 }
+
+                _context.GioHangs.Remove(item);
+                await _context.SaveChangesAsync();
 
                 return Json(new { success = true, message = "Xóa thành công!" });
             }
@@ -120,8 +122,5 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 return BadRequest(new { success = false, message = "Lỗi server!" });
             }
         }
-
-
-
     }
 }

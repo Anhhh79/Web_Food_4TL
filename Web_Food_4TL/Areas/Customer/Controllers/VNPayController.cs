@@ -20,13 +20,33 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             _configuration = configuration;
         }
 
+        // Lấy ID người dùng từ session
+        private int? GetCurrentUserId()
+        {
+            var userId = HttpContext.Session.GetInt32("UserId"); // Đổi từ "NguoiDungId" thành "UserId"
+            Console.WriteLine($"UserID từ session: {userId}"); // Debug kiểm tra
+            return userId;
+        }
+
+
+
         [HttpPost]
         public IActionResult Payment(string DiaChiGiaoHang, string SoDienThoai)
         {
+            // Lưu địa chỉ và số điện thoại vào session
             HttpContext.Session.SetString("DiaChiGiaoHang", DiaChiGiaoHang);
             HttpContext.Session.SetString("SoDienThoai", SoDienThoai);
 
-            var gioHang = _context.GioHangs.Include(g => g.MonAn).ToList();
+            // Lấy user ID
+            var userId = GetCurrentUserId();
+            if (userId == null) return Unauthorized("Bạn chưa đăng nhập!");
+
+            // Lấy giỏ hàng của user
+            var gioHang = _context.GioHangs
+                .Include(g => g.MonAn)
+                .Where(g => g.NguoiDungId == userId.Value)
+                .ToList();
+
             if (!gioHang.Any()) return NotFound("Giỏ hàng trống!");
 
             decimal tongTien = gioHang.Sum(g => g.Gia * g.SoLuong);
@@ -43,6 +63,9 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             string amount = ((int)(tongTien * 100)).ToString();
             string orderId = DateTime.Now.Ticks.ToString();
 
+            // Lấy địa chỉ IP thực tế nếu có proxy
+            string ipAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault() ?? HttpContext.Connection.RemoteIpAddress?.ToString();
+
             var pay = new SortedDictionary<string, string>
             {
                 { "vnp_Version", "2.1.0" },
@@ -55,7 +78,7 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 { "vnp_OrderType", "billpayment" },
                 { "vnp_Locale", "vn" },
                 { "vnp_ReturnUrl", vnp_Returnurl },
-                { "vnp_IpAddr", HttpContext.Connection.RemoteIpAddress?.ToString() ?? "127.0.0.1" },
+                { "vnp_IpAddr", ipAddress },
                 { "vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss") }
             };
 
@@ -76,14 +99,13 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             }
         }
 
-        [HttpGet] // ✅ Thêm GET PaymentCallback để xử lý VNPay callback
+        [HttpGet]
         public IActionResult PaymentCallback()
         {
-            // ✅ Kiểm tra xem VNPay có trả về mã giao dịch thành công hay không
             string vnp_ResponseCode = Request.Query["vnp_ResponseCode"];
             string vnp_TxnRef = Request.Query["vnp_TxnRef"];
 
-            if (vnp_ResponseCode == "00") // 00 là giao dịch thành công
+            if (vnp_ResponseCode == "00")
             {
                 return RedirectToAction("PaymentSuccess", new { orderId = vnp_TxnRef });
             }
@@ -99,20 +121,29 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             string diaChi = HttpContext.Session.GetString("DiaChiGiaoHang") ?? "Không có";
             string soDienThoai = HttpContext.Session.GetString("SoDienThoai") ?? "Không có";
 
-            var gioHang = _context.GioHangs.Include(g => g.MonAn).ToList();
+            var userId = GetCurrentUserId();
+            if (userId == null || !_context.NguoiDungs.Any(u => u.Id == userId.Value))
+            {
+                return BadRequest("Người dùng không hợp lệ!");
+            }
+
+            var gioHang = _context.GioHangs
+                .Include(g => g.MonAn)
+                .Where(g => g.NguoiDungId == userId.Value)
+                .ToList();
+
             if (!gioHang.Any()) return NotFound("Giỏ hàng trống!");
 
-            // ✅ Tính tổng tiền đơn hàng chính xác
             decimal tongTien = gioHang.Sum(g => g.MonAn.Gia * g.SoLuong);
 
             var hoaDon = new HoaDon
             {
                 NgayTao = DateTime.Now,
                 TrangThai = "Đã thanh toán",
-                NguoiDungId = 1, // Giả sử người dùng ID = 1
+                NguoiDungId = userId.Value,
                 DiaChiGiaoHang = diaChi,
                 SoDienThoai = soDienThoai,
-                TongTien = tongTien // ✅ Gán tổng tiền cho hóa đơn
+                TongTien = tongTien
             };
 
             _context.HoaDons.Add(hoaDon);
@@ -137,7 +168,6 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
 
             return View("Success");
         }
-
 
         [HttpGet]
         public IActionResult PaymentFail()

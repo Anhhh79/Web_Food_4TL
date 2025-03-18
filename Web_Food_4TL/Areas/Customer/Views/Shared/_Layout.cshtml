@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -38,13 +38,13 @@
                     @if (Context.Session.GetInt32("UserId") == null)
                     {
                         <a href="Customer/Cart/Index" class="btn btn-warning me-3 ms-2 d-lg-none d-none">
-                            🛒 Giỏ hàng (<span id="cartCount">0</span>)
+                            <i class="fa-solid fa-cart-shopping"></i> Giỏ hàng (<span id="cartCount">0</span>)
                         </a>
                     }
                     else
                     {
                         <a href="Customer/Cart/Index" class="btn btn-warning me-3 ms-2 d-lg-none">
-                            🛒 Giỏ hàng (<span id="cartCount">0</span>)
+                            <i class="fa-solid fa-cart-shopping"></i> Giỏ hàng (<span id="cartCount">0</span>)
                         </a>
                     }
 
@@ -60,7 +60,11 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="userDropdown">
                                 <li><a class="dropdown-item text-danger" href="/Customer/Account/Logout">Đăng xuất</a></li>
-                                <li><a class="dropdown-item text-success" onclick="loadDonHang()">🛒 Đơn hàng</a></li>
+                                <li>
+                                    <a class="dropdown-item text-success" onclick="loadDonHang()">
+                                        <i class="fa-solid fa-cart-shopping"></i> Đơn hàng
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     }
@@ -84,7 +88,7 @@
                 @if (Context.Session.GetInt32("UserId") != null)
                 {
                     <a href="Customer/Cart/Index" class="btn btn-warning me-3 d-none d-lg-block">
-                        🛒 Giỏ hàng (<span id="cartCount">0</span>)
+                        <i class="fa-solid fa-cart-shopping"></i> Giỏ hàng (<span id="cartCount">0</span>)
                     </a>
                 }
                
@@ -108,7 +112,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item text-danger" href="/Customer/Account/Logout">Đăng xuất</a></li>
-                            <li><a class="dropdown-item text-success" onclick="loadDonHang()">🛒 Đơn hàng</a></li>
+                            <li><a class="dropdown-item text-success" onclick="loadDonHang()"><i class="fa-solid fa-cart-shopping"></i> Đơn hàng</a></li>
                         </ul>
                     </div>
                 }
