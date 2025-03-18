@@ -1,6 +1,6 @@
-﻿namespace Web_Food_4TL.Areas.Customer.Models
+﻿namespace Web_Food_4TL.Models.ViewModels
 {
-    public class SignUpModel
+    public class SignUpVM
     {
         public string FullName { get; set; }
         public string Email { get; set; }

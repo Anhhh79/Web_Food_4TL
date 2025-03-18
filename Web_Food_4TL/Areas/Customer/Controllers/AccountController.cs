@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using System.Security.Cryptography;
 using System.Text;
-using Web_Food_4TL.Areas.Customer.Models;
 using Web_Food_4TL.Data;
 using Web_Food_4TL.Models;
 using BCrypt.Net;
+using Web_Food_4TL.Models.ViewModels;
 namespace Web_Food_4TL.Areas.Customer.Controllers
 {
     [Area("Customer")]
@@ -25,7 +25,7 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
 
         //Đăng ký 
         [HttpPost]
-        public async Task<IActionResult> SignUp([FromBody] SignUpModel model)
+        public async Task<IActionResult> SignUp([FromBody] SignUpVM model)
         {
             try
             {
@@ -58,11 +58,11 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 await _context.NguoiDungs.AddAsync(newUser);
                 await _context.SaveChangesAsync(); // Lưu vào database
 
-                // Lưu vai trò người dùng (IDVaiTro = 3)
+                // Lưu vai trò người dùng (IDVaiTro = 1)
                 var userRole = new VaiTroNguoiDung
                 {
                     NguoiDungId = newUser.Id, // ID của người dùng vừa tạo
-                    VaiTroId = 3 // 3 là ID vai trò mặc định (khách hàng)
+                    VaiTroId = 1 // 1 là ID vai trò mặc định (khách hàng)
                 };
 
                 await _context.VaiTroNguoiDungs.AddAsync(userRole);
@@ -87,7 +87,7 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
 
         //đăng nhập
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<IActionResult> Login([FromBody] LoginVM model)
         {
             try
             {

@@ -28,7 +28,11 @@ namespace Web_Food_4TL.Data
                 new MonAn { Id = 1, TenMonAn = "Banh Mi", Gia = 15000, MoTa = "Ngon", DanhMucId = 1});
 
             modelBuilder.Entity<NguoiDung>().HasData(
-                new NguoiDung { Id = 1, TenNguoiDung = "H", Email = "@123", MatKhau = "012", SoDienThoai= "123" }); 
+                new NguoiDung { Id = 1, TenNguoiDung = "H", Email = "@123", MatKhau = "012", SoDienThoai= "123" });
+
+            modelBuilder.Entity<VaiTro>().HasData(
+                   new VaiTro { Id = 1, TenVaiTro = "Khách Hàng"},
+                   new VaiTro { Id = 2, TenVaiTro = "Quản lý" });
         }
 
     }
