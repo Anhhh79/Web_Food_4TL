@@ -82,12 +82,13 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
 
             await _context.SaveChangesAsync();
 
-            // Tính tổng số lượng giỏ hàng
-            var cartCount = await _context.GioHangs
-                .Where(g => g.NguoiDungId == userId)
-                .SumAsync(g => g.SoLuong);
+            //// Tính tổng số lượng giỏ hàng
+            //var cartCount = await _context.GioHangs
+            //    .Where(g => g.NguoiDungId == userId)
+            //    .SumAsync(g => g.SoLuong);
+            //HttpContext.Session.SetInt32("cartCount", cartCount);
 
-            return Json(new { success = true, message = "Thêm vào giỏ hàng thành công!", cartCount });
+            return Json(new { success = true, message = "Thêm vào giỏ hàng thành công!"});
         }
 
         //xoa mon an khoi gio hang
@@ -121,6 +122,60 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             }
         }
 
+        //lấy số lượng trong giỏ hàng
+        [HttpGet]
+        public async Task<IActionResult> GetCartCount()
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            if (userId == 0)
+            {
+                return Json(new { success = true, cartCount = 0 }); // Trả về 0 nếu chưa đăng nhập
+            }
+
+            var cartCount = await _context.GioHangs
+                .Where(g => g.NguoiDungId == userId)
+                .SumAsync(g => g.SoLuong);
+
+            HttpContext.Session.SetInt32("cartCount", cartCount);
+
+            return Json(new { success = true, cartCount });
+        }
+
+        //cập nhật giỏ hàng
+        [HttpPost]
+        public async Task<IActionResult> UpdateCart(int cartItemId, int newQuantity)
+        {
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            if (userId == 0)
+            {
+                return Json(new { success = false, needLogin = true, message = "Bạn cần đăng nhập để thay đổi số lượng giỏ hàng!" });
+            }
+            
+
+            var cartItem = await _context.GioHangs
+                .FirstOrDefaultAsync(g => g.Id == cartItemId && g.NguoiDungId == userId);
+            if (cartItem == null)
+            {
+                return Json(new { success = false, message = "Sản phẩm không tồn tại trong giỏ hàng!" });
+            }
+
+            if (newQuantity <= 0)
+            {
+                _context.GioHangs.Remove(cartItem); // Xóa sản phẩm nếu số lượng = 0
+            }
+            else
+            {
+                cartItem.SoLuong = newQuantity; // Cập nhật số lượng
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Json(new
+            {
+                success = true,
+                newQuantity = newQuantity
+            });
+        }
 
 
     }

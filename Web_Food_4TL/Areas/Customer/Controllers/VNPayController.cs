@@ -23,15 +23,28 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
         [HttpPost]
         public IActionResult Payment(string DiaChiGiaoHang, string SoDienThoai)
         {
+            // Kiểm tra UserId trong Session
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (userId == null) return RedirectToAction("Login", "User"); // Chuyển hướng nếu chưa đăng nhập
+
+            // Lưu địa chỉ và số điện thoại vào Session
             HttpContext.Session.SetString("DiaChiGiaoHang", DiaChiGiaoHang);
             HttpContext.Session.SetString("SoDienThoai", SoDienThoai);
 
-            var gioHang = _context.GioHangs.Include(g => g.MonAn).ToList();
+            // Lấy giỏ hàng của người dùng hiện tại
+            var gioHang = _context.GioHangs
+                .Include(g => g.MonAn)
+                .Where(g => g.NguoiDungId == userId) // Lọc theo UserId
+                .ToList();
+
             if (!gioHang.Any()) return NotFound("Giỏ hàng trống!");
 
+            // Tính tổng tiền
             decimal tongTien = gioHang.Sum(g => g.Gia * g.SoLuong);
+
             return RedirectToAction("ProcessVnPay", new { tongTien });
         }
+
 
         public IActionResult ProcessVnPay(double tongTien)
         {
