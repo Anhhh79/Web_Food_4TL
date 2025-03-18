@@ -52,6 +52,16 @@
                         <span>Thống kê doanh thu</span>
                     </a>
                 </li>
+
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" asp-area="Admin" asp-controller="AdminChat" asp-action="Index">
+                        <i class="lni lni-layout"></i>
+                        <span>Quản lý tin nhắn</span>
+                    </a>
+                </li>
+
+
                 <!-- More Sidebar Links -->
             </ul>
         </div>
@@ -71,6 +81,8 @@
 
     <script src="~/js/QuanLyKhachHang.js"></script>
     <script src="~/js/ThongKe.js"></script>
+
+    @RenderSection("Scripts", required: false)
 
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

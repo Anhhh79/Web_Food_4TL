@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web_Food_4TL.Data;
 
@@ -11,9 +12,11 @@ using Web_Food_4TL.Data;
 namespace Web_Food_4TL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250318103307_Tinn")]
+    partial class Tinn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -297,12 +300,6 @@ namespace Web_Food_4TL.Migrations
                     b.Property<int?>("NguoiDungId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("NguoiGuiId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("NguoiNhanId")
-                        .HasColumnType("int");
-
                     b.Property<string>("NoiDung")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -313,10 +310,6 @@ namespace Web_Food_4TL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("NguoiDungId");
-
-                    b.HasIndex("NguoiGuiId");
-
-                    b.HasIndex("NguoiNhanId");
 
                     b.ToTable("TinNhans");
                 });
@@ -450,19 +443,7 @@ namespace Web_Food_4TL.Migrations
                         .WithMany()
                         .HasForeignKey("NguoiDungId");
 
-                    b.HasOne("Web_Food_4TL.Models.NguoiDung", "NguoiGui")
-                        .WithMany()
-                        .HasForeignKey("NguoiGuiId");
-
-                    b.HasOne("Web_Food_4TL.Models.NguoiDung", "NguoiNhan")
-                        .WithMany()
-                        .HasForeignKey("NguoiNhanId");
-
                     b.Navigation("NguoiDung");
-
-                    b.Navigation("NguoiGui");
-
-                    b.Navigation("NguoiNhan");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.VaiTroNguoiDung", b =>

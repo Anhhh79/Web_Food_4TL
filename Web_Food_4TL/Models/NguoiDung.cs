@@ -10,5 +10,6 @@ namespace Web_Food_4TL.Models
         public string MatKhau { get; set; }
         public string Email { get; set; }
         public string SoDienThoai { get; set; }
+
     }
 }
