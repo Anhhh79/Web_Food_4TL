@@ -1,4 +1,6 @@
-﻿@model List<MonAn>
+﻿@using Web_Food_4TL.Models.ViewModels
+@model List<MonAnVM>
+
 
 <!-- Stats Section -->
 <section id="stats" class="stats section">
@@ -55,83 +57,107 @@
         <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#dinner">Dinner</a></li>
     </ul>
 
-    <!-- Nội dung của từng danh mục -->
-    <div class="tab-content">
-        <!-- Starters -->
-        <div class="tab-pane fade show active" id="starters">
-            <h3 class="menu-subtitle py-4">Starters</h3>
-            <div class="row">
-              
-            @foreach (var monAn in Model)
+
+<!-- Nội dung danh mục -->
+<div class="tab-content">
+    <!-- Starters -->
+    <div class="tab-pane fade show active" id="starters">
+        <h3 class="menu-subtitle py-4">Starters</h3>
+        <div class="row">
+            @foreach (var monAn in Model.Where(m => m.TenDanhMuc == "Starters"))
             {
                 <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
-                     <div class="menu-item">
-                            @if(monAn.AnhMonAnh!=null && monAn.AnhMonAnh.Count() > 0) {
-                            <img src="@monAn.AnhMonAnh.FirstOrDefault().Url" class="card-img-top rounded" />
-                        }
-                        else {
+                    <div class="menu-item">
+                        @if (monAn.AnhMonAn != null && monAn.AnhMonAn.Any()) {
+                            <img src="@monAn.AnhMonAn.FirstOrDefault()" class="card-img-top rounded" />
+                        } else {
                             <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
                         }
-                       <h5>@monAn.TenMonAn</h5>
-                       <p>@monAn.MoTa</p>
-                       <p class="price">$@monAn.Gia</p>
-                       <button class="btn btn-primary view-detail" data-id="@monAn.Id">Xem Chi Tiết</button>
-                     </div>
+                        <h5>@monAn.TenMonAn</h5>
+                        <p>@monAn.MoTa</p>
+                        <p class="price">$@monAn.Gia</p>
+                        <button class="btn btn-primary view-detail" data-id="@monAn.Id">Xem Chi Tiết</button>
+                    </div>
                 </div>
             }
-
-            </div>
         </div>
+    </div>
 
-        <!-- Breakfast -->
-        <div class="tab-pane fade" id="breakfast">
-            <h3 class="menu-subtitle py-4">Breakfast</h3>
-            <div class="row">
+    <!-- Breakfast -->
+    <div class="tab-pane fade" id="breakfast">
+        <h3 class="menu-subtitle py-4">Breakfast</h3>
+        <div class="row">
+            @foreach (var monAn in Model.Where(m => m.TenDanhMuc == "Breakfast"))
+            {
                 <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
                     <div class="menu-item">
-                        <img src="~/img/menu-item-1.png" alt="Breakfast 1">
-                        <h5>Breakfast 1</h5>
-                        <p>Lorem ipsum dolor sit.</p>
-                        <p class="price">$7.95</p>
+                        @if (monAn.AnhMonAn != null && monAn.AnhMonAn.Any()) {
+                            <img src="@monAn.AnhMonAn.FirstOrDefault()" class="card-img-top rounded" />
+                        } else {
+                            <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+                        }
+                        <h5>@monAn.TenMonAn</h5>
+                        <p>@monAn.MoTa</p>
+                        <p class="price">$@monAn.Gia</p>
+                        <button class="btn btn-primary view-detail" data-id="@monAn.Id">Xem Chi Tiết</button>
                     </div>
                 </div>
-            </div>
+            }
         </div>
+    </div>
 
-        <!-- Lunch -->
-        <div class="tab-pane fade" id="lunch">
-            <h3 class="menu-subtitle py-4">Lunch</h3>
-            <div class="row">
+    <!-- Lunch -->
+    <div class="tab-pane fade" id="lunch">
+        <h3 class="menu-subtitle py-4">Lunch</h3>
+        <div class="row">
+            @foreach (var monAn in Model.Where(m => m.TenDanhMuc == "Lunch"))
+            {
                 <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
                     <div class="menu-item">
-                        <img src="~/img/menu-item-1.png" alt="Lunch 1">
-                        <h5>Lunch 1</h5>
-                        <p>Lorem ipsum dolor sit.</p>
-                        <p class="price">$9.95</p>
+                        @if (monAn.AnhMonAn != null && monAn.AnhMonAn.Any()) {
+                            <img src="@monAn.AnhMonAn.FirstOrDefault()" class="card-img-top rounded" />
+                        } else {
+                            <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+                        }
+                        <h5>@monAn.TenMonAn</h5>
+                        <p>@monAn.MoTa</p>
+                        <p class="price">$@monAn.Gia</p>
+                        <button class="btn btn-primary view-detail" data-id="@monAn.Id">Xem Chi Tiết</button>
                     </div>
                 </div>
-            </div>
+            }
         </div>
+    </div>
 
-        <!-- Dinner -->
-        <div class="tab-pane fade" id="dinner">
-            <h3 class="menu-subtitle py-4">Dinner</h3>
-            <div class="row">
+    <!-- Dinner -->
+    <div class="tab-pane fade" id="dinner">
+        <h3 class="menu-subtitle py-4">Dinner</h3>
+        <div class="row">
+            @foreach (var monAn in Model.Where(m => m.TenDanhMuc == "Dinner"))
+            {
                 <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
                     <div class="menu-item">
-                        <img src="~/img/menu-item-1.png" alt="Dinner 1">
-                        <h5>Magnam Tiste</h5>
-                        <p>Lorem, deren, trataro, filede, nerada</p>
-                        <p class="price">$5.95</p>
+                        @if (monAn.AnhMonAn != null && monAn.AnhMonAn.Any()) {
+                            <img src="@monAn.AnhMonAn.FirstOrDefault()" class="card-img-top rounded" />
+                        } else {
+                            <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+                        }
+                        <h5>@monAn.TenMonAn</h5>
+                        <p>@monAn.MoTa</p>
+                        <p class="price">$@monAn.Gia</p>
+                        <button class="btn btn-primary view-detail" data-id="@monAn.Id">Xem Chi Tiết</button>
                     </div>
                 </div>
-            </div>
+            }
         </div>
     </div>
 </div>
+
+
+</div>
 </section>
 
-  <section id="event" class="container mt-5">
+<section id="event" class="container mt-5">
     <div class="container py-5">
       <!-- Carousel -->
       <div id="serviceCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -207,7 +233,7 @@
     </div>
   </section>
 @* chefs *@
-    <section id="chefs" class="container mt-5">
+<section id="chefs" class="container mt-5">
         <div class="text-center mb-4">
             <p class="text-muted">CHEFS</p>
             <h2 class="fw-bold"><span class="text-dark">Our</span> <span class="text-danger">Professional Chefs</span></h2>
