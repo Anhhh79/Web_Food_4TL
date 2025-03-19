@@ -50,15 +50,12 @@
                 {
                     // Chuỗi JSON cho danh sách ảnh (nếu null -> "[]")
                     var imagesJson = monAn.AnhMonAnh != null
-                    ? JsonConvert.SerializeObject(
-                    monAn.AnhMonAnh.Select(a => new { id = a.Id, url = a.Url }),
-                    serializerSettings
-                    )
+                    ? JsonConvert.SerializeObject(monAn.AnhMonAnh.Select(a => new { id = a.Id, url = a.Url }), serializerSettings)
                     : "[]";
 
                     <tr>
                         <td>@monAn.TenMonAn</td>
-                        <td>@monAn.Gia.ToString()</td>
+                        <td>@monAn.Gia.ToString("G29")</td>
                         <td>@monAn.MoTa</td>
                         <td>@monAn.DanhMuc?.TenDanhMuc</td>
                         <td>
@@ -74,11 +71,11 @@
                         <td>
                             <button class="btn btn-warning btnEditMonAn"
                                     data-id="@monAn.Id"
-                                    data-ten="@monAn.TenMonAn"
-                                    data-gia="@monAn.Gia.ToString()"
-                                    data-mota="@monAn.MoTa"
-                                    data-danhmucid="@monAn.DanhMucId"
-                                    data-images="@Html.Raw(imagesJson)">
+                                    data-ten='@monAn.TenMonAn'
+                                    data-gia='@monAn.Gia.ToString("G29",System.Globalization.CultureInfo.InvariantCulture)'
+                                    data-mota='@monAn.MoTa'
+                                    data-danhmucid='@monAn.DanhMucId'
+                                    data-images='@Html.Raw(imagesJson)'>
                                 <i class="fas fa-edit"></i> Sửa
                             </button>
                             <button class="btn btn-danger btnDeleteMonAn" data-id="@monAn.Id">
@@ -89,7 +86,7 @@
                 }
             </tbody>
         </table>
-</div>
+    </div>
     <!-- Phân trang -->
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
@@ -244,12 +241,14 @@
 
         // Bấm nút Sửa, điền dữ liệu vào form Sửa
         $(document).on("click", ".btnEditMonAn", function () {
-            let id = $(this).data("id");
-            let ten = $(this).data("ten");
-            let gia = $(this).data("gia");
-            let mota = $(this).data("mota");
-            let danhmuc = $(this).data("danhmucid");
-            let imagesJson = $(this).data("images");
+            let id = $(this).attr("data-id");
+            let ten = $(this).attr("data-ten");
+            // Lấy giá bằng cách sử dụng attr để đảm bảo nhận được chuỗi số đúng định dạng
+            let gia = $(this).attr("data-gia");
+            let mota = $(this).attr("data-mota");
+            let danhmuc = $(this).attr("data-danhmucid");
+            // jQuery đã chuyển đổi data-images thành đối tượng nếu có, nên dùng trực tiếp
+            let images = $(this).data("images");
 
             $("#editMonAnId").val(id);
             $("#editTenMonAn").val(ten);
@@ -259,20 +258,15 @@
 
             // Hiển thị ảnh cũ với checkbox "Xóa"
             let html = "";
-            console.log("imagesJson =", imagesJson);
-            try {
-                let images = JSON.parse(imagesJson);
+            if (images && Array.isArray(images)) {
                 images.forEach(function (img) {
                     html += `<div class="position-relative me-2 mb-2">
                                 <img src="/uploads/monan/${img.url}" width="80" height="80" style="object-fit: cover;" />
                                 <input type="checkbox" name="imagesToDelete" value="${img.id}" style="position: absolute; top: 5px; right: 5px;" />
                              </div>`;
                 });
-            } catch (e) {
-                console.error("JSON parse error:", e);
             }
             $("#editAnhHienTai").html(html);
-
             $("#modalEditMonAn").modal("show");
         });
 
@@ -315,7 +309,7 @@
         }
         $(document).on("click", ".btnDeleteMonAn", function () {
             if (!confirm("Bạn có chắc chắn muốn xóa món ăn này?")) return;
-            let id = $(this).data("id");
+            let id = $(this).attr("data-id");
             deleteMonAn(id);
         });
     });
