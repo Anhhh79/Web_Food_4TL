@@ -1,0 +1,322 @@
+﻿@using Newtonsoft.Json
+@model IEnumerable<Web_Food_4TL.Models.MonAn>
+
+@{
+    Layout = "/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    ViewData["Title"] = "Danh sách món ăn";
+
+    // Cài đặt serializer để bỏ qua vòng lặp tự tham chiếu
+    var serializerSettings = new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
+}
+<div class="main" id="content">
+    <nav class="navbar navbar-expand px-4 py-3">
+        <div class="navbar-collapse collapse">
+            <ul class="navbar-nav justify-content-between" style="width: 1380px;">
+                <li>
+                    <h2 style="font-weight: bolder;">Quản lý món ăn</h2>
+                </li>
+                <li class="ms-3 dropdown">
+                    <button class="btn btn-secondary text-light dropdown-toggle d-none d-lg-block" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-user-circle"></i> @Context.Session.GetString("UserName")
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item text-danger" href="/Customer/Account/Logout">Đăng xuất</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="w-75 mx-auto">
+        <button class="btn btn-primary btn-sm" id="btnAddMonAn">
+            <i class="fas fa-plus"></i> Thêm Món Ăn
+        </button>
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Tên Món Ăn</th>
+                    <th>Giá</th>
+                    <th>Mô Tả</th>
+                    <th>Danh Mục</th>
+                    <th>Ảnh</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var monAn in Model)
+                {
+                    // Chuỗi JSON cho danh sách ảnh (nếu null -> "[]")
+                    var imagesJson = monAn.AnhMonAnh != null
+                    ? JsonConvert.SerializeObject(
+                    monAn.AnhMonAnh.Select(a => new { id = a.Id, url = a.Url }),
+                    serializerSettings
+                    )
+                    : "[]";
+
+                    <tr>
+                        <td>@monAn.TenMonAn</td>
+                        <td>@monAn.Gia.ToString()</td>
+                        <td>@monAn.MoTa</td>
+                        <td>@monAn.DanhMuc?.TenDanhMuc</td>
+                        <td>
+                            @if (monAn.AnhMonAnh != null && monAn.AnhMonAnh.Any())
+                            {
+                                foreach (var anh in monAn.AnhMonAnh.Take(4))
+                                {
+                                    <img src="/uploads/monan/@anh.Url" width="50" height="50"
+                                         style="object-fit: cover; margin-right: 4px;" />
+                                }
+                            }
+                        </td>
+                        <td>
+                            <button class="btn btn-warning btnEditMonAn"
+                                    data-id="@monAn.Id"
+                                    data-ten="@monAn.TenMonAn"
+                                    data-gia="@monAn.Gia.ToString()"
+                                    data-mota="@monAn.MoTa"
+                                    data-danhmucid="@monAn.DanhMucId"
+                                    data-images="@Html.Raw(imagesJson)">
+                                <i class="fas fa-edit"></i> Sửa
+                            </button>
+                            <button class="btn btn-danger btnDeleteMonAn" data-id="@monAn.Id">
+                                <i class="fas fa-trash"></i> Xóa
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</div>
+    <!-- Phân trang -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            @if (ViewBag.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new { page = (int)ViewBag.CurrentPage - 1 })">&lt;</a>
+                </li>
+            }
+            <li class="page-item disabled">
+                <span class="page-link">@ViewBag.CurrentPage / @ViewBag.TotalPages</span>
+            </li>
+            @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Index", new { page = (int)ViewBag.CurrentPage + 1 })">&gt;</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>
+
+<!-- Modal Thêm Món Ăn -->
+<div class="modal fade" id="modalAddMonAn" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm Món Ăn</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formAddMonAn" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">Tên Món Ăn</label>
+                        <input type="text" class="form-control" name="TenMonAn" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Giá</label>
+                        <input type="number" class="form-control" name="Gia" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mô Tả</label>
+                        <textarea class="form-control" name="MoTa"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Danh Mục</label>
+                        <select class="form-control" name="DanhMucId" id="addDanhMucId" required>
+                            <option value="">-- Chọn danh mục --</option>
+                            @foreach (var dm in ViewBag.DanhMucList)
+                            {
+                                <option value="@dm.Id">@dm.TenDanhMuc</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ảnh (có thể chọn nhiều)</label>
+                        <input type="file" class="form-control" name="files" multiple />
+                    </div>
+                    <button type="submit" class="btn btn-success">Lưu</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Sửa Món Ăn -->
+<div class="modal fade" id="modalEditMonAn" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chỉnh Sửa Món Ăn</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditMonAn" enctype="multipart/form-data">
+                    <input type="hidden" name="Id" id="editMonAnId" />
+                    <div class="mb-3">
+                        <label class="form-label">Tên Món Ăn</label>
+                        <input type="text" class="form-control" name="TenMonAn" id="editTenMonAn" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Giá</label>
+                        <input type="number" class="form-control" name="Gia" id="editGia" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mô Tả</label>
+                        <textarea class="form-control" name="MoTa" id="editMoTa"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Danh Mục</label>
+                        <select class="form-control" name="DanhMucId" id="editDanhMuc" required>
+                            <option value="">-- Chọn danh mục --</option>
+                            @foreach (var dm in ViewBag.DanhMucList)
+                            {
+                                <option value="@dm.Id">@dm.TenDanhMuc</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ảnh hiện tại</label>
+                        <div id="editAnhHienTai" class="d-flex flex-wrap"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ảnh (có thể chọn nhiều)</label>
+                        <input type="file" class="form-control" name="files" id="editFiles" multiple />
+                    </div>
+                    <button type="submit" class="btn btn-success">Lưu</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script đặt trực tiếp tại cuối trang -->
+<script>
+    $(document).ready(function () {
+        // Tạo dropdown danh mục cho form Thêm và Sửa
+        var danhMucHtml = '<option value="">-- Chọn danh mục --</option>';
+    @foreach (var dm in ViewBag.DanhMucList)
+    {
+        @:danhMucHtml += '<option value="@dm.Id">@dm.TenDanhMuc</option>';
+    }
+        $('#addDanhMucId').html(danhMucHtml);
+        $('#editDanhMuc').html(danhMucHtml);
+
+        // Mở modal Thêm Món Ăn
+        $("#btnAddMonAn").click(function () {
+            $("#formAddMonAn")[0].reset();
+            $("#modalAddMonAn").modal("show");
+        });
+
+        // Submit form Thêm Món Ăn
+        $("#formAddMonAn").submit(function (e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                url: "/Admin/MonAn/Create",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    if (res.success) {
+                        alert("Thêm thành công!");
+                        location.reload();
+                    } else {
+                        alert("Lỗi: " + res.message + "\nChi tiết: " + (res.errors ? res.errors.join("\n") : ""));
+                    }
+                }
+            });
+        });
+
+        // Bấm nút Sửa, điền dữ liệu vào form Sửa
+        $(document).on("click", ".btnEditMonAn", function () {
+            let id = $(this).data("id");
+            let ten = $(this).data("ten");
+            let gia = $(this).data("gia");
+            let mota = $(this).data("mota");
+            let danhmuc = $(this).data("danhmucid");
+            let imagesJson = $(this).data("images");
+
+            $("#editMonAnId").val(id);
+            $("#editTenMonAn").val(ten);
+            $("#editGia").val(gia);
+            $("#editMoTa").val(mota);
+            $("#editDanhMuc").val(danhmuc);
+
+            // Hiển thị ảnh cũ với checkbox "Xóa"
+            let html = "";
+            console.log("imagesJson =", imagesJson);
+            try {
+                let images = JSON.parse(imagesJson);
+                images.forEach(function (img) {
+                    html += `<div class="position-relative me-2 mb-2">
+                                <img src="/uploads/monan/${img.url}" width="80" height="80" style="object-fit: cover;" />
+                                <input type="checkbox" name="imagesToDelete" value="${img.id}" style="position: absolute; top: 5px; right: 5px;" />
+                             </div>`;
+                });
+            } catch (e) {
+                console.error("JSON parse error:", e);
+            }
+            $("#editAnhHienTai").html(html);
+
+            $("#modalEditMonAn").modal("show");
+        });
+
+        // Submit form Sửa Món Ăn
+        $("#formEditMonAn").submit(function (e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+            $.ajax({
+                url: "/Admin/MonAn/Edit",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    if (res.success) {
+                        alert("Cập nhật thành công!");
+                        location.reload();
+                    } else {
+                        alert("Lỗi: " + res.message + "\nChi tiết: " + (res.errors ? res.errors.join("\n") : ""));
+                    }
+                }
+            });
+        });
+
+        // Xóa Món Ăn (gọi đệ quy nếu cần)
+        function deleteMonAn(id, attempts) {
+            attempts = attempts || 0;
+            $.post("/Admin/MonAn/Delete", { id: id }, function (res) {
+                if (res.success) {
+                    alert("Xóa thành công!");
+                    location.reload();
+                } else {
+                    if (attempts < 5) {
+                        deleteMonAn(id, attempts + 1);
+                    } else {
+                        alert("Có lỗi xảy ra khi xóa món ăn!");
+                    }
+                }
+            });
+        }
+        $(document).on("click", ".btnDeleteMonAn", function () {
+            if (!confirm("Bạn có chắc chắn muốn xóa món ăn này?")) return;
+            let id = $(this).data("id");
+            deleteMonAn(id);
+        });
+    });
+</script>

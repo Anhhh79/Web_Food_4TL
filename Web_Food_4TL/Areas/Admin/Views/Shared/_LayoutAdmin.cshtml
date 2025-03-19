@@ -35,7 +35,7 @@
                     <i class="lni lni-grid-alt"></i>
                 </button>
                 <div class="sidebar-logo">
-                    <a asp-controller="Home" asp-action="Index">3TL HOTEL</a>
+                    <a asp-controller="Home" asp-action="Index">4TL FOOD</a>
                 </div>
             </div>
             <ul class="sidebar-nav">
@@ -53,6 +53,12 @@
                     </a>
                 </li>
                 <!-- More Sidebar Links -->
+                <li class="sidebar-item">
+                    <a class="sidebar-link" asp-area="Admin" asp-controller="MonAn" asp-action="Index">
+                        <i class="lni lni-layout"></i>
+                        <span>Quản lý món ăn</span>
+                    </a>
+                </li>
             </ul>
         </div>
         @RenderBody()
