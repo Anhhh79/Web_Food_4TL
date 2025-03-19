@@ -1,8 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using Web_Food_4TL.Data;
 using Web_Food_4TL.Models;
+using Web_Food_4TL.Models.ViewModels;
 
 namespace Web_Food_4TL.Areas.Customer.Controllers
 {
@@ -20,8 +21,22 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            var monAnList = _context.MonAns.ToList();
+            var monAnList = _context.MonAns
+    .Include(m => m.AnhMonAnh) // Lấy danh sách ảnh
+    .Include(m => m.DanhMuc)   // Lấy thông tin danh mục
+    .Select(m => new MonAnVM
+    {
+        Id = m.Id,
+        TenMonAn = m.TenMonAn,
+        MoTa = m.MoTa,
+        Gia = m.Gia,
+        TenDanhMuc = m.DanhMuc.TenDanhMuc,
+        AnhMonAn = m.AnhMonAnh.Select(a => a.Url).ToList() // Lấy danh sách ảnh
+    })
+    .ToList();
+
             return View(monAnList);
+
         }
 
         public IActionResult GetMonAnDetail(int id)

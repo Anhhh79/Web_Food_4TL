@@ -1,0 +1,116 @@
+﻿@{
+    ViewData["Title"] = "Quản lý chat với khách hàng";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="row">
+    <!-- Cột danh sách khách hàng -->
+    <div class="col-md-4">
+        <h4>Danh sách khách hàng</h4>
+        <ul class="list-group" id="userList">
+            <!-- Danh sách user sẽ render tại đây -->
+        </ul>
+    </div>
+
+    <!-- Cột nội dung chat -->
+    <div class="col-md-8">
+        <h4 id="chatWithTitle">Chat với: <span id="currentUserName">Chưa chọn</span></h4>
+
+        <div class="border p-3 mb-3" style="height: 400px; overflow-y: auto;" id="chatBox">
+            <!-- Tin nhắn sẽ render tại đây -->
+        </div>
+
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Nhập tin nhắn..." id="messageInput" />
+            <button class="btn btn-primary" id="sendBtn" disabled>Gửi</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        let selectedUserId = null;
+
+        // Tải danh sách khách hàng
+        function loadUsers() {
+            $.get("/admin/api/chat/users", function (data) {
+                const userList = $("#userList");
+                userList.empty();
+
+                data.forEach(user => {
+                    const li = $(`<li class="list-group-item list-group-item-action" style="cursor:pointer;">${user.tenNguoiDung}</li>`);
+                    li.click(() => loadMessages(user.nguoiDungId, user.tenNguoiDung));
+                    userList.append(li);
+                });
+            });
+        }
+
+        // Tải tin nhắn giữa admin và user được chọn
+        function loadMessages(userId, userName) {
+            selectedUserId = userId;
+            $("#currentUserName").text(userName);
+            $("#sendBtn").prop('disabled', false);
+
+            $.get(`/admin/api/chat/messages/${userId}`, function (data) {
+                const chatBox = $("#chatBox");
+                chatBox.empty();
+
+                data.messages.forEach(msg => {
+                    const messageClass = msg.laTinNhanTuKhach ? "text-start" : "text-end";
+                    const messageBg = msg.laTinNhanTuKhach ? "bg-light" : "bg-primary text-white";
+
+                    const message = $(`
+                        <div class="mb-2 ${messageClass}">
+                            <span class="p-2 rounded ${messageBg} d-inline-block">
+                                ${msg.noiDung}
+                            </span>
+                        </div>
+                    `);
+
+                    chatBox.append(message);
+                });
+
+                chatBox.scrollTop(chatBox[0].scrollHeight);
+            });
+        }
+
+        // Gửi tin nhắn
+        $("#sendBtn").click(function () {
+            const messageText = $("#messageInput").val().trim();
+
+            if (!messageText || selectedUserId === null)
+                return;
+
+            $.ajax({
+                url: "/admin/api/chat/send/customer",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    nguoiDungId: selectedUserId,
+                    messageText: messageText
+                }),
+                success: function (response) {
+                    $("#messageInput").val("");
+                    loadMessages(selectedUserId, $("#currentUserName").text());
+                },
+                error: function () {
+                    alert("Gửi tin nhắn thất bại!");
+                }
+            });
+        });
+
+        // Gửi khi bấm phím Enter
+        $("#messageInput").keypress(function (e) {
+            if (e.which === 13) {
+                $("#sendBtn").click();
+            }
+        });
+
+        // Tải user khi trang load
+        $(document).ready(function () {
+            loadUsers();
+        });
+    </script>
+}

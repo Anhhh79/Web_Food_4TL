@@ -22,12 +22,11 @@
 
                                         <div class="flex-grow-1 ms-4">
                                             <h5 class="text-primary mb-1">@item.MonAn.TenMonAn</h5>
-                                            <p class="fw-bold mb-2 text-danger">@string.Format("{0:N0} VND", item.MonAn.Gia)</p>
+                                            <p class="fw-bold mb-2 text-danger">@string.Format("{0:N0} đ", item.MonAn.Gia)</p>
 
                                             <div class="d-flex align-items-center">
                                                 <!-- Nút giảm số lượng -->
-                                                <button onclick="giamSoLuong(@item.Id)" class="btn btn-outline-secondary btn-sm rounded-circle me-2"
-                                                @(item.SoLuong <= 1 ? "disabled" : "")>
+                                                <button onclick="giamSoLuong(@item.Id)" class="btn btn-outline-secondary btn-sm rounded-circle me-2">
                                                     <i class="fa-solid fa-minus"></i>
                                                 </button>
 
@@ -57,7 +56,7 @@
 
                                 <div class="d-flex justify-content-between px-x">
                                     <p class="fw-bold">Tổng tiền:</p>
-                                    <p class="fw-bold">@string.Format("{0:N0} VND", Model.Sum(x => x.MonAn.Gia * x.SoLuong))</p>
+                                    <p class="fw-bold">@string.Format("{0:N0} đ", Model.Sum(x => x.MonAn.Gia * x.SoLuong))</p>
                                 </div>
                             </div>
 

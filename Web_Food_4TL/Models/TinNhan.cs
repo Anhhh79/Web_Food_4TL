@@ -6,27 +6,29 @@ namespace Web_Food_4TL.Models
 {
     public class TinNhan
     {
-            [Key]
-            public int Id { get; set; }
+        [Key]
+        public int Id { get; set; }
 
-            [Required(ErrorMessage = "Tin nhắn không được để trống.")]
-            public string MessageText { get; set; }
+        [Required]
+        public string NoiDung { get; set; } // Nội dung tin nhắn
 
-            public bool IsFromAI { get; set; }
+        public DateTime ThoiGianGui { get; set; } = DateTime.Now; // Thời gian gửi
 
-            public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+        public bool LaTinNhanTuKhach { get; set; } // True nếu là khách hàng gửi, False nếu là admin gửi
 
-            [Required(ErrorMessage = "SenderId là bắt buộc.")]
-            public string SenderId { get; set; }
+        public int? NguoiDungId { get; set; } // ID người gửi (nếu có)
 
-            [ForeignKey("SenderId")]
-            [JsonIgnore] // Ngăn vòng lặp JSON khi lấy dữ liệu người gửi
-            public virtual NguoiDung Sender { get; set; }
+        [ForeignKey("NguoiDungId")]
+        [JsonIgnore]
+        public NguoiDung NguoiDung { get; set; } // Navigation property tới NguoiDung
 
-            public string? ReceiverId { get; set; } // Cho phép null khi chat với AI
+        public int? NguoiGuiId { get; set; } // Người gửi là ai
+        [ForeignKey("NguoiGuiId")]
+        public NguoiDung NguoiGui { get; set; }
 
-            [ForeignKey("ReceiverId")]
-            [JsonIgnore] // Ngăn vòng lặp JSON khi lấy dữ liệu người nhận
-            public virtual NguoiDung? Receiver { get; set; }
+        public int? NguoiNhanId { get; set; } // Người nhận là ai
+        [ForeignKey("NguoiNhanId")]
+        public NguoiDung NguoiNhan { get; set; }
+
     }
 }

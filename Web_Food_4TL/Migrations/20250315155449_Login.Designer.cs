@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Web_Food_4TL.Data;
 
@@ -11,9 +12,11 @@ using Web_Food_4TL.Data;
 namespace Web_Food_4TL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250315155449_Login")]
+    partial class Login
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,22 +67,7 @@ namespace Web_Food_4TL.Migrations
                         new
                         {
                             Id = 1,
-                            TenDanhMuc = "Starters"
-                        },
-                        new
-                        {
-                            Id = 2,
                             TenDanhMuc = "Breakfast"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            TenDanhMuc = "Lunch"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            TenDanhMuc = "Dinner"
                         });
                 });
 
@@ -217,30 +205,6 @@ namespace Web_Food_4TL.Migrations
                             Gia = 15000m,
                             MoTa = "Ngon",
                             TenMonAn = "Banh Mi"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DanhMucId = 2,
-                            Gia = 35000m,
-                            MoTa = "Ngon",
-                            TenMonAn = "Xôi"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DanhMucId = 3,
-                            Gia = 35000m,
-                            MoTa = "Ngon",
-                            TenMonAn = "Cơm xào bò"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            DanhMucId = 4,
-                            Gia = 35000m,
-                            MoTa = "Ngon",
-                            TenMonAn = "Cơm gà"
                         });
                 });
 
@@ -283,44 +247,6 @@ namespace Web_Food_4TL.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Web_Food_4TL.Models.TinNhan", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("LaTinNhanTuKhach")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("NguoiDungId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("NguoiGuiId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("NguoiNhanId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NoiDung")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ThoiGianGui")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NguoiDungId");
-
-                    b.HasIndex("NguoiGuiId");
-
-                    b.HasIndex("NguoiNhanId");
-
-                    b.ToTable("TinNhans");
-                });
-
             modelBuilder.Entity("Web_Food_4TL.Models.VaiTro", b =>
                 {
                     b.Property<int>("Id")
@@ -336,18 +262,6 @@ namespace Web_Food_4TL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("VaiTros");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            TenVaiTro = "Khách Hàng"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            TenVaiTro = "Quản lý"
-                        });
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.VaiTroNguoiDung", b =>
@@ -442,27 +356,6 @@ namespace Web_Food_4TL.Migrations
                         .IsRequired();
 
                     b.Navigation("DanhMuc");
-                });
-
-            modelBuilder.Entity("Web_Food_4TL.Models.TinNhan", b =>
-                {
-                    b.HasOne("Web_Food_4TL.Models.NguoiDung", "NguoiDung")
-                        .WithMany()
-                        .HasForeignKey("NguoiDungId");
-
-                    b.HasOne("Web_Food_4TL.Models.NguoiDung", "NguoiGui")
-                        .WithMany()
-                        .HasForeignKey("NguoiGuiId");
-
-                    b.HasOne("Web_Food_4TL.Models.NguoiDung", "NguoiNhan")
-                        .WithMany()
-                        .HasForeignKey("NguoiNhanId");
-
-                    b.Navigation("NguoiDung");
-
-                    b.Navigation("NguoiGui");
-
-                    b.Navigation("NguoiNhan");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.VaiTroNguoiDung", b =>
