@@ -145,6 +145,10 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    updateCartCount();
+})
+
 $(document).on("click", "#addToCart", function () {
     var monAnId = $(this).data("id");
     var quantity = parseInt($("#quantity").val()) || 1; // Chuyển về số, mặc định là 1 nếu lỗi
@@ -156,10 +160,15 @@ $(document).on("click", "#addToCart", function () {
         type: "POST",
         data: { monAnId: monAnId, quantity: quantity },
         success: function (response) {
+            if (response.needLogin) {
+                toastr.warning(response.message);
+                return;
+            }
             if (response.success) {
                 // Cập nhật số lượng giỏ hàng nếu phần tử tồn tại
-                if ($("#cartCount").length > 0) {
-                    $("#cartCount").text(response.cartCount);
+                console.log(response.cartCount);
+                if ($(".cartCount").length > 0) {
+                    updateCartCount();
                 } else {
                     console.warn("Không tìm thấy #cartCount để cập nhật!");
                 }
@@ -185,7 +194,23 @@ $(document).on("click", "#addToCart", function () {
     });
 });
 
-
+//hàm cập nhật số lượng trong giỏ hàng
+function updateCartCount() {
+    $.ajax({
+        url: "/Customer/Cart/GetCartCount", // Route này trả về số lượng sản phẩm trong giỏ hàng
+        type: "GET",
+        success: function (response) {
+            if (response.success) {
+                $(".cartCount").text(response.cartCount); // Cập nhật số lượng giỏ hàng
+            } else {
+                console.warn("Không thể lấy số lượng giỏ hàng.");
+            }
+        },
+        error: function (xhr) {
+            console.error("Lỗi khi cập nhật số lượng giỏ hàng:", xhr.responseText);
+        }
+    });
+}
 
 
 

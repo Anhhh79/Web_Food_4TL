@@ -35,7 +35,7 @@
                     <i class="lni lni-grid-alt"></i>
                 </button>
                 <div class="sidebar-logo">
-                    <a asp-controller="Home" asp-action="Index">3TL HOTEL</a>
+                    <a asp-controller="Home" asp-action="Index">4TL FOOD</a>
                 </div>
             </div>
             <ul class="sidebar-nav">
@@ -52,7 +52,23 @@
                         <span>Thống kê doanh thu</span>
                     </a>
                 </li>
+
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" asp-area="Admin" asp-controller="AdminChat" asp-action="Index">
+                        <i class="lni lni-layout"></i>
+                        <span>Quản lý tin nhắn</span>
+                    </a>
+                </li>
+
+
                 <!-- More Sidebar Links -->
+                <li class="sidebar-item">
+                    <a class="sidebar-link" asp-area="Admin" asp-controller="MonAn" asp-action="Index">
+                        <i class="lni lni-layout"></i>
+                        <span>Quản lý món ăn</span>
+                    </a>
+                </li>
             </ul>
         </div>
         @RenderBody()
@@ -71,6 +87,8 @@
 
     <script src="~/js/QuanLyKhachHang.js"></script>
     <script src="~/js/ThongKe.js"></script>
+
+    @RenderSection("Scripts", required: false)
 
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
