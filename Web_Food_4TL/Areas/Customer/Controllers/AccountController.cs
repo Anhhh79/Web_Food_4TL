@@ -118,6 +118,12 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                     return Json(new { success = false, message = $"Mật khẩu không đúng!" });
                 }
 
+                //lấy trạng thái tài khoản
+                if (user.TrangThai == "Bị khóa"){
+                    _logger.LogWarning("Đăng nhập thất bại: tài khoản {0} đã bị khóa", user.Id);
+                    return Json(new { success = false, message = $"Tài khoản đã bị khóa!" });
+                }
+
                 // Lưu thông tin vào session
                 HttpContext.Session.SetInt32("UserId", user.Id);
                 HttpContext.Session.SetString("UserName", user.TenNguoiDung);
