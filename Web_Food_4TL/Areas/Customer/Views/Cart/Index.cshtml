@@ -76,9 +76,20 @@
                                     </div>
 
                                     <button type="submit" class="btn btn-primary btn-block btn-lg">Thanh toán VNPay</button>
-
+                                    @if (ViewBag.ErrorMessage != null)
+                                    {
+                                        <div id="cart-alert" class="alert alert-warning">@ViewBag.ErrorMessage</div>
+                                        <script>
+                                            setTimeout(function() {
+                                                var alertBox = document.getElementById('cart-alert');
+                                                if (alertBox) {
+                                                    alertBox.style.display = 'none';
+                                                }
+                                            }, 3000); 
+                                        </script>
+                                    }
                                     <h5 class="fw-bold mt-4">
-                                        <a href="/Customer/Home" class="text-decoration-none"><i class="fas fa-angle-left me-2"></i>Quay lại mua hàng</a>
+                                        <a href="/Customer" class="text-decoration-none"><i class="fas fa-angle-left me-2"></i>Quay lại mua hàng</a>
                                     </h5>
                                 </form>
 

@@ -47,7 +47,11 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 .Where(g => g.NguoiDungId == userId) // Lọc theo UserId
                 .ToList();
 
-            if (!gioHang.Any()) return NotFound("Giỏ hàng trống!");
+            if (!gioHang.Any())
+            {
+                ViewBag.ErrorMessage = "Giỏ hàng trống!";
+                return View("~/Areas/Customer/Views/Cart/Index.cshtml", gioHang); // Trả về lại trang giỏ hàng với thông báo lỗi
+            }
 
             // Tính tổng tiền
             decimal tongTien = gioHang.Sum(g => g.Gia * g.SoLuong);
