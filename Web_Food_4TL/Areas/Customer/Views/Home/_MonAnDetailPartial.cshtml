@@ -10,7 +10,7 @@
         <div class="col-md-5">
             @if (Model.AnhMonAnh != null && Model.AnhMonAnh.Any())
             {
-                <img src="@Model.AnhMonAnh.FirstOrDefault().Url" class="img-fluid rounded shadow-sm" />
+                <img src="/uploads/monan/@Model.AnhMonAnh.FirstOrDefault().Url" class="img-fluid rounded shadow-sm" />
             }
             else
             {

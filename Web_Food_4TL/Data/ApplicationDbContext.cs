@@ -40,7 +40,7 @@ namespace Web_Food_4TL.Data
 
             modelBuilder.Entity<VaiTro>().HasData(
                    new VaiTro { Id = 1, TenVaiTro = "Khách Hàng"},
-                   new VaiTro { Id = 2, TenVaiTro = "Quản lý" });
+                   new VaiTro { Id = 2, TenVaiTro = "Quản Lý" });
         }
 
     }
