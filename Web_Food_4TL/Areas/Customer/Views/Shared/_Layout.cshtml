@@ -28,8 +28,9 @@
         <nav class="navbar py-3 navbar-expand-lg bg-white">
             <div class="container-lg">
                 <!-- Logo -->
+                
                 <a class="navbar-brand fw-bold fs-3" style="color: #37373f;" href="#">
-                    Yummy<span class="text-danger">.</span>
+                    <img src="/img/HI.gif" style="height: 40px;" class="rounded me-2 mb-1" /><span class="text-danger">FOOD-4TL</span>
                 </a>
 
 
@@ -38,13 +39,13 @@
                     @if (Context.Session.GetInt32("UserId") == null)
                     {
                             <a href="/Customer/Cart/Index" class="btn btn-warning me-3 ms-2 d-lg-none d-none" id="cartButton">
-                                🛒 Giỏ hàng (<span class="cartCount">@Context.Session.GetInt32("cartCount")</span>)
+                                Giỏ hàng (<span class="cartCount">@Context.Session.GetInt32("cartCount")</span>)
                         </a>
                     }
                     else if (Context.Request.Path != "/customer/cart/index")
                     {
                         <a href="/Customer/Cart/Index" class="btn btn-warning me-3 ms-2 d-lg-none" id="cartButton">
-                            🛒 Giỏ hàng (<span class="cartCount">@Context.Session.GetInt32("cartCount")</span>)
+                            Giỏ hàng (<span class="cartCount">@Context.Session.GetInt32("cartCount")</span>)
                         </a>
                     }
 
@@ -88,7 +89,7 @@
                 @if (Context.Session.GetInt32("UserId") != null && Context.Request.Path != "/customer/cart/index")
                 {
                         <a href="/Customer/Cart/Index" class="btn btn-warning me-3 d-none d-lg-block" id="cartButton">
-                            🛒 Giỏ hàng (<span class="cartCount">@Context.Session.GetInt32("cartCount")</span>)
+                            Giỏ hàng (<span class="cartCount">@Context.Session.GetInt32("cartCount")</span>)
                         </a>
                 }
 

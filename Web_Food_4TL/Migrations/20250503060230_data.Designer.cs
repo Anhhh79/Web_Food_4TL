@@ -12,8 +12,8 @@ using Web_Food_4TL.Data;
 namespace Web_Food_4TL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250318074057_TableTinNhan")]
-    partial class TableTinNhan
+    [Migration("20250503060230_data")]
+    partial class data
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -271,6 +271,10 @@ namespace Web_Food_4TL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TrangThai")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("NguoiDungs");
@@ -282,7 +286,8 @@ namespace Web_Food_4TL.Migrations
                             Email = "@123",
                             MatKhau = "012",
                             SoDienThoai = "123",
-                            TenNguoiDung = "H"
+                            TenNguoiDung = "H",
+                            TrangThai = "Hoạt động"
                         });
                 });
 
@@ -294,27 +299,32 @@ namespace Web_Food_4TL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("IsFromAI")
+                    b.Property<bool>("LaTinNhanTuKhach")
                         .HasColumnType("bit");
 
-                    b.Property<string>("MessageText")
+                    b.Property<int?>("NguoiDungId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NguoiGuiId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NguoiNhanId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NoiDung")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ReceiverId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SenderId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Timestamp")
+                    b.Property<DateTime>("ThoiGianGui")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReceiverId");
+                    b.HasIndex("NguoiDungId");
 
-                    b.HasIndex("SenderId");
+                    b.HasIndex("NguoiGuiId");
+
+                    b.HasIndex("NguoiNhanId");
 
                     b.ToTable("TinNhans");
                 });
@@ -444,19 +454,23 @@ namespace Web_Food_4TL.Migrations
 
             modelBuilder.Entity("Web_Food_4TL.Models.TinNhan", b =>
                 {
-                    b.HasOne("Web_Food_4TL.Models.NguoiDung", "Receiver")
+                    b.HasOne("Web_Food_4TL.Models.NguoiDung", "NguoiDung")
                         .WithMany()
-                        .HasForeignKey("ReceiverId");
+                        .HasForeignKey("NguoiDungId");
 
-                    b.HasOne("Web_Food_4TL.Models.NguoiDung", "Sender")
+                    b.HasOne("Web_Food_4TL.Models.NguoiDung", "NguoiGui")
                         .WithMany()
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("NguoiGuiId");
 
-                    b.Navigation("Receiver");
+                    b.HasOne("Web_Food_4TL.Models.NguoiDung", "NguoiNhan")
+                        .WithMany()
+                        .HasForeignKey("NguoiNhanId");
 
-                    b.Navigation("Sender");
+                    b.Navigation("NguoiDung");
+
+                    b.Navigation("NguoiGui");
+
+                    b.Navigation("NguoiNhan");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.VaiTroNguoiDung", b =>
