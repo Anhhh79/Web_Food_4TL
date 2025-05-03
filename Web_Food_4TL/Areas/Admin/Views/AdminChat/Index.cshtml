@@ -1,33 +1,48 @@
-﻿@{
-    ViewData["Title"] = "Quản lý chat với khách hàng";
-}
-
-<h2>@ViewData["Title"]</h2>
-
-<div class="row">
-    <!-- Cột danh sách khách hàng -->
-    <div class="col-md-4">
-        <h4>Danh sách khách hàng</h4>
-        <ul class="list-group" id="userList">
-            <!-- Danh sách user sẽ render tại đây -->
-        </ul>
-    </div>
-
-    <!-- Cột nội dung chat -->
-    <div class="col-md-8">
-        <h4 id="chatWithTitle">Chat với: <span id="currentUserName">Chưa chọn</span></h4>
-
-        <div class="border p-3 mb-3" style="height: 400px; overflow-y: auto;" id="chatBox">
-            <!-- Tin nhắn sẽ render tại đây -->
+﻿
+<div class="main" id="content">
+    <nav class="navbar navbar-expand px-4 py-3">
+        <div class="navbar-collapse collapse">
+            <ul class="navbar-nav justify-content-between" style="width: 1380px;">
+                <li>
+                    <h2 style="font-weight: bolder;">Thông tin nhân viên</h2>
+                </li>
+                <li class="nav-item dropdown">
+                    <button class="btn btn-secondary text-light dropdown-toggle d-none d-lg-block" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-user-circle"></i> @Context.Session.GetString("UserName")
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end rounded" style="width: 180px;">
+                        <div class="d-flex">
+                            <a class="ms-2 cusor" href="/Customer/Account/Logout" style="color: red;">Đăng xuất</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="row">
+        <!-- Cột danh sách khách hàng -->
+        <div class="col-md-4">
+            <h4>Danh sách khách hàng</h4>
+            <ul class="list-group" id="userList">
+                <!-- Danh sách user sẽ render tại đây -->
+            </ul>
         </div>
 
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Nhập tin nhắn..." id="messageInput" />
-            <button class="btn btn-primary" id="sendBtn" disabled>Gửi</button>
+        <!-- Cột nội dung chat -->
+        <div class="col-md-8">
+            <h4 id="chatWithTitle">Chat với: <span id="currentUserName">Chưa chọn</span></h4>
+
+            <div class="border p-3 mb-3" style="height: 400px; overflow-y: auto; width:800px" id="chatBox">
+                <!-- Tin nhắn sẽ render tại đây -->
+            </div>
+
+            <div class="input-group" style="width:800px">
+                <input type="text" class="form-control" placeholder="Nhập tin nhắn..." id="messageInput" />
+                <button class="btn btn-primary" id="sendBtn" disabled>Gửi</button>
+            </div>
         </div>
     </div>
 </div>
-
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
