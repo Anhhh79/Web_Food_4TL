@@ -268,6 +268,10 @@ namespace Web_Food_4TL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TrangThai")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("NguoiDungs");
@@ -279,7 +283,8 @@ namespace Web_Food_4TL.Migrations
                             Email = "@123",
                             MatKhau = "012",
                             SoDienThoai = "123",
-                            TenNguoiDung = "H"
+                            TenNguoiDung = "H",
+                            TrangThai = "Hoạt động"
                         });
                 });
 

@@ -1,0 +1,120 @@
+﻿@model List<DanhMuc>
+
+<div class="main" id="content">
+    <nav class="navbar navbar-expand px-4 py-3">
+        <div class="navbar-collapse collapse">
+            <ul class="navbar-nav justify-content-between" style="width: 1380px;">
+                <li>
+                    <h2 style="font-weight: bolder;">Quản lý danh mục</h2>
+                </li>
+                <li class="ms-3 dropdown">
+                    <button class="btn btn-secondary text-light dropdown-toggle d-none d-lg-block" id="userDropdown" data-bs-toggle="dropdown">
+                        <i class="fa fa-user-circle"></i> @Context.Session.GetString("UserName")
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-danger" href="/Customer/Account/Logout">Đăng xuất</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div id="alertMessage" class="alert d-none" role="alert"></div>
+
+        <div class="input-group mb-3">
+            <input type="text" id="tenDanhMucMoi" class="form-control" placeholder="Nhập tên danh mục mới">
+            <button class="btn btn-primary" onclick="themDanhMuc()">Thêm</button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Tên danh mục</th>
+                        <th class="text-center">Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="danhMucTable">
+                    @foreach (var item in Model)
+                    {
+                        <tr id="row_@item.Id">
+                            <td>
+                                <input type="text" class="form-control" id="tenDanhMuc_@item.Id" value="@item.TenDanhMuc">
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-success btn-sm" onclick="suaDanhMuc(@item.Id)">Lưu</button>
+                                <button class="btn btn-danger btn-sm" onclick="xoaDanhMuc(@item.Id)">Xóa</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function showAlert(message, type) {
+            var alertDiv = document.getElementById("alertMessage");
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerText = message;
+            alertDiv.classList.remove("d-none");
+            setTimeout(() => alertDiv.classList.add("d-none"), 3000);
+        }
+
+        function themDanhMuc() {
+            var tenDanhMuc = document.getElementById("tenDanhMucMoi").value.trim();
+            if (!tenDanhMuc) {
+                showAlert("Tên danh mục không được để trống", "danger");
+                return;
+            }
+
+            fetch('/Admin/DanhMuc/ThemDanhMuc', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tenDanhMuc: tenDanhMuc })
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("danhMucTable").innerHTML = html;
+                document.getElementById("tenDanhMucMoi").value = "";
+                showAlert("Thêm danh mục thành công!", "success");
+            })
+            .catch(error => console.error("Lỗi khi thêm danh mục:", error));
+        }
+
+        function suaDanhMuc(id) {
+            var tenDanhMuc = document.getElementById("tenDanhMuc_" + id).value;
+
+            fetch(`/Admin/DanhMuc/SuaDanhMuc`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: id, tenDanhMuc: tenDanhMuc })
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("danhMucTable").innerHTML = html;
+                showAlert("Cập nhật danh mục thành công!", "success");
+            })
+            .catch(error => console.error("Lỗi khi cập nhật danh mục:", error));
+        }
+
+        function xoaDanhMuc(id) {
+            if (!confirm("Bạn có chắc muốn xóa?")) return;
+
+            fetch(`/Admin/DanhMuc/XoaDanhMuc`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: id })
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById("danhMucTable").innerHTML = html;
+                showAlert("Xóa danh mục thành công!", "success");
+            })
+            .catch(error => console.error("Lỗi khi xóa danh mục:", error));
+        }
+    </script>
+}

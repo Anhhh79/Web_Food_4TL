@@ -1,0 +1,16 @@
+﻿@model List<DanhMuc>
+
+<tbody id="danhMucTable">
+    @foreach (var item in Model)
+    {
+        <tr id="row_@item.Id">
+            <td>
+                <input type="text" class="form-control" id="tenDanhMuc_@item.Id" value="@item.TenDanhMuc">
+            </td>
+            <td class="text-center">
+                <button class="btn btn-success btn-sm" onclick="suaDanhMuc(@item.Id)">Lưu</button>
+                <button class="btn btn-danger btn-sm" onclick="xoaDanhMuc(@item.Id)">Xóa</button>
+            </td>
+        </tr>
+    }
+</tbody>
