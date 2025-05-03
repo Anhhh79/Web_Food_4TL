@@ -159,7 +159,9 @@ function postDataSignUp() {
 
     // Kiểm tra dữ liệu nhập
     if (!hoTen || !email || !soDienThoai || !matKhau || !matKhau2) {
-        alert("Vui lòng nhập đầy đủ thông tin!");
+        toastr.error("Vui lòng nhập đầy đủ thông tin!", "", {
+            timeOut: 2000 // Giới hạn thời gian hiển thị là 1 giây
+        });
         return;
     }
 
@@ -181,17 +183,23 @@ function postDataSignUp() {
         }),
         success: function (response) {
             if (response.success) {
-                alert(response.message);
+                toastr.success(response.message, "", {
+                    timeOut: 2000 // Giới hạn thời gian hiển thị là 1 giây
+                });
                 modalSignUp(); // Ẩn modal đăng ký
                 modalLogin(); // Hiển thị modal đăng nhập
                 deleteDataSignUp();
             } else {
-                alert(response.message);
+                toastr.error(response.message, "", {
+                    timeOut: 2000 // Giới hạn thời gian hiển thị là 1 giây
+                });
             }
         },
         error: function (xhr) {
             let errorMessage = xhr.responseJSON?.message || `Lỗi ${xhr.status}: ${xhr.statusText}`;
-            alert(errorMessage);
+            toastr.error(errorMessage, "", {
+                timeOut: 2000 // Giới hạn thời gian hiển thị là 1 giây
+            });
         },
         complete: function () {
             // Kích hoạt lại nút đăng ký sau khi xử lý xong
@@ -207,7 +215,9 @@ function postdataLogin() {
     let btnLogin = $("#btnLogin");
 
     if (!userNameOrEmail || !password) {
-        alert("Vui lòng nhập đầy đủ thông tin!");
+        toastr.error("Vui lòng nhập đầy đủ thông tin!", "", {
+            timeOut: 2000 // Giới hạn thời gian hiển thị là 1 giây
+        });
         return;
     }
 
@@ -230,7 +240,9 @@ function postdataLogin() {
                 window.location.href = response.redirectUrl; // Chuyển trang
                 deleteDataLogin();
             } else {
-                alert(response.message);// Hiển thị lỗi nếu có
+                toastr.error(response.message, "", {
+                    timeOut: 2000 // Giới hạn thời gian hiển thị là 1 giây
+                });// Hiển thị lỗi nếu có
             }
         },
         error: function (xhr) {
@@ -240,7 +252,9 @@ function postdataLogin() {
             } else {
                 errorMessage = xhr.responseJSON?.message || `Lỗi ${xhr.status}: ${xhr.statusText}`;
             }
-            alert(errorMessage);
+            toastr.error(errorMessage, "", {
+                timeOut: 2000 // Giới hạn thời gian hiển thị là 1 giây
+            });
         },
         complete: function () {
             // Kích hoạt lại nút đăng nhập sau khi xử lý xong
