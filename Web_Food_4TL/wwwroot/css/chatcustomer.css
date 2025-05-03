@@ -1,5 +1,6 @@
 ﻿/* ICON CHAT */
 #chat-icon {
+    z-index:99999;
     position: fixed;
     bottom: 50px; /* Điều chỉnh vị trí */
     right: 40px;
@@ -31,6 +32,7 @@
 /* CHAT CONTAINER */
 #chat-container {
     position: fixed;
+    z-index:99999;
     bottom: 120px; /* Điều chỉnh so với icon */
     right: 30px;
     width: 320px;
