@@ -16,9 +16,22 @@
                                 {
                                     <div class="d-flex align-items-center mb-4 p-3 border rounded bg-white shadow-sm" id="item-@item.Id">
                                         <div class="flex-shrink-0">
-                                            <img src="@item.MonAn.AnhMonAnh" class="img-fluid rounded" style="width: 120px; height: 80px; object-fit: cover;"
-                                                 alt="@item.MonAn.TenMonAn">
+                                            @{
+                                                var anhDau = item.MonAn.AnhMonAnh?.FirstOrDefault();
+                                            }
+
+                                            @if (anhDau != null)
+                                            {
+                                                <img src="/uploads/monan/@anhDau.Url" class="img-fluid rounded"
+                                                     style="width: 120px; height: 80px; object-fit: cover;" alt="@item.MonAn.TenMonAn" />
+                                            }
+                                            else
+                                            {
+                                                <img src="https://placehold.co/120x80/png" class="img-fluid rounded"
+                                                     style="width: 120px; height: 80px; object-fit: cover;" alt="Không có ảnh" />
+                                            }
                                         </div>
+
 
                                         <div class="flex-grow-1 ms-4">
                                             <h5 class="text-primary mb-1">@item.MonAn.TenMonAn</h5>
