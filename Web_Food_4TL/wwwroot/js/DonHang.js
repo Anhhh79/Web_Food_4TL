@@ -28,7 +28,7 @@ function loadDonHang() {
                                 </div>
                                 <div class="col-12 col-md-8">
                                     <div class="row mt-4 pt-3">
-                                        <span class="col-6 fz">${chiTiet.tenMonAn}</span>
+                                        <span class="col-6 fz text-warning">${chiTiet.tenMonAn}</span>
                                         <div class="col-6">
                                             <span class="f fw-bold"> Số lượng: </span>
                                             <span class="f">${chiTiet.soLuong}</span>
@@ -63,8 +63,8 @@ function loadDonHang() {
                     tongTien += donHang.tongTien;
                 });
 
-                $("#donHangContent").html(htmlContent);
-                $("#tongThanhToan").text(`${tongTien.toLocaleString()} VND`);
+                $("#dhContent").html(htmlContent);
+                $("#tongTT").text(`${tongTien.toLocaleString()} VND`);
 
                 $("#modaldonhang").modal("show");
             } else {
