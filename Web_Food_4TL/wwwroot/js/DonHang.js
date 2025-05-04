@@ -68,7 +68,7 @@ function loadDonHang() {
 
                 $("#modaldonhang").modal("show");
             } else {
-                alert(response.message || "Không có đơn hàng nào.");
+               console.log("Không có đơn hàng nào")
             }
         },
         error: function (error) {
