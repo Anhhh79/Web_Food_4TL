@@ -9,14 +9,14 @@
                     <!-- Cột chứa nội dung -->
                     <div class="col-lg-6 col-md-12 text-center text-lg-start">
                         <div>
-                            <div class="font-w" style="font-size: 40px; color: orange;">Enjoy Your Healthy</div>
-                            <div class="font-w" style="font-size: 40px; color: orange;">Delicious Food</div>
+                            <div class="font-w" style="font-size: 40px; color: orange;">Thưởng thức món ăn ngon </div>
+                            <div class="font-w" style="font-size: 40px; color: orange;">và tốt cho sức khỏe của bạn</div>
+                        </div>
+                        <div style="font-size: 24px;">      
+                            Chúng tôi mang đến những món ăn
                         </div>
                         <div style="font-size: 24px;">
-                            We are a team of talented designers making 
-                        </div>
-                        <div style="font-size: 24px;">
-                            websites with Bootstrap.
+                            với nguyên liệu hoàn toàn tự nhiên
                         </div>
                         <div class="mt-3">
                             <a href="#" class="btn btn-success rounded-pill px-4" style="font-size: 18px;">ĐẶT HÀNG</a>
@@ -38,26 +38,26 @@
         <div class="row gy-4">
             <div class="col-lg-3 col-md-6">
                 <div class="stats-item text-center w-100 h-100">
-                    <span>232</span>
-                    <p>Clients</p>
+                    <span>124</span>
+                    <p>Khách Hàng</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="stats-item text-center w-100 h-100">
-                    <span>521</span>
-                    <p>Projects</p>
+                    <span>21</span>
+                    <p>Món ăn</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="stats-item text-center w-100 h-100">
-                    <span>1453</span>
-                    <p>Hours Of Support</p>
+                    <span>8</span>
+                    <p>Chi nhánh</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="stats-item text-center w-100 h-100">
                     <span>32</span>
-                    <p>Workers</p>
+                    <p>Nhân viên</p>
                 </div>
             </div>
         </div>
@@ -69,10 +69,10 @@
 <div class="container-fluid mt-5">
     <div class="text-center py-4">
         <!-- Thêm padding trên dưới -->
-        <h2 class="mt-3 fs-6">OUR MENU</h2> <!-- Thêm margin trên -->
+        <h2 class="mt-3 fs-6">MENU</h2> <!-- Thêm margin trên -->
         <p class="mb-3">
             <!-- Thêm margin dưới -->
-            <span class="fs-2 me-2">Check Our</span>
+            <span class="fs-2 me-2">Xem</span>
             <span class="menu-subtitle">4TL Menu</span>
         </p>
     </div>
@@ -81,10 +81,10 @@
 
     <!-- Tabs -->
     <ul class="nav nav-tabs justify-content-center my-3">
-        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#starters">Starters</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#breakfast">Breakfast</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#lunch">Lunch</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#dinner">Dinner</a></li>
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#starters">Món khai vị</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#breakfast">Món ăn sáng</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#lunch">Món ăn trưa</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#dinner">Món ăn tối</a></li>
     </ul>
 
 
@@ -99,7 +99,7 @@
                 <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
                     <div class="menu-item">
                         @if (monAn.AnhMonAn != null && monAn.AnhMonAn.Any()) {
-                            <img src="/uploads/monan/@monAn.AnhMonAn.FirstOrDefault()" class="card-img-top rounded" />
+                            <img src="/uploads/monan/@monAn.AnhMonAn.FirstOrDefault()" class="card-img-top rounded" style="width: 250px; height: 280px; object-fit: contain;" />
                         } else {
                             <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
                         }
@@ -122,7 +122,7 @@
                 <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
                     <div class="menu-item">
                         @if (monAn.AnhMonAn != null && monAn.AnhMonAn.Any()) {
-                            <img src="/uploads/monan/@monAn.AnhMonAn.FirstOrDefault()" class="card-img-top rounded" />
+                            <img src="/uploads/monan/@monAn.AnhMonAn.FirstOrDefault()" class="card-img-top rounded" style="width: 250px; height: 280px; object-fit: contain;"/>
                         } else {
                             <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
                         }
@@ -145,7 +145,7 @@
                 <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
                     <div class="menu-item">
                         @if (monAn.AnhMonAn != null && monAn.AnhMonAn.Any()) {
-                            <img src="/uploads/monan/@monAn.AnhMonAn.FirstOrDefault()" class="card-img-top rounded" />
+                            <img src="/uploads/monan/@monAn.AnhMonAn.FirstOrDefault()" class="card-img-top rounded" style="width: 250px; height: 280px; object-fit: contain;"/>
                         } else {
                             <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
                         }
@@ -168,7 +168,7 @@
                 <div class="col-12 col-md-4 mb-4 d-flex justify-content-center">
                     <div class="menu-item">
                         @if (monAn.AnhMonAn != null && monAn.AnhMonAn.Any()) {
-                            <img src="/uploads/monan/@monAn.AnhMonAn.FirstOrDefault()" class="card-img-top rounded" />
+                            <img src="/uploads/monan/@monAn.AnhMonAn.FirstOrDefault()" class="card-img-top rounded" style="width: 250px; height: 280px; object-fit: contain;"/>
                         } else {
                             <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
                         }
@@ -193,16 +193,15 @@
       <!-- Carousel -->
       <div id="serviceCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-          <!-- Mỗi carousel-item ban đầu chỉ chứa 1 card (được đặt trong 1 .row) -->
           <div class="carousel-item active">
             <div class="row">
               <div class="col-md-4">
                 <div class="card text-white bg-dark shadow">
                   <img src="img/events-1.jpg" class="card-img" alt="Birthday Parties">
                   <div class="card-img-overlay d-flex flex-column justify-content-end" style="background: rgba(0,0,0,0.6); padding:20px;">
-                    <h4 class="card-title">Birthday Parties</h4>
-                    <h2 class="card-text text-danger">$499</h2>
-                    <p class="card-text">Laborum aperiam atque omnis minus omnis est qui assumenda quos.</p>
+                    <h4 class="card-title">Tiệc sinh nhật</h4>
+                    <h4 class="card-text text-danger">1.499.000 VND</h4>
+                    <p class="card-text">Tận hưởng buổi tiệc sinh nhật của bạn với những món ăn ngon và sự phục vụ tận tình.</p>
                   </div>
                 </div>
               </div>
@@ -214,9 +213,9 @@
                 <div class="card text-white bg-dark shadow">
                   <img src="img/events-2.jpg" class="card-img" alt="Wedding Parties">
                   <div class="card-img-overlay d-flex flex-column justify-content-end" style="background: rgba(0,0,0,0.6); padding:20px;">
-                    <h4 class="card-title">Wedding Parties</h4>
-                    <h2 class="card-text text-danger">$899</h2>
-                    <p class="card-text">Esse quisquam ducimus officia ipsum ut quibusdam maxime.</p>
+                    <h4 class="card-title">Tiệc cưới</h4>
+                    <h4 class="card-text text-danger">11.899.000 VND</h4>
+                    <p class="card-text">Tiệc cưới với không gian nhà hàng trang trọng.</p>
                   </div>
                 </div>
               </div>
@@ -228,9 +227,9 @@
                 <div class="card text-white bg-dark shadow">
                   <img src="img/events-3.jpg" class="card-img" alt="Custom Parties">
                   <div class="card-img-overlay d-flex flex-column justify-content-end" style="background: rgba(0,0,0,0.6); padding:20px;">
-                    <h4 class="card-title">Custom Parties</h4>
-                    <h2 class="card-text text-danger">$99</h2>
-                    <p class="card-text">Enim facilis veritatis id est rem repudiandae nulla expedita quas.</p>
+                    <h4 class="card-title">Tiệc theo yeu cầu</h4>
+                    <h4 class="card-text text-danger">2.990.000 VND</h4>
+                    <p class="card-text">Chúng tôi mang đến những buổi tiệc theo yêu cầu riêng của bạn một cách tuyệt vời nhất</p>
                   </div>
                 </div>
               </div>
@@ -242,9 +241,9 @@
                 <div class="card text-white bg-dark shadow">
                   <img src="img/events-4.jpg" class="card-img" alt="Private Parties">
                   <div class="card-img-overlay d-flex flex-column justify-content-end" style="background: rgba(0,0,0,0.6); padding:20px;">
-                    <h4 class="card-title">Private Parties</h4>
-                    <h2 class="card-text text-danger">$289</h2>
-                    <p class="card-text">In delectus sint qui et enim. Et ab repudiandae inventore quaerat.</p>
+                    <h4 class="card-title">Tiệc riêng tư</h4>
+                    <h4 class="card-text text-danger">2.289.000 VND</h4>
+                    <p class="card-text">Chúng tôi mang đến những buổi tiệc với không gian riêng tư cho bạn.</p>
                   </div>
                 </div>
               </div>
@@ -266,8 +265,8 @@
 @* chefs *@
 <section id="chefs" class="container mt-5">
         <div class="text-center mb-4">
-            <p class="text-muted">CHEFS</p>
-            <h2 class="fw-bold"><span class="text-dark">Our</span> <span class="text-danger">Professional Chefs</span></h2>
+            <p class="text-muted">Đầu Bếp</p>
+            <h2 class="fw-bold"><span class="text-dark"><meta charset="utf-8" /></span>Những <span class="text-danger">đầu bếp chuyên nghiệp</span></h2>
         </div>
         <div class="row justify-content-center">
             <!-- Card 1 -->
@@ -280,9 +279,9 @@
                         </svg>
                     </div>
                     <div class="card-body text-center">
-                        <h5 class="card-title">Walter White</h5>
-                        <p class="text-muted">Master Chef</p>
-                        <p class="card-text">Velit aut quia fugit et et. Dolorum ea voluptate vel tempore tenetur ipsa quae aut. Qui officium suum deserere vult.</p>
+                        <h5 class="card-title">Bao Peter</h5>
+                        <p class="text-muted">Siêu đầu bếp</p>
+                        <p class="card-text">Người thổi hồn vào từng món ăn, mang đến hương vị đậm đà và trải nghiệm ẩm thực khó quên.</p>
                         <div class="social-icons">
                             <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-twitter-x"></i></a>
                             <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-facebook"></i></a>
@@ -302,9 +301,9 @@
                         </svg>
                     </div>
                     <div class="card-body text-center">
-                        <h5 class="card-title">Sarah Johnson</h5>
+                        <h5 class="card-title">Hoai Merry</h5>
                         <p class="text-muted">Patissier</p>
-                        <p class="card-text">Quo esse repellendus quia id. Est eum et accusantium pariatur fugit nihil minima suscipit corporis.</p>
+                        <p class="card-text">Với đôi tay tài hoa và niềm đam mê bếp núc, đầu bếp tạo nên những tác phẩm nghệ thuật từ nguyên liệu giản đơn.</p>
                         <div class="social-icons">
                             <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-twitter-x"></i></a>
                             <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-facebook"></i></a>
@@ -324,9 +323,9 @@
                         </svg>
                     </div>
                     <div class="card-body text-center">
-                        <h5 class="card-title">William Anderson</h5>
-                        <p class="text-muted">Cook</p>
-                        <p class="card-text">Vero omnis enim consequatur. Voluptas consectetur unde qui molestiae deserunt voluptates.</p>
+                        <h5 class="card-title">Anh William</h5>
+                        <p class="text-muted">Bậc thầy nấu ăn</p>
+                        <p class="card-text">Không chỉ nấu ăn, đầu bếp còn kể câu chuyện bằng hương vị và cảm xúc trong từng món ăn. Với cảm hứng tuyệt vời.</p>
                         <div class="social-icons">
                             <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-twitter-x"></i></a>
                             <a href="#" class="btn btn-light rounded-circle"><i class="bi bi-facebook"></i></a>
@@ -343,8 +342,8 @@
         <div class="container text-center pt-5 pb-4">
             <p class=" mb-0 text-secondary fst-italic pb-2 fs-5">GALLEY</P>
             <p>
-                <span class="fs-2">Check</span>
-                <span class="fs-2 text-danger">Our Gallery</span>
+                <span class="fs-2">Xem</span>
+                <span class="fs-2 text-danger">không gian nhà hàng</span>
             </p>
         </div>
         <div class="container pb-5">

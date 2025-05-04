@@ -1,23 +1,18 @@
-﻿@{
-    ViewData["Title"] = "Trang chủ";
-}
-
+﻿
 <div class="main" id="content">
     <nav class="navbar navbar-expand px-4 py-3">
         <div class="navbar-collapse collapse">
             <ul class="navbar-nav justify-content-between" style="width: 1380px;">
                 <li>
-                    <h2 style="font-weight: bolder;">Thông tin nhân viên</h2>
+                    <h2 style="font-weight: bolder;">Thông tin khách hàng</h2>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="ms-3 dropdown">
                     <button class="btn btn-secondary text-light dropdown-toggle d-none d-lg-block" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-user-circle"></i> @Context.Session.GetString("UserName")
                     </button>
-                    <div class="dropdown-menu dropdown-menu-end rounded" style="width: 180px;">
-                        <div class="d-flex">
-                            <a class="ms-2 cusor" href="/Customer/Account/Logout" style="color: red;">Đăng xuất</a>
-                        </div>
-                    </div>
+                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item text-danger" href="/Customer/Account/Logout">Đăng xuất</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -29,83 +24,26 @@
                     <div class="input-group d-flex align-items-center border border-dark rounded"
                          style="width: 300px;padding: 0;">
                         <i class="fa-solid fa-magnifying-glass fa-1x ms-2 "></i>
-                        <input type="text" class="form-control input-border" placeholder="Thông tin nhân viên"
+                        <input type="text" class="form-control input-border" id="timKiemKhachHang" placeholder="Thông tin khách hàng"
                                aria-label="Username" aria-describedby="basic-addon1" style="border: 0;">
                     </div>
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#them"
-                            data-bs-dismiss="modal" style="width: 135px; font-size: small;">
-                        Thêm nhân
-                        viên
-                    </button>
                 </div>
                 <div class="row mt-2">
                     <div class="col-12">
                         <table class="table">
                             <thead style="background: #0e2238;">
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Căn cước công dân</th>
-                                    <th scope="col">Họ và tên</th>
-                                    <th scope="col">Giới tính</th>
-                                    <th scope="col">Số điện thoại</th>
-                                    <th scope="col">Chức vụ</th>
-                                    <th scope="col">Địa chỉ</th>
-                                    <th scope="col"></th>
+                                    <th class="col-1" scope="col">STT</th>
+                                    <th class="col-2" scope="col">Tên khách hàng</th>
+                                    <th class="col-2" scope="col">Email</th>
+                                    <th class="col-2" scope="col">Số điện thoại</th>
+                                    <th class="col-2" scope="col">Ngày thanh toán</th>
+                                    <th class="col-2 text-center" scope="col">Tổng tiền</th>
+                                    <th class="col-1" scope="col"></th>
+
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class="row-item">
-                                    <th scope="row">1</th>
-                                    <td class="me-2">0928383992</td>
-                                    <td>Huỳnh Quốc Bảo</td>
-                                    <td>Nam</td>
-                                    <td>090013332</td>
-                                    <td>Quản lý</td>
-                                    <td>Cần Thơ</td>
-                                    <td class="d-flex  justify-content-end">
-                                        <a class="cusor me-2 mt-1" data-bs-toggle="modal"
-                                           data-bs-target="#chitiet"
-                                           style="color: darkblue; font-style: italic; text-decoration: underline;">
-                                            Chi
-                                            tiết
-                                        </a>
-                                        <button type="button" class="btn btn-warning me-2 edit-btn"
-                                                data-bs-toggle="modal" data-bs-target="#suaModal"
-                                                style="font-size: small;">
-                                            Sửa
-                                        </button>
-                                        <button type="button" class="btn btn-danger"
-                                                style="font-size: small;">
-                                            Xóa
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr class="row-item">
-                                    <th scope="row">1</th>
-                                    <td class="me-2">0938282</td>
-                                    <td>Huỳnh Quốc Bảo 1</td>
-                                    <td>Nam</td>
-                                    <td>090013332</td>
-                                    <td>Quản lý</td>
-                                    <td>Cần Thơ</td>
-                                    <td class="d-flex  justify-content-end">
-                                        <a class="cusor me-2 mt-1" data-bs-toggle="modal"
-                                           data-bs-target="#chitiet"
-                                           style="color: darkblue; font-style: italic; text-decoration: underline;">
-                                            Chi
-                                            tiết
-                                        </a>
-                                        <button type="button" class="btn btn-warning me-2 edit-btn"
-                                                data-bs-toggle="modal" data-bs-target="#suaModal"
-                                                style="font-size: small;">
-                                            Sửa
-                                        </button>
-                                        <button type="button" class="btn btn-danger"
-                                                style="font-size: small;">
-                                            Xóa
-                                        </button>
-                                    </td>
-                                </tr>
+                            <tbody id="bodyThongTinKhachHang">
                             </tbody>
                         </table>
                     </div>
@@ -113,258 +51,23 @@
             </div>
         </div>
     </main>
-    <!-- Modal thêm nhân viên -->
-    <div class="modal fade" id="them" tabindex="-1" aria-labelledby="them" aria-hidden="true">
+    <!-- Modal Đơn hàng -->
+    <div class="modal fade" id="modalKH">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content" style="border-radius: 20px;">
-                <div class="modal-header d-flex justify-content-center">
-                    <div>
-                        <h5 style="font-weight: bolder;">Thêm nhân viên</h5>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+            <div class="modal-content" style="border-radius:10px">
                 <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-6">
-                                <label for="fullname" class="ms-1 mb-1 label-modal">Họ và Tên</label>
-                                <input type="text" class="form-control" id="fullname" placeholder="" required>
-                                <span id="fullnameError" class="error text-danger"></span>
-                            </div>
-                            <div class="col-6">
-                                <label class="mb-1 ms-1 label-modal">Giới tính</label>
-                                <select class="form-select" id="gender" required>
-                                    <option value="">Chọn giới tính</option>
-                                    <option value="Nam">Nam</option>
-                                    <option value="Nữ">Nữ</option>
-                                    <option value="Khác">Khác</option>
-                                </select>
-                                <span class="error text-danger" id="genderError"></span>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-6">
-                                <label for="cccd" class="ms-1 mb-1 label-modal">
-                                    Căn cước công
-                                    dân
-                                </label>
-                                <input type="number" inputmode="numeric" class="form-control" id="cccd"
-                                       placeholder="" required>
-                                <span id="cccdError" class="error text-danger"></span>
-                            </div>
-                            <div class="col-6">
-                                <label for="phone" class="ms-1 mb-1 label-modal">Số điện thoại</label>
-                                <input type="number" class="form-control" id="phone" placeholder="" required>
-                                <span id="phoneError" class="error text-danger"></span>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-6">
-                                <label class="mb-1 ms-1 label-modal">Chức vụ</label>
-                                <select class="form-select" id="position" required>
-                                    <option value="">Chọn chức vụ</option>
-                                    <option value="Quản lý">Quản lý</option>
-                                    <option value="Bảo vệ">Bảo vệ</option>
-                                    <option value="Lễ tân">Lễ tân</option>
-                                </select>
-                                <span class="error text-danger" id="positionError"></span>
-                            </div>
-                            <div class="col-6">
-                                <label for="address" class="ms-1 mb-1 label-modal">Địa chỉ</label>
-                                <input type="text" class="form-control" id="address" placeholder="" required>
-                                <span id="addressError" class="error text-danger"></span>
-                            </div>
-
-                            <div class="row mt-1">
-                                <div class="col-6">
-                                    <label class="mb-1 ms-1 label-modal">Ảnh </label>
-                                    <input type="file" id="AddimageInput" accept="image/*">
-                                    <span class="error text-danger" id="imageError"></span>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="text-end">
+                        <button type="button" class="btn-close" onclick="modalDonHang()"></button>
                     </div>
-                </div>
-                <!-- footer -->
-                <div class="container my-2">
-                    <div class="row" style="justify-content: flex-end;">
-                        <div class="col-3 m-2 d-flex justify-content-end">
-                            <button type="button" class="btn btn-success addEmployee"
-                                    style="font-size: small;">
-                                Thêm
-                                nhân viên
-                            </button>
-                        </div>
+                    <div class="text-center">
+                        <h5 class="modal-title fw-bold mb-2 fs-3">Đơn hàng</h5>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Modal chi tiết -->
-    <div class="modal fade" id="chitiet" tabindex="-1" aria-labelledby="chitiet" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content" style="border-radius: 20px;">
-                <div class="modal-header d-flex justify-content-center">
-                    <div>
-                        <h5 style="font-weight: bolder;">Thông tin nhân viên</h5>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-2">
-                                <img src="images/team-4.jpg" alt="" style="width: 130px;">
-                                <h5 class="text-center mt-2 ms-2" style="font-weight: 600;">Quản Lý</h5>
-                            </div>
-                            <div class="col-10">
-                                <div class="container ms-3">
-                                    <div class="row">
-                                        <h4 style="font-weight: 600;">
-                                            Huỳnh Quốc Bảo
-                                        </h4>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-8">
-                                            <h6>
-                                                <span style="font-weight: 600;">
-                                                    Căn
-                                                    cước công dân:
-                                                </span>
-                                                09977364764
-                                            </h6>
-                                        </div>
-                                        <div class="col-4">
-                                            <h6>
-                                                <span style="font-weight: 600;">
-                                                    Giới
-                                                    Tính:
-                                                </span> Nam
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-8">
-                                            <h6>
-                                                <span style="font-weight: 600;">
-                                                    Số
-                                                    điện thoại:
-                                                </span> 0977476400
-                                            </h6>
-                                        </div>
-                                        <div class="col-4">
-                                            <h6>
-                                                <span style="font-weight: 600;">
-                                                    Địa
-                                                    Chỉ:
-                                                </span> Cần Thơ
-                                            </h6>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-7">
-                                            <h6>
-                                                <span style="font-weight: 600;">
-                                                    Lương
-                                                    cơ bản:
-                                                </span> 15.000.000 VND
-                                            </h6>
-                                        </div>
-                                        <div class="col-5 d-flex pe-2  justify-content-end">
-                                            <h6>
-                                                <span style="font-weight: 600;">
-                                                    Mã
-                                                    Nhân Viên:
-                                                </span> QL00001
-                                            </h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal sửa -->
-    <div class="modal fade" id="suaModal" tabindex="-1" aria-labelledby="suaModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content" style="border-radius: 20px;">
-                <div class="modal-header d-flex justify-content-center">
-                    <h5 style="font-weight: bolder;">Chỉnh sửa nhân viên</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-6">
-                                <label class="ms-1 mb-1">Họ và Tên</label>
-                                <input type="text" class="form-control" id="editFullname" required>
-                                <span class="error text-danger" id="EditNameError"></span>
-                            </div>
-                            <div class="col-6">
-                                <label class="mb-1 ms-1">Giới tính</label>
-                                <select class="form-select" id="editGender" required>
-                                    <option value="">Chọn giới tính</option>
-                                    <option value="Nam">Nam</option>
-                                    <option value="Nữ">Nữ</option>
-                                    <option value="Khác">Khác</option>
-                                </select>
-                                <span class="error text-danger" id="EditgenderError"></span>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-6">
-                                <label class="ms-1 mb-1">Căn cước công dân</label>
-                                <input type="number" class="form-control" id="editCCCD" required>
-                                <span class="error text-danger" id="EditcccdError"></span>
-                            </div>
-                            <div class="col-6">
-                                <label class="ms-1 mb-1">Số điện thoại</label>
-                                <input type="number" class="form-control" id="editPhone" required>
-                                <span class="error text-danger" id="EditphoneError"></span>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-6">
-                                <label class="ms-1 mb-1">Chức vụ</label>
-                                <select class="form-select" id="editPosition" required>
-                                    <option value="">Chọn chức vụ</option>
-                                    <option value="Quản lý">Quản lý</option>
-                                    <option value="Bảo vệ">Bảo vệ</option>
-                                    <option value="Lễ tân">Lễ tân</option>
-                                </select>
-                                <span class="error text-danger" id="EditpositionError"></span>
-                            </div>
-                            <div class="col-6">
-                                <label class="ms-1 mb-1">Địa chỉ</label>
-                                <input type="text" class="form-control" id="editAddress" required>
-                                <span class="error text-danger" id="EditaddressError"></span>
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-6">
-                                <label class="ms-1 mb-1">Ảnh </label>
-                                <input type="file" id="imageInput" accept="image/*" required>
-                                <span class="error text-danger" id="EditimageError"></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="container my-2">
-                    <div class="row" style="justify-content: flex-end;">
-                        <div class="col-3 m-2 d-flex justify-content-end">
-                            <button type="button" id="btnEdit" class="btn btn-success submit-btn"
-                                    style="font-size: small;">
-                                Đồng
-                                ý
-                            </button>
-                        </div>
+                    <hr class="m-0">
+                    <div id="donHangContent" class="scroll-content"></div> <!-- Đổ dữ liệu vào đây -->
+                    <hr class="m-0">
+                    <div class="d-flex justify-content-end mt-3 flex-column flex-md-row">
+                        <span class="f fw-bold me-2 text-center text-md-start"> Tổng thanh toán: </span>
+                        <span class="f text-warning text-center text-md-start" id="tongThanhToan">0 VND</span>
                     </div>
                 </div>
             </div>

@@ -5,7 +5,7 @@
     var vaiTroDict = ViewBag.VaiTroDict as Dictionary<int, string>;
     var vaiTroList = ViewBag.VaiTroList as List<Web_Food_4TL.Models.VaiTro>;
 }
-
+<div class="main" id="content">
 <div class="container-fluid">
     <nav class="navbar navbar-expand-lg navbar-light bg-light px-4 py-3 shadow-sm">
         <div class="container-fluid">
@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-    </nav>
+    </nav>  
 
     @if (Model == null || !Model.Any())
     {
@@ -90,7 +90,7 @@
         </nav>
     }
 </div>
-
+</div>
 <script>
     // Thay đổi vai trò người dùng
     document.querySelectorAll('.select-vai-tro').forEach(select => {

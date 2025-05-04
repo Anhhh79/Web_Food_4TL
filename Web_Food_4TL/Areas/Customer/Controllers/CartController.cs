@@ -28,9 +28,12 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             }
 
             var cartItems = await _context.GioHangs
-                .Include(g => g.MonAn)
-                .Where(g => g.NguoiDungId == userId)
-                .ToListAsync();
+    .Include(g => g.MonAn)
+        .ThenInclude(ma => ma.AnhMonAnh)
+    .Where(g => g.NguoiDungId == userId)
+    .ToListAsync();
+
+
 
             return View(cartItems);
         }
