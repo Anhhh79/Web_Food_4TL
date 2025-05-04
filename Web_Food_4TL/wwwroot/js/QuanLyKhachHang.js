@@ -50,7 +50,7 @@ function loadDonHangKH(event) {
                     htmlContent += `
                         <div class="row">
                             <div class="col-12 col-md-4 text-center my-2">
-                                <img src="${anhMonAn}" alt="" class="img-fluid" style="height:170px; width:170px;">
+                                <img src="/uploads/monan/${anhMonAn}" alt="" class="img-fluid" style="height:170px; width:170px;">
                             </div>
                             <div class="col-12 col-md-8">
                                 <div class="row mt-4 pt-3">
