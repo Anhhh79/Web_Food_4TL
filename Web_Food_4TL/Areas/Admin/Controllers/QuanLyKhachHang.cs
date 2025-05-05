@@ -83,7 +83,7 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
                             hct.MonAn.MoTa,
                             hct.MonAn.Gia,
                             DanhMuc = hct.MonAn.DanhMuc.TenDanhMuc,
-                            AnhMonAn = hct.MonAn.AnhMonAnh.OrderBy(a => a.Id).Select(a => a.Url).FirstOrDefault()
+                            AnhMonAn = "/uploads/monan/" + hct.MonAn.AnhMonAnh.OrderBy(a => a.Id).Select(a => a.Url).FirstOrDefault()
                         }
                     })
                 })
