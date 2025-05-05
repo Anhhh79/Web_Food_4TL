@@ -74,9 +74,13 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             string ipAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
                                 ?? HttpContext.Connection.RemoteIpAddress?.ToString();
 
-            // Thời gian tạo và hết hạn giao dịch
-            DateTime startTime = DateTime.Now;
-            DateTime expireTime = startTime.AddMinutes(15); // Cho phép thanh toán trong 15 phút
+            // Lấy múi giờ Việt Nam (UTC+7)
+            TimeZoneInfo vnTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"); // Windows
+                                                                                                    // Nếu dùng Linux, dùng: TimeZoneInfo.FindSystemTimeZoneById("Asia/Ho_Chi_Minh");
+
+            // Thời gian hiện tại theo múi giờ Việt Nam
+            DateTime startTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vnTimeZone);
+            DateTime expireTime = startTime.AddMinutes(1440); // 24 giờ, thay vì 1,000,000 phút
 
             var pay = new SortedDictionary<string, string>
     {
