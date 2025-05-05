@@ -305,4 +305,12 @@ p {
 .f {
     font-size: larger;
 }
+/* Ẩn menu ở thiết bị nhỏ */
+#navbarNav {
+    display: none;
+}
 
+    /* Khi thêm class "show", hiển thị menu */
+    #navbarNav.show {
+        display: block;
+    }
