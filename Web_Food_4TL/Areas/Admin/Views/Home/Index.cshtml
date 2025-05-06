@@ -53,7 +53,7 @@
     </main>
     <!-- Modal Đơn hàng -->
     <div class="modal fade" id="modalKH">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg modal-fullscreen-sm-down">
             <div class="modal-content" style="border-radius:10px">
                 <div class="modal-body">
                     <div class="text-end">
@@ -63,9 +63,9 @@
                         <h5 class="modal-title fw-bold mb-2 fs-3">Đơn hàng</h5>
                     </div>
                     <hr class="m-0">
-                    <div id="donHangContent" class="scroll-content"></div> <!-- Đổ dữ liệu vào đây -->
+                    <div id="donHangContent" class="scroll-content my-3" style="max-height: 50vh; overflow-y: auto;"></div> <!-- Đổ dữ liệu vào đây -->
                     <hr class="m-0">
-                    <div class="d-flex justify-content-end mt-3 flex-column flex-md-row">
+                    <div class="d-flex justify-content-end mt-3 flex-column flex-md-row flex-wrap">
                         <span class="f fw-bold me-2 text-center text-md-start"> Tổng thanh toán: </span>
                         <span class="f text-warning text-center text-md-start" id="tongThanhToan">0 VND</span>
                     </div>
