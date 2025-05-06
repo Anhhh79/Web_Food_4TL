@@ -71,31 +71,41 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             string orderId = DateTime.Now.Ticks.ToString();
 
             // Lấy địa chỉ IP thực tế nếu có proxy
-            string ipAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault() ?? HttpContext.Connection.RemoteIpAddress?.ToString();
+            string ipAddress = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault()
+                                ?? HttpContext.Connection.RemoteIpAddress?.ToString();
+
+            // Thời gian tạo và hết hạn giao dịch
+            DateTime startTime = DateTime.Now;
+            DateTime expireTime = startTime.AddMinutes(15); // Cho phép thanh toán trong 15 phút
 
             var pay = new SortedDictionary<string, string>
-            {
-                { "vnp_Version", "2.1.0" },
-                { "vnp_Command", "pay" },
-                { "vnp_TmnCode", vnp_TmnCode },
-                { "vnp_Amount", amount },
-                { "vnp_CurrCode", "VND" },
-                { "vnp_TxnRef", orderId },
-                { "vnp_OrderInfo", "Thanh toán đơn hàng" },
-                { "vnp_OrderType", "billpayment" },
-                { "vnp_Locale", "vn" },
-                { "vnp_ReturnUrl", vnp_Returnurl },
-                { "vnp_IpAddr", ipAddress },
-                { "vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss") }
-            };
+    {
+        { "vnp_Version", "2.1.0" },
+        { "vnp_Command", "pay" },
+        { "vnp_TmnCode", vnp_TmnCode },
+        { "vnp_Amount", amount },
+        { "vnp_CurrCode", "VND" },
+        { "vnp_TxnRef", orderId },
+        { "vnp_OrderInfo", "Thanh toán đơn hàng" },
+        { "vnp_OrderType", "billpayment" },
+        { "vnp_Locale", "vn" },
+        { "vnp_ReturnUrl", vnp_Returnurl },
+        { "vnp_IpAddr", ipAddress },
+        { "vnp_CreateDate", startTime.ToString("yyyyMMddHHmmss") },
+        { "vnp_ExpireDate", expireTime.ToString("yyyyMMddHHmmss") }
+    };
 
+            // Tạo chuỗi dữ liệu để ký
             string signData = string.Join("&", pay.Select(kv => $"{WebUtility.UrlEncode(kv.Key)}={WebUtility.UrlEncode(kv.Value)}"));
             string hash = ComputeHmacSHA512(vnp_HashSecret, signData);
             pay.Add("vnp_SecureHash", hash);
 
+            // Tạo URL thanh toán
             string paymentUrl = $"{vnp_Url}?{string.Join("&", pay.Select(kv => $"{kv.Key}={Uri.EscapeDataString(kv.Value)}"))}";
+
             return Redirect(paymentUrl);
         }
+
 
         private static string ComputeHmacSHA512(string key, string data)
         {
