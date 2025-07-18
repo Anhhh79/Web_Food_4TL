@@ -232,46 +232,73 @@
 
         @await Html.PartialAsync("_Chat")
 
-    <footer class=" bg-dark py-4 mt-5">
+    <footer class="bg-light pt-5 border-top mt-5">
         <div class="container">
-            <div class="row gy-3 mx-auto">
-                <div class="col-lg-4 col-sm-6 d-flex text-light gap-2 justify-content-center ">
-                    <i class="bi bi-geo-alt fs-5" style="color: red"></i>
-                    <div>
-                        <h4 class="mb-2">Địa chỉ</h4>
-                        <p class="mb-0" style="height:25px">A108 Nguyễn Văn Cừ</p>
-                        <p>Cần Thơ, Việt Nam</p>
-                        <p></p>
+            <div class="row">
+
+                <!-- Cột 1: Tổng đài + Thanh toán -->
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-bold"><i class="bi bi-telephone-fill me-1"></i> Tổng đài hỗ trợ miễn phí</h6>
+                    <p class="mt-3">
+                        Đặt hàng: <strong>0918463299</strong> (7h30 - 22h00)<br>
+                        Khiếu nại: <strong>0918463288</strong> (8h00 - 21h30)
+                    </p>
+
+                    <h6 class="fw-bold mt-3"><i class="bi bi-credit-card-fill me-1"></i> Phương thức thanh toán</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <img src="/img/vnpay-logo.webp" class="img-fluid" alt="">
                     </div>
                 </div>
-                <div class="col-lg-4 col-sm-6 d-flex text-light gap-2 justify-content-center ">
-                    <i class="bi bi-telephone fs-5" style="color: red"></i>
-                    <div>
-                        <h4 class="mb-2">Liên hệ</h4>
-                        <p class="mb-0" style="height:25px"><span class="fw-bold">Phone: </span>035436623</p>
-                        <p><span class="fw-bold">Email: </span>4tl@gmail.com</p>
-                        <p></p>
-                    </div>
+
+                <!-- Cột 2: Thông tin và chính sách -->
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-bold"><i class="bi bi-info-circle-fill me-1"></i> Thông tin & Chính sách</h6>
+                    <ul class="list-unstyled">
+                        <li class="my-2"><a href="#" class="text-decoration-none text-dark">Đặt hàng và thanh toán Online</a></li>
+                        <li class="my-2"><a href="#" class="text-decoration-none text-dark">Chính sách đổi trả</a></li>
+                        <li class="my-2"><a href="#" class="text-decoration-none text-dark">Thông tin hóa đơn mua hàng</a></li>
+                    </ul>
                 </div>
-                <div class="col-lg-4 col-sm-6 d-flex text-light gap-2 justify-content-center">
-                    <i class="bi bi-clock fs-5" style="color: red"></i>
-                    <div>
-                        <h4 class="mb-2">Giờ mở cửa</h4>
-                        <p class="mb-0" style="height:25px"><span class="fw-bold">T2 - T7: </span>7AM - 22PM</p>
-                        <p><span class="fw-bold">Chủ nhật: </span>Closed</p>
-                        <p></p>
+
+                <!-- Cột 3: Dịch vụ khác -->
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-bold"><i class="bi bi-shield-lock-fill me-1"></i> Dịch vụ & Thông tin khác</h6>
+                    <ul class="list-unstyled">
+                        <li class="my-2"><a href="#" class="text-decoration-none text-dark">Chính sách bảo mật thông tin cá nhân</a></li>
+                        <li class="my-2"><a href="#" class="text-decoration-none text-dark">Liên hệ hợp tác kinh doanh</a></li>
+                        <li class="my-2"><a href="#" class="text-decoration-none text-dark">Quy chế hoạt động</a></li>
+                    </ul>
+                </div>
+
+                <!-- Cột 4: Kết nối mạng xã hội + thành viên -->
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-bold"><i class="bi bi-share-fill me-1"></i> Kết nối với chúng tôi</h6>
+                    <div class="d-flex gap-2 mb-3">
+                        <a href="#"><i class="bi bi-youtube fs-4 text-danger"></i></a>
+                        <a href="#"><i class="bi bi-facebook fs-4 text-primary"></i></a>
+                        <a href="#"><i class="bi bi-instagram fs-4 text-warning"></i></a>
+                        <a href="#"><i class="bi bi-tiktok fs-4 text-dark"></i></a>
+                        <a href="#"><i class="bi bi-messenger fs-4 text-primary"></i></a>
                     </div>
+
+                    <h6 class="fw-bold"><i class="bi bi-globe2 me-1"></i> Website thành viên</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-dot me-1"></i><a href="#" class="text-decoration-none text-dark">HoaiFOOD</a></li>
+                        <li><i class="bi bi-dot me-1"></i><a href="#" class="text-decoration-none text-dark">DuyFOOD</a></li>
+                        <li><i class="bi bi-dot me-1"></i><a href="#" class="text-decoration-none text-dark">AnhFOOD</a></li>
+                        <li><i class="bi bi-dot me-1"></i><a href="#" class="text-decoration-none text-dark">BaoFOOD</a></li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <hr class="text-light">
-        <div class="container copyright text-center text-light">
-            <p class="m-0" style="height:30px">© <span>Copyright</span> <strong class="px-1 sitename">4TL</strong> <span>All Rights Reserved</span></p>
-            <div>
-                Designed by <a href="#" class="text-danger" style="text-decoration: none;">4TL</a> Distributed by <a href="#" class="text-danger" style="text-decoration: none;">4TL_Restaurant</a>
+
+            <hr>
+            <div class="text-center small text-muted pb-3">
+                © 2025 Công ty TNHH Thương Mại và Dịch Vụ Ẩm Thực FOOD-4TL - Địa chỉ: 123 Nguyễn Văn Cừ, TP. Cần Thơ | SĐT: 0918463277
             </div>
         </div>
     </footer>
+
+
 
     <!--Bootstrap JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

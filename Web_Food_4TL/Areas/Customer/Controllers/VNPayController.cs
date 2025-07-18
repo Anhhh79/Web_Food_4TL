@@ -137,7 +137,7 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
         }
 
         [HttpGet]
-        public IActionResult PaymentSuccess(string orderId)
+        public async Task<IActionResult> PaymentSuccess(string orderId)
         {
             string diaChi = HttpContext.Session.GetString("DiaChiGiaoHang") ?? "Không có";
             string soDienThoai = HttpContext.Session.GetString("SoDienThoai") ?? "Không có";
@@ -187,8 +187,57 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
             _context.GioHangs.RemoveRange(gioHang);
             _context.SaveChanges();
 
+            // GỬI EMAIL XÁC NHẬN
+            var user = _context.NguoiDungs.FirstOrDefault(u => u.Id == userId.Value);
+            if (user != null && !string.IsNullOrEmpty(user.Email))
+            {
+                try
+                {
+                    var mailHelper = new MailHelper(_configuration);
+                    string subject = "Xác nhận đơn hàng";
+                    string body = $@"
+<div style='font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;'>
+  <div style='max-width: 600px; margin: auto; background: #ffffff; border: 1px solid #ddd; border-radius: 8px; overflow: hidden;'>
+    <div style='background-color: #4CAF50; color: white; padding: 16px; text-align: center;'>
+      <h2>Đặt hàng thành công </h2>
+    </div>
+
+    <div style='padding: 20px;'>
+      <p>Chào <strong>{user.TenNguoiDung}</strong>,</p>
+      <p>Chúng tôi xin xác nhận rằng đơn hàng <strong>#{hoaDon.Id}</strong> của bạn đã được thanh toán thành công.</p>
+
+      <hr style='margin: 20px 0;' />
+
+      <p><strong> Thông tin đơn hàng:</strong></p>
+      <ul style='list-style: none; padding: 0;'>
+        <li><strong> Địa chỉ giao hàng:</strong> {diaChi}</li>
+        <li><strong> Số điện thoại:</strong> {soDienThoai}</li>
+        <li><strong> Tổng tiền:</strong> {tongTien:N0} VND</li>
+      </ul>
+
+      <p style='margin-top: 20px;'>Nếu bạn có bất kỳ câu hỏi nào, xin vui lòng liên hệ với chúng tôi qua email hoặc hotline hỗ trợ.</p>
+
+      <p style='color: #4CAF50;'><strong>Cảm ơn bạn đã mua hàng tại Web Food 4TL!</strong></p>
+    </div>
+
+    <div style='background-color: #f0f0f0; color: #888; text-align: center; padding: 12px; font-size: 12px;'>
+      © 2025 Web Food 4TL. Mọi quyền được bảo lưu.
+    </div>
+  </div>
+</div>";
+
+
+                    mailHelper.SendOrderConfirmation(user.Email, subject, body);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("❌ Lỗi khi gửi email: " + ex.Message);
+                }
+            }
+
             return View("Success");
         }
+
 
         [HttpGet]
         public IActionResult PaymentFail()
