@@ -4,10 +4,15 @@
 
      <section id="home">
         <div style="background-color: #f2f2f2;">
+
             <div class="container-md">
+
                 <div class="row py-5 align-items-center flex-column-reverse flex-lg-row">
+
                     <!-- Cột chứa nội dung -->
-                    <div class="col-lg-6 col-md-12 text-center text-lg-start">
+                    <div class="col-lg-6 col-md-12 text-center text-lg-start " >
+
+                       
                         <div>
                             <div class="font-w" style="font-size: 40px; color: orange;">Thưởng thức món ăn ngon </div>
                             <div class="font-w" style="font-size: 40px; color: orange;">và tốt cho sức khỏe của bạn</div>
@@ -32,6 +37,54 @@
         </div>
     </section>    
 
+
+<!-- About Section -->
+    <section id="about" class="about section" style="margin: 5rem 0 5rem 0">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>About Us<br></h2>
+        <p><span>Tìm Hiểu Thêm</span> <span class="description-title">FOOD-4TL</span></p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4">
+          <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100">
+            <img src="~/img/about.jpg" class="img-fluid mb-4" alt="">
+            <div class="book-a-table">
+              <h3>Đặt bàn</h3>
+              <p>+1 234 567 8910</p>
+            </div>
+          </div>
+          <div class="col-lg-5" data-aos="fade-up" data-aos-delay="250">
+            <div class="content ps-0 ps-lg-5">
+              <p class="fst-italic">
+                "Thưởng thức hương vị tuyệt vời – nơi mỗi món ăn đều mang theo tâm huyết và tình yêu với ẩm thực."
+              </p>
+              <ul>
+                <li><i class="bi bi-check-circle-fill"></i> <span>Chỉ sử dụng nguyên liệu tươi ngon, đảm bảo chất lượng trong từng món ăn.</span></li>
+                <li><i class="bi bi-check-circle-fill"></i> <span>Phục vụ nhanh chóng – giữ trọn hương vị, tiết kiệm thời gian cho bạn.</span></li>
+                <li><i class="bi bi-check-circle-fill"></i> <span>Chăm chút từng chi tiết để món ăn không chỉ ngon mà còn đẹp mắt, hợp vệ sinh.
+Luôn lắng nghe để cải thiện và mang đến trải nghiệm tuyệt vời nhất cho bạn.</span></li>
+              </ul>
+              <p>
+               Một bữa ăn ngon có thể làm ngày của bạn trở nên tuyệt vời hơn. Hương vị tinh khiết, đẳng cấp, vị ngon khó cưỡng.
+              </p>
+
+              <div class="position-relative mt-4">
+                <img src="/img/about-2.jpg" class="img-fluid" alt="">
+                <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->
+
+  
 <!-- Stats Section -->
 <section id="stats" class="stats section">
     <div class="container-fluid position-relative">
@@ -66,26 +119,33 @@
 
 
 <section id="menu" class="menu section">
-<div class="container-fluid mt-5">
-    <div class="text-center py-4">
-        <!-- Thêm padding trên dưới -->
-        <h2 class="mt-3 fs-6">MENU</h2> <!-- Thêm margin trên -->
-        <p class="mb-3">
-            <!-- Thêm margin dưới -->
-            <span class="fs-2 me-2">Xem</span>
-            <span class="menu-subtitle">4TL Menu</span>
-        </p>
-    </div>
+  <div class="container-fluid mt-5">
 
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>MENU<br></h2>
+        <p><span>Xem</span> <span class="description-title">4TL Menu</span></p>
+      </div><!-- End Section Title -->
 
+       <div class="d-flex justify-content-center mb-4 px-3 position-relative">
+                             <div class="search-box w-100" style="max-width: 480px;">
+                                <input type="text" class="form-control search-input" id="searchMenu" placeholder="Tìm kiếm món ăn..." autocomplete="off">
+                             <i class="bi bi-search search-icon"></i>
+
+                                 <!-- Danh sách gợi ý -->
+                              <ul id="suggestions" class="list-group shadow-sm"></ul>
+                          </div>
+                         </div>
 
     <!-- Tabs -->
     <ul class="nav nav-tabs justify-content-center my-3">
-        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#starters">Món khai vị</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#breakfast">Món ăn sáng</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#lunch">Món ăn trưa</a></li>
-        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#dinner">Món ăn tối</a></li>
+      <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#starters">Món khai vị</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#breakfast">Món ăn sáng</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#lunch">Món ăn trưa</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#dinner">Món ăn tối</a></li>
     </ul>
+  </div>
+</section>
 
 
 <!-- Nội dung danh mục -->
@@ -103,7 +163,7 @@
                         } else {
                             <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
                         }
-                        <h5>@monAn.TenMonAn</h5>
+                        <h5 class="dish-name">@monAn.TenMonAn</h5>
                         <p>@monAn.MoTa</p>
                         <p class="price">@string.Format("{0:N0} đ", monAn.Gia)</p>
                         <button class="btn btn-primary view-detail" data-id="@monAn.Id">Xem Chi Tiết</button>
@@ -126,7 +186,7 @@
                         } else {
                             <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
                         }
-                        <h5>@monAn.TenMonAn</h5>
+                        <h5 class="dish-name">@monAn.TenMonAn</h5>
                         <p>@monAn.MoTa</p>
                         <p class="price">@string.Format("{0:N0} đ", monAn.Gia)</p>
                         <button class="btn btn-primary view-detail" data-id="@monAn.Id">Xem Chi Tiết</button>
@@ -149,7 +209,7 @@
                         } else {
                             <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
                         }
-                        <h5>@monAn.TenMonAn</h5>
+                        <h5 class="dish-name">@monAn.TenMonAn</h5>
                         <p>@monAn.MoTa</p>
                         <p class="price">@string.Format("{0:N0} đ", monAn.Gia)</p>
                         <button class="btn btn-primary view-detail" data-id="@monAn.Id">Xem Chi Tiết</button>
@@ -172,7 +232,7 @@
                         } else {
                             <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
                         }
-                        <h5>@monAn.TenMonAn</h5>
+                        <h5 class="dish-name">@monAn.TenMonAn</h5>
                         <p>@monAn.MoTa</p>
                         <p class="price">@string.Format("{0:N0} đ", monAn.Gia)</p>
                         <button class="btn btn-primary view-detail" data-id="@monAn.Id">Xem Chi Tiết</button>
@@ -184,12 +244,16 @@
 </div>
 
 
-</div>
-</section>
 
 
 <section id="event" class="container mt-5">
+
     <div class="container py-5">
+          <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>PARTY<br></h2>
+        <p><span>Xem Thêm</span> <span class="description-title">Các buổi tiệc</span></p>
+      </div><!-- End Section Title -->
       <!-- Carousel -->
       <div id="serviceCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -264,10 +328,11 @@
   </section>
 @* chefs *@
 <section id="chefs" class="container mt-5">
-        <div class="text-center mb-4">
-            <p class="text-muted">Đầu Bếp</p>
-            <h2 class="fw-bold"><span class="text-dark"><meta charset="utf-8" /></span>Những <span class="text-danger">đầu bếp chuyên nghiệp</span></h2>
-        </div>
+        <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>CHEFS<br></h2>
+        <p><span>Đầu bếp</span> <span class="description-title">Chuyên nghiệp</span></p>
+      </div><!-- End Section Title -->
         <div class="row justify-content-center">
             <!-- Card 1 -->
             <div class="col-md-4 mb-4">
@@ -339,13 +404,11 @@
     </section>
 
 <section id="checkOut_Picture" class="section mt-5 pb-5">
-        <div class="container text-center pt-5 pb-4">
-            <p class=" mb-0 text-secondary fst-italic pb-2 fs-5">GALLEY</P>
-            <p>
-                <span class="fs-2">Xem</span>
-                <span class="fs-2 text-danger">không gian nhà hàng</span>
-            </p>
-        </div>
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>GALLEY<br></h2>
+        <p><span>Xen</span> <span class="description-title">Không gian nhà hàng</span></p>
+    </div><!-- End Section Title -->
         <div class="container pb-5">
             <div class="gallery-container">
                 <div class="swiper mySwiper">
@@ -375,3 +438,144 @@
     </div>
 </div>
 
+<script>
+const searchInput = document.getElementById('searchMenu');
+const suggestionsList = document.getElementById('suggestions');
+
+searchInput.addEventListener('input', function () {
+    const keyword = this.value.toLowerCase().trim();
+    const dishes = document.querySelectorAll('.menu-item');
+    let foundTab = null;
+    let suggestions = [];
+
+    // Nếu ô tìm kiếm rỗng thì hiển thị lại tất cả món ăn
+    if (keyword === '') {
+        clearSearch();
+        return;
+    }
+
+    // Ẩn/hiện món và thu thập gợi ý
+    dishes.forEach(dish => {
+        const nameElem = dish.querySelector('.dish-name');
+        const name = nameElem ? nameElem.textContent.toLowerCase() : '';
+        
+        if (name.includes(keyword)) {
+            dish.style.display = '';
+            suggestions.push(nameElem.textContent.trim());
+
+            if (!foundTab) {
+                const tabPane = dish.closest('.tab-pane');
+                if (tabPane) foundTab = tabPane.id;
+            }
+        } else {
+            dish.style.display = 'none';
+        }
+    });
+
+    // Gợi ý món
+    renderSuggestions(suggestions);
+
+    // Chuyển tab nếu tìm thấy
+    if (foundTab) {
+        const tabTrigger = document.querySelector(`[data-bs-toggle="tab"][href="#${foundTab}"]`);
+        if (tabTrigger && !tabTrigger.classList.contains('active')) {
+            const tab = new bootstrap.Tab(tabTrigger);
+            tab.show();
+        }
+    }
+});
+
+// Hàm render gợi ý
+function renderSuggestions(suggestions) {
+    suggestionsList.innerHTML = '';
+    if (suggestions.length === 0) {
+        suggestionsList.style.display = 'none';
+        return;
+    }
+
+    suggestions.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        li.className = 'list-group-item list-group-item-action';
+        li.addEventListener('click', function () {
+            searchInput.value = item;
+            suggestionsList.style.display = 'none';
+            searchInput.dispatchEvent(new Event('input'));
+        });
+        suggestionsList.appendChild(li);
+    });
+
+    suggestionsList.style.display = 'block';
+}
+
+// Hàm xóa tìm kiếm và hiện tất cả món ăn
+function clearSearch() {
+    const dishes = document.querySelectorAll('.menu-item');
+    dishes.forEach(dish => {
+        dish.style.display = '';
+    });
+    suggestionsList.style.display = 'none';
+    suggestionsList.innerHTML = '';
+}
+
+// Enter để cuộn xuống menu
+searchInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        const menu = document.getElementById('menu');
+        if (menu) {
+            menu.scrollIntoView({ behavior: 'smooth' });
+        }
+        this.dispatchEvent(new Event('input'));
+    }
+});
+
+// Click ngoài sẽ ẩn gợi ý
+document.addEventListener('click', function (e) {
+    if (!searchInput.contains(e.target) && !suggestionsList.contains(e.target)) {
+        suggestionsList.style.display = 'none';
+    }
+});
+</script>
+
+<style>
+/* Container của danh sách gợi ý */
+#suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: none;
+  background-color: #ffffff;
+  border-radius: 0 0 12px 12px;
+  border: 1px solid #ddd;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  padding: 0;
+  margin-top: 2px;
+}
+
+/* Từng item trong danh sách */
+.suggestion-item {
+  cursor: pointer;
+  padding: 10px 16px;
+  font-size: 16px;
+  color: #333;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* Hover đẹp */
+.suggestion-item:hover {
+  background-color: #f5f8ff;
+  color: #0d6efd;
+  font-weight: 500;
+}
+
+/* Bo góc dưới item cuối cùng */
+#suggestions li:last-child {
+  border-bottom: none;
+  border-radius: 0 0 12px 12px;
+}
+</style>
