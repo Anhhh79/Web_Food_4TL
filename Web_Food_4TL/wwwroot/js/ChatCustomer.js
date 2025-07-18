@@ -29,7 +29,9 @@
             });
         },
         error: function () {
-            alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+            toastr.error("Bạn chưa đăng nhập!", "", {
+                timeOut: 2000 // Giới hạn thời gian hiển thị là 1 giây
+            });
             $("#sendButton").prop("disabled", false);
         }
     });
