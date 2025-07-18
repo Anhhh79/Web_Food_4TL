@@ -18,6 +18,7 @@ namespace Web_Food_4TL.Data
         public DbSet<VaiTro> VaiTros { get; set; }
         public DbSet<VaiTroNguoiDung> VaiTroNguoiDungs { get; set; }
         public DbSet<TinNhan> TinNhans { get; set; }
+        public DbSet<DanhGia> DanhGias { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

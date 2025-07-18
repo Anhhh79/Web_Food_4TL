@@ -22,6 +22,16 @@ namespace Web_Food_4TL.Models
 
         public string DiaChiGiaoHang { get; set; }
 
+        public DateTime NgayNhan { get; set; }
+
+        public string TrangThaiDonHang { get; set; }
+
+        public string Lydo { get; set; }
+
+        public string LyDoTuChoi { get; set; }
+
+        public string TrangThaiGiaoHang { get; set; }
+
         public int NguoiDungId { get; set; }
         [ForeignKey("NguoiDungId")]
         public NguoiDung NguoiDung { get; set; }
