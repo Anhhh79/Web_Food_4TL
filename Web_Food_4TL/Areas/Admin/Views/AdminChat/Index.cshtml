@@ -55,87 +55,113 @@
 </div>
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script>
-        let selectedUserId = null;
+<script>
+    let selectedUserId = null;
 
-        // Tải danh sách khách hàng
-        function loadUsers() {
-            $.get("/admin/api/chat/users", function (data) {
-                const userList = $("#userList");
-                userList.empty();
+    // Tải danh sách người dùng
+    function loadUsers() {
+        $.get("/admin/api/chat/users", function (data) {
+            const userList = $("#userList");
+            userList.empty();
 
-                data.forEach(user => {
-                    const li = $(`<li class="list-group-item list-group-item-action mt-2 mb-2" style="cursor:pointer;border-radius:10px;background-color:#0e2238;width:200px;color:white">${user.tenNguoiDung}</li>`);
-                    li.click(() => loadMessages(user.nguoiDungId, user.tenNguoiDung));
-                    userList.append(li);
-                });
-            });
-        }
+            data.forEach(user => {
+                const redDot = user.soLuongTinMoi > 0
+                    ? `<span class="badge bg-danger ms-2">${user.soLuongTinMoi}</span>`
+                    : "";
 
-        // Tải tin nhắn giữa admin và user được chọn
-        function loadMessages(userId, userName) {
-            selectedUserId = userId;
-            $("#currentUserName").text(userName);
-            $("#sendBtn").prop('disabled', false);
+                const li = $(`
+                    <li class="list-group-item list-group-item-action mt-2 mb-2 d-flex justify-content-between align-items-center"
+                        style="cursor:pointer;border-radius:10px;background-color:#0e2238;width:100%;color:white">
+                        <span>${user.tenNguoiDung}${redDot}</span>
+                    </li>
+                `);
 
-            $.get(`/admin/api/chat/messages/${userId}`, function (data) {
-                const chatBox = $("#chatBox");
-                chatBox.empty();
-
-                data.messages.forEach(msg => {
-                    const messageClass = msg.laTinNhanTuKhach ? "text-start" : "text-end";
-                    const messageBg = msg.laTinNhanTuKhach ? "bg-light" : "bg-primary text-white";
-
-                    const message = $(`
-                        <div class="mb-2 ${messageClass}">
-                            <span class="p-2 rounded ${messageBg} d-inline-block">
-                                ${msg.noiDung}
-                            </span>
-                        </div>
-                    `);
-
-                    chatBox.append(message);
+                li.click(() => {
+                    selectedUserId = user.nguoiDungId;
+                    loadMessages(user.nguoiDungId, user.tenNguoiDung);
+                    markAsRead(user.nguoiDungId);
                 });
 
-                chatBox.scrollTop(chatBox[0].scrollHeight);
-            });
-        }
-
-        // Gửi tin nhắn
-        $("#sendBtn").click(function () {
-            const messageText = $("#messageInput").val().trim();
-
-            if (!messageText || selectedUserId === null)
-                return;
-
-            $.ajax({
-                url: "/admin/api/chat/send/customer",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    nguoiDungId: selectedUserId,
-                    messageText: messageText
-                }),
-                success: function (response) {
-                    $("#messageInput").val("");
-                    loadMessages(selectedUserId, $("#currentUserName").text());
-                },
-                error: function () {
-                    alert("Gửi tin nhắn thất bại!");
-                }
+                userList.append(li);
             });
         });
+    }
 
-        // Gửi khi bấm phím Enter
-        $("#messageInput").keypress(function (e) {
-            if (e.which === 13) {
-                $("#sendBtn").click();
-            }
-        });
-
-        // Tải user khi trang load
-        $(document).ready(function () {
+    // Đánh dấu đã đọc tin nhắn từ người dùng
+    function markAsRead(userId) {
+        $.post(`/admin/api/chat/mark-read/${userId}`, function () {
             loadUsers();
         });
-    </script>
+    }
+
+    // Tải tin nhắn giữa admin và người dùng
+    function loadMessages(userId, userName) {
+        $("#currentUserName").text(userName);
+        $("#sendBtn").prop('disabled', false);
+
+        $.get(`/admin/api/chat/messages/${userId}`, function (data) {
+            const chatBox = $("#chatBox");
+            chatBox.empty();
+
+            data.messages.forEach(msg => {
+                const messageClass = msg.laTinNhanTuKhach ? "text-start" : "text-end";
+                const messageBg = msg.laTinNhanTuKhach ? "bg-light" : "bg-primary text-white";
+
+                const message = $(`
+                    <div class="mb-2 ${messageClass}">
+                        <span class="p-2 rounded ${messageBg} d-inline-block">
+                            ${msg.noiDung}
+                        </span>
+                    </div>
+                `);
+
+                chatBox.append(message);
+            });
+
+            chatBox.scrollTop(chatBox[0].scrollHeight);
+        });
+    }
+
+    // Gửi tin nhắn từ admin đến người dùng
+    $("#sendBtn").click(function () {
+        const messageText = $("#messageInput").val().trim();
+        if (!messageText || selectedUserId === null) return;
+
+        $.ajax({
+            url: "/admin/api/chat/send/customer",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                nguoiDungId: selectedUserId,
+                messageText: messageText
+            }),
+            success: function () {
+                $("#messageInput").val("");
+                loadMessages(selectedUserId, $("#currentUserName").text());
+                loadUsers(); // cập nhật danh sách (đưa user lên đầu, ẩn chấm đỏ)
+            },
+            error: function () {
+                alert("Gửi tin nhắn thất bại!");
+            }
+        });
+    });
+
+    // Gửi khi nhấn Enter
+    $("#messageInput").keypress(function (e) {
+        if (e.which === 13) {
+            $("#sendBtn").click();
+        }
+    });
+
+    // Tải danh sách ban đầu và thiết lập polling mỗi 5s
+    $(document).ready(function () {
+        loadUsers();
+
+        setInterval(() => {
+            loadUsers();
+        }, 5000);
+    });
+</script>
+
 }
+
