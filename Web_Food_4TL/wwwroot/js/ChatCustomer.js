@@ -1,4 +1,16 @@
-﻿function sendMessage() {
+﻿document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("messageInput");
+    const sendButton = document.getElementById("sendMessageButton");
+
+    input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // chặn reload trang nếu trong form
+            sendMessage(); // gọi đúng hàm bạn đang dùng để gửi
+        }
+    });
+});
+
+function sendMessage() {
     let message = $("#messageInput").val().trim();
     if (message === "") return;
 
@@ -122,3 +134,4 @@ document.addEventListener("DOMContentLoaded", function () {
         chatContainer.classList.remove("show");
     });
 });
+

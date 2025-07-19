@@ -80,13 +80,16 @@
                                 <form id="formThanhToan" asp-area="Customer" asp-controller="VnPay" asp-action="Payment" method="post">
                                     <div class="mb-3">
                                         <label for="DiaChiGiaoHang" class="form-label">Địa chỉ giao hàng</label>
-                                        <input type="text" name="DiaChiGiaoHang" id="DiaChiGiaoHang" class="form-control" required>
+                                        <input type="text" name="DiaChiGiaoHang" id="DiaChiGiaoHang" class="form-control">
+                                        <div class="invalid-feedback" id="diaChiError">Vui lòng nhập địa chỉ giao hàng.</div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="SoDienThoai" class="form-label">Số điện thoại</label>
-                                        <input type="tel" name="SoDienThoai" id="SoDienThoai" class="form-control" required pattern="[0-9]{10,11}" title="Nhập số điện thoại hợp lệ (10-11 chữ số)">
+                                        <input type="tel" name="SoDienThoai" id="SoDienThoai" class="form-control">
+                                        <div class="invalid-feedback" id="soDienThoaiError">Vui lòng nhập số điện thoại hợp lệ (10-11 chữ số).</div>
                                     </div>
+
 
                                     <button type="button" class="btn btn-primary btn-block btn-lg" id="btnShowTerms">
                                         Thanh toán VNPay
@@ -156,33 +159,62 @@
         </div>
     </div>
 </div>
-
 <script>
-    document.getElementById('agreeTerms').addEventListener('change', function () {
-        document.getElementById('confirmPaymentBtn').disabled = !this.checked;
-    });
-
-        document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const showTermsBtn = document.getElementById('btnShowTerms');
         const agreeCheckbox = document.getElementById('agreeTerms');
         const confirmBtn = document.getElementById('confirmPaymentBtn');
         const formThanhToan = document.getElementById('formThanhToan');
 
-        // Khi nhấn "Thanh toán VNPay" thì show modal
-        showTermsBtn.addEventListener('click', function () {
-          const modal = new bootstrap.Modal(document.getElementById('termsModal'));
-        modal.show();
+        const diaChiInput = document.getElementById('DiaChiGiaoHang');
+        const soDienThoaiInput = document.getElementById('SoDienThoai');
+
+        // Gỡ viền đỏ khi người dùng đang nhập lại
+        diaChiInput.addEventListener('input', function() {
+            diaChiInput.classList.remove('is-invalid');
+        });
+
+        soDienThoaiInput.addEventListener('input', function() {
+            soDienThoaiInput.classList.remove('is-invalid');
+        });
+
+        // Khi nhấn "Thanh toán VNPay" thì kiểm tra dữ liệu trước khi mở modal
+        showTermsBtn.addEventListener('click', function() {
+            const diaChi = diaChiInput.value.trim();
+            const soDienThoai = soDienThoaiInput.value.trim();
+            const soDienThoaiPattern = /^[0-9]{10,11}$/;
+
+            let valid = true;
+
+            // Reset trạng thái lỗi
+            diaChiInput.classList.remove('is-invalid');
+            soDienThoaiInput.classList.remove('is-invalid');
+
+            if (diaChi === '') {
+                diaChiInput.classList.add('is-invalid');
+                valid = false;
+            }
+
+            if (!soDienThoaiPattern.test(soDienThoai)) {
+                soDienThoaiInput.classList.add('is-invalid');
+                valid = false;
+            }
+
+            if (!valid) return;
+
+            // Nếu hợp lệ thì hiện modal
+            const modal = new bootstrap.Modal(document.getElementById('termsModal'));
+            modal.show();
         });
 
         // Bật/tắt nút xác nhận trong modal
-        agreeCheckbox.addEventListener('change', function () {
+        agreeCheckbox.addEventListener('change', function() {
             confirmBtn.disabled = !this.checked;
         });
 
         // Khi nhấn "Xác nhận thanh toán" thì submit form
-        confirmBtn.addEventListener('click', function () {
+        confirmBtn.addEventListener('click', function() {
             formThanhToan.submit();
         });
-      });
-
+    });
 </script>
