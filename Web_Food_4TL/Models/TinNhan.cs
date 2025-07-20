@@ -16,6 +16,8 @@ namespace Web_Food_4TL.Models
 
         public bool LaTinNhanTuKhach { get; set; } // True nếu là khách hàng gửi, False nếu là admin gửi
 
+        public bool DaDoc { get; set; } = false;
+
         public int? NguoiDungId { get; set; } // ID người gửi (nếu có)
 
         [ForeignKey("NguoiDungId")]

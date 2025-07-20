@@ -77,18 +77,24 @@
                             <div class="col-lg-6 px-5 py-4">
                                 <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Thông tin giao hàng</h3>
 
-                                <form asp-area="Customer" asp-controller="VnPay" asp-action="Payment" method="post">
+                                <form id="formThanhToan" asp-area="Customer" asp-controller="VnPay" asp-action="Payment" method="post">
                                     <div class="mb-3">
                                         <label for="DiaChiGiaoHang" class="form-label">Địa chỉ giao hàng</label>
-                                        <input type="text" name="DiaChiGiaoHang" id="DiaChiGiaoHang" class="form-control" required>
+                                        <input type="text" name="DiaChiGiaoHang" id="DiaChiGiaoHang" class="form-control">
+                                        <div class="invalid-feedback" id="diaChiError">Vui lòng nhập địa chỉ giao hàng.</div>
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="SoDienThoai" class="form-label">Số điện thoại</label>
-                                        <input type="tel" name="SoDienThoai" id="SoDienThoai" class="form-control" required pattern="[0-9]{10,11}" title="Nhập số điện thoại hợp lệ (10-11 chữ số)">
+                                        <input type="tel" name="SoDienThoai" id="SoDienThoai" class="form-control">
+                                        <div class="invalid-feedback" id="soDienThoaiError">Vui lòng nhập số điện thoại hợp lệ (10-11 chữ số).</div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary btn-block btn-lg">Thanh toán VNPay</button>
+
+                                    <button type="button" class="btn btn-primary btn-block btn-lg" id="btnShowTerms">
+                                        Thanh toán VNPay
+                                    </button>
+
                                     @if (ViewBag.ErrorMessage != null)
                                     {
                                         <div id="cart-alert" class="alert alert-warning">@ViewBag.ErrorMessage</div>
@@ -118,3 +124,97 @@
 </section>
 
 
+<!-- Modal điều khoản thanh toán -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="termsModalLabel">Điều khoản thanh toán</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body" style="line-height: 1.7;">
+                <p><em>Vui lòng đọc kỹ các điều khoản trước khi xác nhận thanh toán đơn hàng. Việc tiếp tục thanh toán đồng nghĩa với việc bạn đồng ý với các nội dung sau:</em></p>
+
+                <p>Quý khách đang thực hiện thanh toán qua hệ thống đặt món trực tuyến của <strong>[FOOD-4TL]</strong>, hỗ trợ bởi <strong>cổng thanh toán VNPAY</strong>.</p>
+
+                <p>Các thông tin cá nhân được thu thập trong quá trình thanh toán bao gồm: <strong>thông tin thẻ/tài khoản ngân hàng</strong>, <strong>tên, số điện thoại, địa chỉ giao hàng</strong> và các thông tin liên quan đến đơn hàng. Những dữ liệu này sẽ được chuyển tiếp đến <strong>VNPAY</strong> và các <strong>ngân hàng/tổ chức trung gian thanh toán</strong> nhằm mục đích xử lý giao dịch.</p>
+
+                <p>Dữ liệu của Quý khách cũng có thể được sử dụng để: xử lý đơn hàng, xác nhận thanh toán, hỗ trợ chăm sóc khách hàng, cung cấp ưu đãi và nâng cao trải nghiệm người dùng.</p>
+
+                <p>Chúng tôi cam kết bảo mật thông tin của Quý khách theo <a href="#">chính sách bảo vệ dữ liệu cá nhân</a> và chỉ sử dụng cho các mục đích phục vụ đơn hàng.</p>
+
+                <p><small>(*) Theo Nghị định 13/2023/NĐ-CP ngày 17/4/2023, thông tin thẻ/tài khoản được xem là dữ liệu cá nhân nhạy cảm và sẽ được bảo mật theo đúng quy định pháp luật.</small></p>
+
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="agreeTerms">
+                    <label class="form-check-label" for="agreeTerms">
+                        Tôi đã đọc và đồng ý với các điều khoản thanh toán.
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer border-0 justify-content-between px-4 pb-3">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" id="confirmPaymentBtn" disabled>Xác nhận thanh toán</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const showTermsBtn = document.getElementById('btnShowTerms');
+        const agreeCheckbox = document.getElementById('agreeTerms');
+        const confirmBtn = document.getElementById('confirmPaymentBtn');
+        const formThanhToan = document.getElementById('formThanhToan');
+
+        const diaChiInput = document.getElementById('DiaChiGiaoHang');
+        const soDienThoaiInput = document.getElementById('SoDienThoai');
+
+        // Gỡ viền đỏ khi người dùng đang nhập lại
+        diaChiInput.addEventListener('input', function() {
+            diaChiInput.classList.remove('is-invalid');
+        });
+
+        soDienThoaiInput.addEventListener('input', function() {
+            soDienThoaiInput.classList.remove('is-invalid');
+        });
+
+        // Khi nhấn "Thanh toán VNPay" thì kiểm tra dữ liệu trước khi mở modal
+        showTermsBtn.addEventListener('click', function() {
+            const diaChi = diaChiInput.value.trim();
+            const soDienThoai = soDienThoaiInput.value.trim();
+            const soDienThoaiPattern = /^[0-9]{10,11}$/;
+
+            let valid = true;
+
+            // Reset trạng thái lỗi
+            diaChiInput.classList.remove('is-invalid');
+            soDienThoaiInput.classList.remove('is-invalid');
+
+            if (diaChi === '') {
+                diaChiInput.classList.add('is-invalid');
+                valid = false;
+            }
+
+            if (!soDienThoaiPattern.test(soDienThoai)) {
+                soDienThoaiInput.classList.add('is-invalid');
+                valid = false;
+            }
+
+            if (!valid) return;
+
+            // Nếu hợp lệ thì hiện modal
+            const modal = new bootstrap.Modal(document.getElementById('termsModal'));
+            modal.show();
+        });
+
+        // Bật/tắt nút xác nhận trong modal
+        agreeCheckbox.addEventListener('change', function() {
+            confirmBtn.disabled = !this.checked;
+        });
+
+        // Khi nhấn "Xác nhận thanh toán" thì submit form
+        confirmBtn.addEventListener('click', function() {
+            formThanhToan.submit();
+        });
+    });
+</script>

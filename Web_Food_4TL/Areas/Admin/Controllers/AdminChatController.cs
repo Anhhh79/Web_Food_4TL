@@ -34,12 +34,18 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
                 .Select(g => new
                 {
                     nguoiDungId = g.Key,
-                    tenNguoiDung = g.FirstOrDefault().NguoiDung.TenNguoiDung // Tên người dùng
+                    tenNguoiDung = g.FirstOrDefault().NguoiDung.TenNguoiDung,
+                    soLuongTinMoi = g.Count(m => m.LaTinNhanTuKhach && !m.DaDoc),
+                    thoiGianMoiNhat = g.Max(m => m.ThoiGianGui)
                 })
+                .OrderByDescending(g => g.thoiGianMoiNhat)
                 .ToListAsync();
 
             return Ok(users);
         }
+
+
+
 
         // Lấy toàn bộ tin nhắn giữa Admin và một người dùng cụ thể
         [HttpGet("messages/{nguoiDungId}")]
@@ -115,6 +121,24 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
                 return StatusCode(500, new { error = "Lỗi máy chủ nội bộ.", details = ex.Message });
             }
         }
+
+        [HttpPost("mark-read/{nguoiDungId}")]
+        public async Task<IActionResult> MarkMessagesAsRead(int nguoiDungId)
+        {
+            var messages = await _context.TinNhans
+                .Where(m => m.NguoiDungId == nguoiDungId && m.LaTinNhanTuKhach && !m.DaDoc)
+                .ToListAsync();
+
+            foreach (var msg in messages)
+            {
+                msg.DaDoc = true;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
 
     }
 }

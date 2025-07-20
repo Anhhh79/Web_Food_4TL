@@ -232,46 +232,107 @@
 
         @await Html.PartialAsync("_Chat")
 
-    <footer class=" bg-dark py-4 mt-5">
+    <footer class="bg-light pt-5 border-top mt-5">
         <div class="container">
-            <div class="row gy-3 mx-auto">
-                <div class="col-lg-4 col-sm-6 d-flex text-light gap-2 justify-content-center ">
-                    <i class="bi bi-geo-alt fs-5" style="color: red"></i>
-                    <div>
-                        <h4 class="mb-2">Địa chỉ</h4>
-                        <p class="mb-0" style="height:25px">A108 Nguyễn Văn Cừ</p>
-                        <p>Cần Thơ, Việt Nam</p>
-                        <p></p>
+            <div class="row">
+
+                <!-- Cột 1: Tổng đài + Thanh toán -->
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-bold"><i class="bi bi-telephone-fill me-1"></i> Tổng đài hỗ trợ miễn phí</h6>
+                    <p class="mt-3">
+                        Đặt hàng: <strong>0918463299</strong> (7h30 - 22h00)<br>
+                        Khiếu nại: <strong>0918463288</strong> (8h00 - 21h30)
+                    </p>
+
+                    <h6 class="fw-bold mt-3"><i class="bi bi-credit-card-fill me-1"></i> Phương thức thanh toán</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <img src="/img/vnpay-logo.webp" class="img-fluid" alt="">
                     </div>
+                    <h6 class="fw-bold mt-3"><i class="bi bi-telephone-fill me-1"></i> Thông tin liên hệ</h6>
+                    <p class="mt-2">
+                        Email: <strong>website4tlfood@gmail.com</strong> <br />
+                        Điện thoại: <strong>0918463266</strong> 
+                    </p>
                 </div>
-                <div class="col-lg-4 col-sm-6 d-flex text-light gap-2 justify-content-center ">
-                    <i class="bi bi-telephone fs-5" style="color: red"></i>
-                    <div>
-                        <h4 class="mb-2">Liên hệ</h4>
-                        <p class="mb-0" style="height:25px"><span class="fw-bold">Phone: </span>035436623</p>
-                        <p><span class="fw-bold">Email: </span>4tl@gmail.com</p>
-                        <p></p>
-                    </div>
+
+                <!-- Cột 2: Thông tin và chính sách -->
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-bold"><i class="bi bi-info-circle-fill me-1"></i> Thông tin & Chính sách</h6>
+                    <ul class="list-unstyled">
+                        <li class="my-2">
+                            <a href="#" class="text-decoration-none text-dark" data-bs-toggle="modal" data-bs-target="#termsModal">
+                                Đặt hàng và thanh toán Online
+                            </a>
+                        </li>
+
+                        <li class="my-2">
+                            <a href="#" class="text-decoration-none text-dark" data-bs-toggle="modal" data-bs-target="#returnPolicyModal">
+                                Chính sách đổi trả
+                            </a>
+                        </li>
+                        <li class="my-2">
+                            <a href="#" class="text-decoration-none text-dark" data-bs-toggle="modal" data-bs-target="#invoiceInfoModal">
+                                Thông tin hóa đơn mua hàng
+                            </a>
+                        </li>
+
+                    </ul>
                 </div>
-                <div class="col-lg-4 col-sm-6 d-flex text-light gap-2 justify-content-center">
-                    <i class="bi bi-clock fs-5" style="color: red"></i>
-                    <div>
-                        <h4 class="mb-2">Giờ mở cửa</h4>
-                        <p class="mb-0" style="height:25px"><span class="fw-bold">T2 - T7: </span>7AM - 22PM</p>
-                        <p><span class="fw-bold">Chủ nhật: </span>Closed</p>
-                        <p></p>
+
+                <!-- Cột 3: Dịch vụ khác -->
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-bold"><i class="bi bi-shield-lock-fill me-1"></i> Dịch vụ & Thông tin khác</h6>
+                    <ul class="list-unstyled">
+                        <li class="my-2">
+                            <a href="#" class="text-decoration-none text-dark" data-bs-toggle="modal" data-bs-target="#privacyPolicyModal">
+                                Chính sách bảo mật thông tin cá nhân
+                            </a>
+                        </li>
+
+                        <li class="my-2">
+                            <a href="#" class="text-decoration-none text-dark" data-bs-toggle="modal" data-bs-target="#partnerModal">
+                                Liên hệ hợp tác kinh doanh
+                            </a>
+                        </li>
+
+                        <li class="my-2">
+                            <a href="#" class="text-decoration-none text-dark" data-bs-toggle="modal" data-bs-target="#rulesModal">
+                                Quy chế hoạt động
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <!-- Cột 4: Kết nối mạng xã hội + thành viên -->
+                <div class="col-md-3 mb-4">
+                    <h6 class="fw-bold"><i class="bi bi-share-fill me-1"></i> Kết nối với chúng tôi</h6>
+                    <div class="d-flex gap-2 mb-3">
+                        <a href="#"><i class="bi bi-youtube fs-4 text-danger"></i></a>
+                        <a href="#"><i class="bi bi-facebook fs-4 text-primary"></i></a>
+                        <a href="#"><i class="bi bi-instagram fs-4 text-warning"></i></a>
+                        <a href="#"><i class="bi bi-tiktok fs-4 text-dark"></i></a>
+                        <a href="#"><i class="bi bi-messenger fs-4 text-primary"></i></a>
                     </div>
+
+                    <h6 class="fw-bold"><i class="bi bi-globe2 me-1"></i> Website thành viên</h6>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-dot me-1"></i><a href="#" class="text-decoration-none text-dark">HoaiFOOD</a></li>
+                        <li><i class="bi bi-dot me-1"></i><a href="#" class="text-decoration-none text-dark">DuyFOOD</a></li>
+                        <li><i class="bi bi-dot me-1"></i><a href="#" class="text-decoration-none text-dark">AnhFOOD</a></li>
+                        <li><i class="bi bi-dot me-1"></i><a href="#" class="text-decoration-none text-dark">BaoFOOD</a></li>
+                    </ul>
                 </div>
             </div>
-        </div>
-        <hr class="text-light">
-        <div class="container copyright text-center text-light">
-            <p class="m-0" style="height:30px">© <span>Copyright</span> <strong class="px-1 sitename">4TL</strong> <span>All Rights Reserved</span></p>
-            <div>
-                Designed by <a href="#" class="text-danger" style="text-decoration: none;">4TL</a> Distributed by <a href="#" class="text-danger" style="text-decoration: none;">4TL_Restaurant</a>
+
+            <hr>
+            <div class="text-center small text-muted pb-3">
+                © 2025 Công ty TNHH Thương Mại và Dịch Vụ Ẩm Thực FOOD-4TL - Địa chỉ: 123 Nguyễn Văn Cừ, TP. Cần Thơ | SĐT: 0918463277
             </div>
         </div>
     </footer>
+
+
 
     <!--Bootstrap JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -336,3 +397,290 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="termsModalLabel">
+                    Chính sách đặt hàng & thanh toán online
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body" style="line-height: 1.7;">
+                <p><em>Vui lòng đọc kỹ trước khi thanh toán. Việc tiến hành thanh toán đồng nghĩa với việc bạn đồng ý với các nội dung sau:</em></p>
+
+                <h6>1. Hình thức thanh toán</h6>
+                <p>Website chỉ hỗ trợ <strong>thanh toán trực tuyến qua VNPAY</strong>. Quý khách cần đảm bảo có tài khoản/thẻ ngân hàng hoặc ví điện tử tương thích với hệ thống VNPAY.</p>
+
+                <h6>2. Xác nhận và xử lý đơn hàng</h6>
+                <p>Sau khi thanh toán thành công, hệ thống sẽ tự động xác nhận đơn và chuyển đến bộ phận xử lý để giao món ăn theo thông tin đã cung cấp.</p>
+
+                <h6>3. Giao hàng</h6>
+                <p>Thời gian giao hàng được hiển thị tại thời điểm đặt hàng. Chúng tôi cam kết giao đúng sản phẩm, đúng thời gian và đảm bảo chất lượng món ăn.</p>
+
+                <h6>4. Hủy đơn và hoàn tiền</h6>
+                <p>Sau khi đơn hàng đã được xác nhận, <strong>không thể hủy hoặc thay đổi</strong>. Nếu có lỗi hệ thống hoặc không thể thực hiện đơn, chúng tôi sẽ hoàn tiền lại qua VNPAY trong vòng 3–7 ngày làm việc.</p>
+
+                <h6>5. Bảo mật thông tin</h6>
+                <p>Thông tin như tên, số điện thoại, địa chỉ giao hàng và dữ liệu thanh toán sẽ được sử dụng để phục vụ đơn hàng và được bảo mật theo quy định pháp luật.</p>
+
+                <p><small>(*) Theo Nghị định 13/2023/NĐ-CP, thông tin tài khoản/thanh toán là dữ liệu nhạy cảm và được bảo vệ tuyệt đối.</small></p>
+            </div>
+            <div class="modal-footer border-0 justify-content-end px-4 pb-3">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal: Chính sách đổi trả -->
+<div class="modal fade" id="returnPolicyModal" tabindex="-1" aria-labelledby="returnPolicyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="returnPolicyModalLabel">Chính sách đổi trả món ăn</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body" style="line-height: 1.75;">
+                <p>
+                    Chính sách đổi trả áp dụng cho các đơn hàng được đặt qua hệ thống của chúng tôi, nhằm đảm bảo quyền lợi và sự hài lòng của khách hàng trong quá trình sử dụng dịch vụ.
+                </p>
+
+                <h6 class="fw-bold mt-3">1. Trường hợp áp dụng đổi món</h6>
+                <ul>
+                    <li>Món ăn bị giao sai (khác với món trong đơn hàng đã xác nhận).</li>
+                    <li>Món ăn bị hư hỏng, đổ vỡ, hoặc không đạt chất lượng do quá trình vận chuyển.</li>
+                    <li>Món ăn không còn nóng, hoặc bao bì bị rách, mất niêm phong khi nhận hàng.</li>
+                </ul>
+
+                <h6 class="fw-bold mt-3">2. Điều kiện tiếp nhận yêu cầu đổi món</h6>
+                <ul>
+                    <li>Khách hàng phải thông báo tình trạng món ăn ngay tại thời điểm nhận hàng hoặc <strong>trong vòng 5 giờ</strong> kể từ khi nhận đơn.</li>
+                    <li>Cung cấp đầy đủ thông tin gồm: mã đơn hàng, hình ảnh món ăn bị lỗi và mô tả vấn đề gặp phải.</li>
+                    <li>Món ăn còn nguyên vẹn (không bị ăn dở, không bị hủy hoại thêm sau khi phát hiện lỗi).</li>
+                </ul>
+
+                <h6 class="fw-bold mt-3">3. Trường hợp không áp dụng đổi trả</h6>
+                <ul>
+                    <li>Khách hàng thay đổi ý định sau khi đã đặt món thành công.</li>
+                    <li>Món ăn không hợp khẩu vị cá nhân, không đúng mong đợi về hương vị.</li>
+                    <li>Khách không cung cấp bằng chứng rõ ràng (hình ảnh, thời gian nhận đơn,...).</li>
+                    <li>Đơn hàng đã được giao vượt quá 5 giờ trước khi yêu cầu được gửi.</li>
+                </ul>
+
+                <h6 class="fw-bold mt-3">4. Hình thức xử lý</h6>
+                <ul>
+                    <li>Đổi món mới cùng loại, gửi lại trong thời gian sớm nhất có thể.</li>
+                    <li>Hoặc hoàn lại số tiền tương ứng vào ví điện tử hoặc tài khoản ngân hàng nếu khách không đồng ý đổi món.</li>
+                    <li>Trường hợp đặc biệt sẽ được đội ngũ CSKH hỗ trợ xử lý phù hợp.</li>
+                </ul>
+
+                <p class="mt-3">
+                    Mọi yêu cầu đổi món xin vui lòng thông báo <strong>trực tiếp cho nhân viên giao hàng tại thời điểm nhận đơn</strong> hoặc qua hotline, fanpage, hoặc chatbot trên website của chúng tôi để được hỗ trợ nhanh chóng.
+                </p>
+
+                <p class="text-muted small">
+                    (*) Chính sách có thể được điều chỉnh tùy theo tình hình thực tế mà không cần thông báo trước. Vui lòng cập nhật thường xuyên trên website chính thức của chúng tôi.
+                </p>
+            </div>
+            <div class="modal-footer border-0 justify-content-end px-4 pb-3">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Thông tin hóa đơn -->
+<div class="modal fade" id="invoiceInfoModal" tabindex="-1" aria-labelledby="invoiceInfoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="invoiceInfoModalLabel">Thông tin hóa đơn mua hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body" style="line-height: 1.75;">
+                <p>
+                    Khi quý khách đặt món và thanh toán thành công qua hệ thống của chúng tôi, một hóa đơn điện tử sẽ được tạo tự động và gửi tới email hoặc tài khoản người dùng đã đăng ký.
+                </p>
+
+                <h6 class="fw-bold mt-3">1. Thông tin trên hóa đơn</h6>
+                <ul>
+                    <li>Mã đơn hàng</li>
+                    <li>Ngày giờ đặt hàng</li>
+                    <li>Tên khách hàng và số điện thoại</li>
+                    <li>Danh sách món ăn đã đặt</li>
+                    <li>Phí giao hàng (nếu có)</li>
+                    <li>Hình thức thanh toán (chỉ hỗ trợ <strong>VNPay</strong>)</li>
+                    <li>Tổng tiền đã thanh toán</li>
+                </ul>
+
+                <h6 class="fw-bold mt-3">2. Hình thức nhận hóa đơn</h6>
+                <ul>
+                    <li>Hóa đơn điện tử sẽ được gửi qua email sau khi đơn hàng được xác nhận thanh toán thành công.</li>
+                    <li>Khách hàng có thể xem lại lịch sử hóa đơn trong mục <strong>"Tài khoản > Lịch sử đơn hàng"</strong> nếu đã đăng ký tài khoản.</li>
+                </ul>
+
+                <h6 class="fw-bold mt-3">3. Điều chỉnh thông tin hóa đơn</h6>
+                <ul>
+                    <li>Khách hàng cần đảm bảo thông tin cá nhân cung cấp là chính xác trước khi thanh toán.</li>
+                    <li>Nếu có sai sót, vui lòng liên hệ bộ phận chăm sóc khách hàng trong vòng <strong>24 giờ</strong> kể từ khi nhận hóa đơn.</li>
+                </ul>
+
+                <p class="mt-3">
+                    Chúng tôi cam kết minh bạch, rõ ràng trong thông tin thanh toán và xuất hóa đơn cho mỗi đơn hàng. Nếu cần hỗ trợ thêm, vui lòng liên hệ qua các kênh hỗ trợ của chúng tôi.
+                </p>
+
+                <p class="text-muted small">
+                    (*) Hóa đơn điện tử có giá trị pháp lý tương đương hóa đơn giấy theo quy định của pháp luật hiện hành.
+                </p>
+            </div>
+            <div class="modal-footer border-0 justify-content-end px-4 pb-3">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal: Chính sách bảo mật -->
+<div class="modal fade" id="privacyPolicyModal" tabindex="-1" aria-labelledby="privacyPolicyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="privacyPolicyModalLabel">Chính sách bảo mật thông tin cá nhân</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body" style="line-height: 1.75;">
+                <p>
+                    Website bán đồ ăn của chúng tôi cam kết bảo mật tuyệt đối các thông tin cá nhân của khách hàng. Việc thu thập và sử dụng thông tin được thực hiện minh bạch, chỉ nhằm phục vụ quá trình đặt món và chăm sóc khách hàng.
+                </p>
+
+                <h6 class="fw-bold mt-3">1. Mục đích thu thập thông tin</h6>
+                <ul>
+                    <li>Xử lý đơn hàng và giao món đúng thời gian</li>
+                    <li>Liên hệ xác nhận đơn hoặc hỗ trợ khi có vấn đề phát sinh</li>
+                    <li>Gửi hóa đơn, thông báo khuyến mãi (nếu khách đồng ý)</li>
+                </ul>
+
+                <h6 class="fw-bold mt-3">2. Thông tin được thu thập</h6>
+                <ul>
+                    <li>Họ tên, số điện thoại, địa chỉ giao hàng</li>
+                    <li>Thông tin thanh toán (qua VNPay)</li>
+                    <li>Địa chỉ email (nếu có)</li>
+                </ul>
+
+                <h6 class="fw-bold mt-3">3. Cam kết bảo mật</h6>
+                <ul>
+                    <li>Thông tin cá nhân của khách hàng chỉ được sử dụng nội bộ trong hệ thống quản lý đơn hàng.</li>
+                    <li>Không chia sẻ, tiết lộ cho bên thứ ba trừ khi được sự cho phép của khách hàng hoặc yêu cầu từ cơ quan pháp luật.</li>
+                    <li>Dữ liệu được lưu trữ trên hệ thống bảo mật, có biện pháp kỹ thuật đảm bảo an toàn.</li>
+                </ul>
+
+                <h6 class="fw-bold mt-3">4. Quyền của khách hàng</h6>
+                <ul>
+                    <li>Yêu cầu kiểm tra, cập nhật, chỉnh sửa hoặc xóa thông tin cá nhân bất kỳ lúc nào.</li>
+                    <li>Hủy nhận thông báo hoặc yêu cầu ngừng sử dụng thông tin vào mục đích quảng cáo.</li>
+                </ul>
+
+                <p class="mt-3">
+                    Chúng tôi luôn tôn trọng và đề cao quyền riêng tư của khách hàng. Mọi thông tin cung cấp đều được xử lý với trách nhiệm và bảo mật cao nhất.
+                </p>
+
+                <p class="text-muted small">
+                    (*) Chính sách có thể được cập nhật và điều chỉnh tùy từng thời điểm để phù hợp với quy định pháp luật và hoạt động kinh doanh.
+                </p>
+            </div>
+            <div class="modal-footer border-0 justify-content-end px-4 pb-3">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal: Hợp tác kinh doanh -->
+<div class="modal fade" id="partnerModal" tabindex="-1" aria-labelledby="partnerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="partnerModalLabel">Liên hệ hợp tác kinh doanh</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body" style="line-height: 1.75;">
+                <p>
+                    Chúng tôi luôn chào đón các cơ hội hợp tác kinh doanh nhằm mang đến trải nghiệm ẩm thực đa dạng và chất lượng hơn cho khách hàng.
+                </p>
+
+                <h6 class="fw-bold mt-3">1. Hợp tác phân phối món ăn</h6>
+                <p>
+                    Nếu bạn là đầu bếp, chủ quán ăn, nhà hàng muốn hợp tác phân phối món ăn qua hệ thống của chúng tôi, vui lòng gửi thông tin chi tiết về món ăn, giá cả và khu vực phục vụ.
+                </p>
+
+                <h6 class="fw-bold mt-3">2. Hợp tác cung cấp nguyên liệu</h6>
+                <p>
+                    Chúng tôi ưu tiên các nhà cung cấp thực phẩm sạch, an toàn, minh bạch nguồn gốc. Vui lòng gửi danh mục sản phẩm, báo giá và điều kiện hợp tác.
+                </p>
+
+                <h6 class="fw-bold mt-3">3. Hình thức liên hệ</h6>
+                <ul>
+                    <li>Email: <a href="mailto:doitac@tenwebsitecuaban.vn">hoptac@website4tlfood.vn</a></li>
+                    <li>Hotline: <strong>0123 456 789</strong> (7h - 21h)</li>
+                    <li>Gửi biểu mẫu hợp tác tại trang <a href="/lien-he">Liên hệ</a></li>
+                </ul>
+
+                <p class="mt-3">
+                    Sau khi nhận được thông tin, đội ngũ của chúng tôi sẽ phản hồi trong vòng 1–2 ngày làm việc. Chúng tôi đánh giá cao sự hợp tác lâu dài, cùng phát triển bền vững và minh bạch.
+                </p>
+
+                <p class="text-muted small">
+                    (*) Hợp tác được xem xét dựa trên các tiêu chí phù hợp với mô hình hoạt động, khu vực phục vụ và tiêu chuẩn chất lượng của hệ thống.
+                </p>
+            </div>
+            <div class="modal-footer border-0 justify-content-end px-4 pb-3">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal: Quy chế hoạt động -->
+<div class="modal fade" id="rulesModal" tabindex="-1" aria-labelledby="rulesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="rulesModalLabel">Quy chế hoạt động</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body" style="line-height: 1.75;">
+                <p>
+                    Website bán đồ ăn của chúng tôi hoạt động với mục tiêu kết nối khách hàng với các món ăn chất lượng, phục vụ nhanh chóng và đảm bảo an toàn vệ sinh thực phẩm.
+                </p>
+
+                <h6 class="fw-bold mt-3">1. Đối tượng phục vụ</h6>
+                <p>
+                    Dịch vụ cung cấp cho tất cả khách hàng có nhu cầu đặt món ăn trực tuyến tại khu vực được hỗ trợ giao hàng.
+                </p>
+
+                <h6 class="fw-bold mt-3">2. Quy trình hoạt động</h6>
+                <ul>
+                    <li>Khách hàng đặt món ăn qua website.</li>
+                    <li>Đơn hàng được xác nhận và chuyển đến bộ phận bếp.</li>
+                    <li>Shipper thực hiện giao món đến đúng địa chỉ khách yêu cầu.</li>
+                    <li>Khách hàng nhận món và có thể yêu cầu hỗ trợ nếu có sự cố.</li>
+                </ul>
+
+                <h6 class="fw-bold mt-3">3. Trách nhiệm của các bên</h6>
+                <ul>
+                    <li><strong>Khách hàng</strong>: Cung cấp thông tin chính xác, thanh toán đúng và nhận món đúng thời gian.</li>
+                    <li><strong>Chúng tôi</strong>: Đảm bảo món ăn đúng yêu cầu, giao hàng đúng thời gian, bảo mật thông tin người dùng.</li>
+                </ul>
+
+                <h6 class="fw-bold mt-3">4. Chính sách xử lý khiếu nại</h6>
+                <p>
+                    Khi có phản hồi về món ăn giao sai, hư hỏng hoặc dịch vụ không đúng cam kết, khách hàng có thể liên hệ ngay hotline hoặc gửi yêu cầu đổi trả theo chính sách hỗ trợ trong vòng 5 giờ kể từ khi nhận hàng.
+                </p>
+
+                <p class="mt-3">
+                    Mọi hoạt động trên website tuân thủ theo quy định của pháp luật Việt Nam. Chúng tôi luôn nỗ lực nâng cao chất lượng dịch vụ và trải nghiệm người dùng.
+                </p>
+            </div>
+            <div class="modal-footer border-0 justify-content-end px-4 pb-3">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
