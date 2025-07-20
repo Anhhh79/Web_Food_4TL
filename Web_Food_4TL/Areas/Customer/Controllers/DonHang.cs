@@ -41,6 +41,8 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                     hd.NgayTao,
                     hd.DiaChiGiaoHang,
                     hd.SoDienThoai,
+                    hd.TrangThaiDonHang,
+                    hd.TrangThaiGiaoHang,
                     ChiTiets = hd.HoaDonChiTiets.Select(hct => new
                     {
                         hct.Id,

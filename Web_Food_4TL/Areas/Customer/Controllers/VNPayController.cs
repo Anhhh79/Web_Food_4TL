@@ -164,7 +164,9 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 NguoiDungId = userId.Value,
                 DiaChiGiaoHang = diaChi,
                 SoDienThoai = soDienThoai,
-                TongTien = tongTien
+                TongTien = tongTien,
+                TrangThaiDonHang = "Đã đặt hàng",
+                TrangThaiGiaoHang = "Chờ xác nhận",
             };
 
             _context.HoaDons.Add(hoaDon);
@@ -231,7 +233,7 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("❌ Lỗi khi gửi email: " + ex.Message);
+                    Console.WriteLine("Lỗi khi gửi email: " + ex.Message);
                 }
             }
 
