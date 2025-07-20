@@ -118,6 +118,36 @@ document.addEventListener('DOMContentLoaded', function () {
         currentDelta = 0;
     });
 });
+//$(document).ready(function () {
+//    $(".view-detail").click(function () {
+//        var monAnId = $(this).data("id"); // Lấy ID món ăn
+
+//        $.ajax({
+//            url: "/Customer/Home/GetMonAnDetail",
+//            type: "GET",
+//            data: { id: monAnId },
+//            success: function (data) {
+//                $("#modalContent").html(data); // Load nội dung vào modal
+
+//                // Gọi hàm đánh giá sau khi nội dung modal đã được gán
+//                viewDetail11({ dataset: { id: monAnId } });
+
+//                // Hiển thị modal
+//                var modalElement = document.getElementById("monAnDetailModal");
+//                if (modalElement) {
+//                    var modalInstance = new bootstrap.Modal(modalElement);
+//                    modalInstance.show();
+//                } else {
+//                    console.error("Không tìm thấy modal với ID monAnDetailModal");
+//                }
+//            },
+//            error: function () {
+//                alert("Có lỗi xảy ra khi tải dữ liệu.");
+//            }
+//        });
+//    });
+//});
+
 $(document).ready(function () {
     $(".view-detail").click(function () {
         var monAnId = $(this).data("id"); // Lấy ID món ăn
@@ -129,11 +159,14 @@ $(document).ready(function () {
             success: function (data) {
                 $("#modalContent").html(data); // Load nội dung vào modal
 
-                // Kiểm tra modal có tồn tại không
+                // Gọi hàm đánh giá sau khi nội dung modal đã được gán
+                viewDetail11(monAnId);
+
+                // Hiển thị modal
                 var modalElement = document.getElementById("monAnDetailModal");
                 if (modalElement) {
                     var modalInstance = new bootstrap.Modal(modalElement);
-                    modalInstance.show(); // Hiển thị modal
+                    modalInstance.show();
                 } else {
                     console.error("Không tìm thấy modal với ID monAnDetailModal");
                 }
@@ -225,4 +258,117 @@ document.querySelectorAll(".cart-price").forEach(el => {
 });
 
 
+function viewDetail11(monAnId) {
+    console.log('viewDetail11 được gọi với id:', monAnId);
+    resetDanhGia()
 
+    $.ajax({
+        url: '/Customer/DanhGia/GetAverageRatingAndDanhGias',
+        type: 'GET',
+        data: { monAnId: monAnId },
+        success: function (data) {
+            console.log(data);
+
+            // Thống kê
+            $('.averageRating1').text(data.averageRating);
+            $('#totalReviews1').text(data.totalReviews);
+            $('#totalReviews2').text(data.totalReviews);
+            $('#fiveStarCount').text(data.fiveStar);
+            $('#fourStarCount').text(data.fourStar);
+            $('#threeStarCount').text(data.threeStar);
+            $('#twoStarCount').text(data.twoStar);
+            $('#oneStarCount').text(data.oneStar);
+
+            var rating = data.averageRating; // ví dụ: 3.5
+
+            $('.saoTrungBinh').each(function () {
+                var value = $(this).data('value');
+                $(this).removeClass('fas fa-star fas fa-star-half-alt far fa-star text-warning text-muted');
+
+                if (value <= Math.floor(rating)) {
+                    $(this).addClass('fas fa-star text-warning'); // sao đầy
+                } else if (value - 1 < rating && rating < value) {
+                    $(this).addClass('fas fa-star-half-alt text-warning'); // nửa sao
+                } else {
+                    $(this).addClass('far fa-star text-muted'); // sao rỗng
+                }
+            });
+
+
+
+            // Render danh sách
+            var html = '';
+
+            if (data.danhGias.length === 0) {
+                html = `
+        <div class="text-center text-muted mt-3">
+            <i class="bi bi-info-circle-fill"></i> Chưa có đánh giá nào cho món ăn này.
+        </div>
+    `;
+            } else {
+                data.danhGias.forEach(function (item) {
+                    html += `
+            <div class="mb-4">
+                <p class="mb-2">
+                    <b><span>${item.tenNguoiDung}</span> :</b>
+                    <b><span class="text-warning">${item.soSao} sao</span></b>
+                </p>
+                <p class="text-break mb-2">
+                    <span>${item.noiDung}</span>
+                </p>
+                <p class="text-muted small">
+                    Thời gian: <span>${item.thoiGian}</span>
+                </p>
+            </div>
+        `;
+
+                    if (item.noiDungPhanHoi && item.noiDungPhanHoi !== "Chưa phản hồi") {
+                        html += `
+                <div class="mb-4">
+                    <p class="mb-2">
+                        <b><span class="text-danger">Food 4TL:</span> <span class="text-success">đã trả lời</span> </b>
+                    </p>
+                    <p class="text-break mb-2">
+                        <span>${item.noiDungPhanHoi}</span>
+                    </p>
+                </div>
+            `;
+                    }
+
+                    html += `<hr style="border: none; border-top: 1px dashed #ccc;" class="my-2">`;
+                });
+            }
+
+            $('#bodyDanhGia').html(html);
+
+
+            $('#bodyDanhGia').html(html);
+            $('#monAnDetailModal').modal('show');
+        },
+        error: function () {
+            alert('Có lỗi xảy ra!');
+        }
+    });
+}
+
+function resetDanhGia() {
+    // Reset sao TB
+    $('#averageRating1').text('0');
+
+    // Reset tổng đánh giá
+    $('#totalReviews1').text('0');
+    $('#totalReviews2').text('0');
+
+    // Reset đếm sao
+    $('#fiveStarCount').text('0');
+    $('#fourStarCount').text('0');
+    $('#threeStarCount').text('0');
+    $('#twoStarCount').text('0');
+    $('#oneStarCount').text('0');
+
+    // Reset màu sao
+    $('.saoTrungBinh').removeClass('text-warning');
+
+    // Xóa danh sách đánh giá cũ
+    $('#bodyDanhGia').html('');
+}
