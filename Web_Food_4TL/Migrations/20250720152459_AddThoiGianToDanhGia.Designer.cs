@@ -12,8 +12,8 @@ using Web_Food_4TL.Data;
 namespace Web_Food_4TL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250718071310_dbbb")]
-    partial class dbbb
+    [Migration("20250720152459_AddThoiGianToDanhGia")]
+    partial class AddThoiGianToDanhGia
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,43 @@ namespace Web_Food_4TL.Migrations
                     b.HasIndex("MonAnId");
 
                     b.ToTable("AnhMonAns");
+                });
+
+            modelBuilder.Entity("Web_Food_4TL.Models.DanhGia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("MonAnId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NguoiDungId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NoiDungDanhGia")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NoiDungPhanHoi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SoSao")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ThoiGian")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MonAnId");
+
+                    b.HasIndex("NguoiDungId");
+
+                    b.ToTable("DanhGias");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.DanhMuc", b =>
@@ -127,6 +164,15 @@ namespace Web_Food_4TL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LyDoTuChoi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Lydo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("NgayNhan")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
 
@@ -142,6 +188,12 @@ namespace Web_Food_4TL.Migrations
 
                     b.Property<string>("TrangThai")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrangThaiDonHang")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrangThaiGiaoHang")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -299,6 +351,9 @@ namespace Web_Food_4TL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("DaDoc")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("LaTinNhanTuKhach")
                         .HasColumnType("bit");
 
@@ -390,6 +445,25 @@ namespace Web_Food_4TL.Migrations
                         .IsRequired();
 
                     b.Navigation("MonAnh");
+                });
+
+            modelBuilder.Entity("Web_Food_4TL.Models.DanhGia", b =>
+                {
+                    b.HasOne("Web_Food_4TL.Models.MonAn", "MonAnh")
+                        .WithMany()
+                        .HasForeignKey("MonAnId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Web_Food_4TL.Models.NguoiDung", "NguoiDung")
+                        .WithMany()
+                        .HasForeignKey("NguoiDungId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("MonAnh");
+
+                    b.Navigation("NguoiDung");
                 });
 
             modelBuilder.Entity("Web_Food_4TL.Models.GioHang", b =>

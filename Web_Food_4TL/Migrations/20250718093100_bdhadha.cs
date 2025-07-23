@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Web_Food_4TL.Migrations
 {
     /// <inheritdoc />
-    public partial class data : Migration
+    public partial class bdhadha : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -89,6 +89,11 @@ namespace Web_Food_4TL.Migrations
                     NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SoDienThoai = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DiaChiGiaoHang = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NgayNhan = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TrangThaiDonHang = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Lydo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LyDoTuChoi = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TrangThaiGiaoHang = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NguoiDungId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -182,6 +187,35 @@ namespace Web_Food_4TL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DanhGias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NoiDungDanhGia = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SoSao = table.Column<int>(type: "int", nullable: false),
+                    NoiDungPhanHoi = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MonAnId = table.Column<int>(type: "int", nullable: false),
+                    NguoiDungId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DanhGias", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DanhGias_MonAns_MonAnId",
+                        column: x => x.MonAnId,
+                        principalTable: "MonAns",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_DanhGias_NguoiDungs_NguoiDungId",
+                        column: x => x.NguoiDungId,
+                        principalTable: "NguoiDungs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GioHangs",
                 columns: table => new
                 {
@@ -260,7 +294,7 @@ namespace Web_Food_4TL.Migrations
                 values: new object[,]
                 {
                     { 1, "Khách Hàng" },
-                    { 2, "Quản lý" }
+                    { 2, "Quản Lý" }
                 });
 
             migrationBuilder.InsertData(
@@ -278,6 +312,16 @@ namespace Web_Food_4TL.Migrations
                 name: "IX_AnhMonAns_MonAnId",
                 table: "AnhMonAns",
                 column: "MonAnId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DanhGias_MonAnId",
+                table: "DanhGias",
+                column: "MonAnId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DanhGias_NguoiDungId",
+                table: "DanhGias",
+                column: "NguoiDungId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GioHangs_MonAnId",
@@ -340,6 +384,9 @@ namespace Web_Food_4TL.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AnhMonAns");
+
+            migrationBuilder.DropTable(
+                name: "DanhGias");
 
             migrationBuilder.DropTable(
                 name: "GioHangs");

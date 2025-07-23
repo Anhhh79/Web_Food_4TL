@@ -15,6 +15,7 @@ namespace Web_Food_4TL.Models
         // Nội dung phản hồi từ chủ quán hoặc admin
         public string NoiDungPhanHoi { get; set; }
 
+        public DateTime ThoiGian { get; set; }
 
         public int MonAnId { get; set; }
         [ForeignKey("MonAnId")]
