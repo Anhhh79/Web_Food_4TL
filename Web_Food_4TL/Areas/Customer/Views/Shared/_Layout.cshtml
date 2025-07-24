@@ -23,103 +23,80 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 </head>
 <body>
-    <header class=" shadow-sm sticky-top">
-        <!-- Navbar -->
-        <nav class="navbar py-3 navbar-expand-lg bg-white">
-            <div class="container-lg">
-                <!-- Logo -->
-                
-                <a class="navbar-brand fw-bold fs-3" style="color: #37373f;" areas="Customer" asp-controller="Home" asp-action="Index">
-                    <img src="/img/HI.gif" style="height: 40px;" class="rounded me-2 mb-1" /><span class="text-danger">FOOD-4TL</span>
-                </a>
+<header class="shadow-sm sticky-top bg-white">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg py-3">
+        <div class="container-lg d-flex justify-content-between align-items-center">
+
+            <!-- Logo -->
+            <a class="navbar-brand fw-bold fs-3 d-flex align-items-center" asp-controller="Home" asp-action="Index">
+                <img src="/img/HI.gif" style="height: 40px;" class="rounded me-2 mb-1" />
+                <span class="text-danger">FOOD-4TL</span>
+            </a>
+
+            <!-- Toggler for mobile -->
+                <!-- Nút toggler -->
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#navbarMain"
+                        aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
 
-                <!-- Phần chứa button + icon menu -->
-                <div class="d-flex align-items-center d-lg-none">
-                    @if (Context.Session.GetInt32("UserId") == null)
-                    {
-                            <a href="/Customer/Cart/Index" class="btn btn-warning me-3 ms-2 d-lg-none d-none" id="cartButton">
-                                Giỏ hàng (<span class="cartCount">@Context.Session.GetInt32("cartCount")</span>)
-                        </a>
-                    }
-                    else if (Context.Request.Path != "/customer/cart/index")
-                    {
-                        <a href="/Customer/Cart/Index" class="btn btn-warning me-3 ms-2 d-lg-none" id="cartButton">
-                            Giỏ hàng (<span class="cartCount">@Context.Session.GetInt32("cartCount")</span>)
-                        </a>
-                    }
+            <!-- Navbar center links -->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarMain">
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item mx-2"><a class="nav-link fw-bold" href="#home">Trang Chủ</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link fw-bold" href="#stats">Tổng Quan</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link fw-bold" href="#menu">Thực đơn</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link fw-bold" href="#event">Sự Kiện</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link fw-bold" href="#chefs">Đầu Bếp</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link fw-bold" href="#checkOut_Picture">Giới Thiệu</a></li>
+                </ul>
+            </div>
 
-                    <a href="#menu" style="color: white;" class="btn btn-success rounded-pill px-4 d-lg-none me-3">ĐẶT HÀNG</a>
-                    @if (Context.Session.GetInt32("UserId") == null){
-                        <a class="btn btn-primary rounded-pill px-4 d-lg-none text-light me-2" onclick="modalLogin()">Đăng Nhập</a>
-                    }
-                    else
-                    {
-                        <div class="me-2 dropdown">
-                            <button class="btn btn-secondary text-light dropdown-toggle d-lg-none" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa fa-user-circle"></i> @Context.Session.GetString("UserName")
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                                <li><a class="dropdown-item text-danger" href="/Customer/Account/Logout">Đăng xuất</a></li>
-                                <li>
-                                    <a class="dropdown-item text-success" onclick="loadDonHang()">
-                                        <i class="fa-solid fa-cart-shopping"></i> Đơn hàng
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    }
-                    <button class="navbar-toggler" type="button">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                </div>
-
-                <!-- Navbar links -->
-                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item font-w mx-2"><a class="nav-link font-cl hv-cl fw-bolder" href="#home">Trang Chủ</a></li>
-                        <li class="nav-item font-w mx-2"><a class="nav-link font-cl hv-cl fw-bolder" href="#stats">Tổng Quan</a></li>
-                        <li class="nav-item font-w mx-2"><a class="nav-link font-cl hv-cl fw-bolder" href="#menu">Thực đơn</a></li>
-                        <li class="nav-item font-w mx-2"><a class="nav-link font-cl hv-cl fw-bolder" href="#event">Sự Kiện</a></li>
-                        <li class="nav-item font-w mx-2"><a class="nav-link font-cl hv-cl fw-bolder" href="#chefs">Đầu Bếp</a></li>
-                        <li class="nav-item font-w mx-2"><a class="nav-link font-cl hv-cl fw-bolder" href="#checkOut_Picture">Giới Thiệu</a></li>
-                    </ul>
-                </div>
-
+            <!-- Right-side buttons -->
+            <div class="d-flex align-items-center">
                 @if (Context.Session.GetInt32("UserId") != null && Context.Request.Path != "/customer/cart/index")
                 {
-                        <a href="/Customer/Cart/Index" class="btn btn-warning me-3 d-none d-lg-block" id="cartButton">
-                            Giỏ hàng (<span class="cartCount">@Context.Session.GetInt32("cartCount")</span>)
-                        </a>
+                    <a href="/Customer/Cart/Index" class="btn btn-warning me-2 d-none d-lg-inline">
+                        Giỏ hàng (<span class="cartCount">@Context.Session.GetInt32("cartCount")</span>)
+                    </a>
                 }
+                <a href="#menu" class="btn btn-success rounded-pill px-3 me-2 d-none d-lg-inline text-white">ĐẶT HÀNG</a>
 
-                <!-- Button Desktop -->
-                <div>
-                    <a href="#menu" style="color: white;" class="btn btn-success rounded-pill px-4 d-none d-lg-block">ĐẶT HÀNG</a>
-                </div>
                 @if (Context.Session.GetInt32("UserId") == null)
                 {
-                    <div class="ms-3">
-                        <a class="btn bg-primary rounded-pill px-4 d-none d-lg-block text-light" onclick="modalLogin()">
-                            Đăng Nhập
-                        </a>
-                    </div>
+                    <button class="btn btn-primary rounded-pill px-3 text-white d-none d-lg-inline" onclick="modalLogin()">Đăng Nhập</button>
                 }
                 else
                 {
-                    <div class="ms-3 dropdown">
-                        <button class="btn btn-secondary text-light dropdown-toggle d-none d-lg-block" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-user-circle"></i> @Context.Session.GetString("UserName") 
+                    <div class="dropdown d-none d-lg-inline">
+                        <button class="btn btn-secondary text-white dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-user-circle"></i> @Context.Session.GetString("UserName")
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        <ul class="dropdown-menu">
                             <li><a class="dropdown-item text-danger" href="/Customer/Account/Logout">Đăng xuất</a></li>
                             <li><a class="dropdown-item text-success" onclick="loadDonHang()"><i class="fa-solid fa-cart-shopping"></i> Đơn hàng</a></li>
                         </ul>
                     </div>
                 }
-
-                
             </div>
+        </div>
+    </nav>
+
+    <!-- Search bar dưới navbar -->
+    <div class="bg-light py-2">
+        <div class="container-lg d-flex justify-content-center">
+            <div class="position-relative w-100" style="max-width: 600px;">
+                <input type="text" class="form-control search-input" id="searchMenu" placeholder="Tìm kiếm món ăn..." autocomplete="off">
+                <i class="bi bi-search search-icon position-absolute top-50 end-0 translate-middle-y me-3 text-muted"></i>
+                <ul id="suggestions" class="list-group shadow-sm position-absolute w-100 mt-1"></ul>
+            </div>
+        </div>
+    </div>
+</header>
+
         </nav>
     </header>
 
@@ -389,11 +366,14 @@
 
                     <h6 class="fw-bold mt-3"><i class="bi bi-credit-card-fill me-1"></i> Phương thức thanh toán</h6>
                     <div class="d-flex flex-wrap gap-2">
-                        <img src="/img/vnpay-logo.webp" class="img-fluid" alt="">
+                        <button class="border-0 bg-transparent p-0" data-bs-toggle="modal" data-bs-target="#vnpayModal" title="Xem chi tiết thanh toán VNPay">
+                            <img src="/img/vnpay-logo.webp" class="img-fluid" alt="VNPay" style="height: 40px; cursor: pointer;">
+                        </button>
+
                     </div>
                     <h6 class="fw-bold mt-3"><i class="bi bi-telephone-fill me-1"></i> Thông tin liên hệ</h6>
                     <p class="mt-2">
-                        Email: <strong>website4tlfood@gmail.com</strong> <br />
+                        Email: <strong>cskh@food4tl.com</strong> <br />
                         Điện thoại: <strong>0918463266</strong> 
                     </p>
                 </div>
@@ -416,6 +396,11 @@
                         <li class="my-2">
                             <a href="#" class="text-decoration-none text-dark" data-bs-toggle="modal" data-bs-target="#invoiceInfoModal">
                                 Thông tin hóa đơn mua hàng
+                            </a>
+                        </li>
+                        <li class="my-2">
+                            <a href="#" class="text-decoration-none text-dark" data-bs-toggle="modal" data-bs-target="#shippingModal">
+                                Thông tin vận chuyển và giao vận
                             </a>
                         </li>
 
@@ -470,7 +455,12 @@
 
             <hr>
             <div class="text-center small text-muted pb-3">
-                © 2025 Công ty TNHH Thương Mại và Dịch Vụ Ẩm Thực FOOD-4TL - Địa chỉ: 123 Nguyễn Văn Cừ, TP. Cần Thơ | SĐT: 0918463277
+                © 2025. <strong>Công ty TNHH Thương Mại và Dịch Vụ Ẩm Thực FOOD-4TL</strong>.
+                GPDKKD: 1801234567 do Sở KH&ĐT TP. Cần Thơ cấp ngày 01/01/2025.<br>
+                Địa chỉ: 123 Nguyễn Văn Cừ, TP. Cần Thơ. Điện thoại: <a href="tel:0918463277">0918 463 277</a>.
+                Email: <a href="mailto:lienhe@food4tl.vn">lienhe@food4tl.vn</a>.<br>
+                Chịu trách nhiệm nội dung: Phan Văn Hoài – Giám đốc.
+                Website đã <strong>thông báo với Bộ Công Thương</strong> theo Nghị định 52/2013/NĐ-CP.
             </div>
         </div>
     </footer>
@@ -479,6 +469,12 @@
      <!-- Thư viện thông báo đẹp -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<!-- Bootstrap JS: Chỉ cần 1 dòng này -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Swiper JS (nếu dùng slider) -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
     <!--Bootstrap JS-->
@@ -520,14 +516,7 @@
             }
         });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const toggler = document.querySelector(".navbar-toggler");
-            const nav = document.querySelector("#navbarNav");
-
-            toggler.addEventListener("click", function () {
-                nav.classList.toggle("show");
-            });
-        });
+        
     </script>
    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -822,6 +811,12 @@
                 <p>
                     Khi có phản hồi về món ăn giao sai, hư hỏng hoặc dịch vụ không đúng cam kết, khách hàng có thể liên hệ ngay hotline hoặc gửi yêu cầu đổi trả theo chính sách hỗ trợ trong vòng 5 giờ kể từ khi nhận hàng.
                 </p>
+                <h6 class="fw-bold mt-3">5. Cam kết pháp luật & bảo vệ người tiêu dùng</h6>
+                <ul>
+                    <li>Website có cơ chế rà soát, loại bỏ thông tin sai/tráo trở.</li>
+                    <li>Thực hiện báo cáo và hợp tác với các cơ quan thanh tra khi phát hiện sai phạm.</li>
+                    <li>Tuân thủ quy định về bảo vệ dữ liệu cá nhân, an ninh mạng theo NĐ 52/2013 và NĐ 85/2021.</li>
+                </ul>
 
                 <p class="mt-3">
                     Mọi hoạt động trên website tuân thủ theo quy định của pháp luật Việt Nam. Chúng tôi luôn nỗ lực nâng cao chất lượng dịch vụ và trải nghiệm người dùng.
@@ -829,6 +824,116 @@
             </div>
             <div class="modal-footer border-0 justify-content-end px-4 pb-3">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal: Chi tiết thanh toán VNPay -->
+<div class="modal fade" id="vnpayModal" tabindex="-1" aria-labelledby="vnpayModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-3 shadow-lg">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="rulesModalLabel">Chi tiết phương thức thanh toán qua VNPay</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Để tạo thuận tiện tối đa cho khách hàng khi đặt hàng trên hệ thống, chúng tôi hỗ trợ thanh toán trực tuyến thông qua
+                    <strong>VNPay</strong> – một trong những cổng thanh toán uy tín và bảo mật hàng đầu tại Việt Nam.
+                </p>
+
+                <h6 class="fw-bold mt-3">1. Các hình thức thanh toán được VNPay hỗ trợ</h6>
+                <ul>
+                    <li><strong>Thẻ ATM nội địa</strong> của hơn 40 ngân hàng tại Việt Nam (yêu cầu đăng ký Internet Banking).</li>
+                    <li><strong>Thẻ quốc tế</strong>: Visa, Mastercard, JCB, UnionPay (tín dụng hoặc ghi nợ).</li>
+                    <li><strong>Ví điện tử VNPay</strong>: quét mã QR, thanh toán trong vài giây mà không cần nhập thông tin thẻ.</li>
+                </ul>
+
+                <h6 class="fw-bold mt-3">2. Quy trình thanh toán</h6>
+                <ol>
+                    <li>Chọn sản phẩm và đặt hàng như bình thường.</li>
+                    <li>Ở bước thanh toán, chọn <strong>“Thanh toán qua VNPay”</strong>.</li>
+                    <li>Hệ thống sẽ tự động chuyển hướng đến cổng VNPay để bạn xác nhận và thực hiện giao dịch.</li>
+                    <li>Sau khi thanh toán thành công, đơn hàng sẽ được xác nhận và xử lý ngay lập tức.</li>
+                </ol>
+
+                <h6 class="fw-bold mt-3">3. Lợi ích khi thanh toán bằng VNPay</h6>
+                <ul>
+                    <li> <strong>Bảo mật tuyệt đối:</strong> VNPay áp dụng tiêu chuẩn bảo mật PCI DSS và mã hóa SSL đa lớp.</li>
+                    <li> <strong>Nhanh chóng:</strong> giao dịch hoàn tất chỉ trong vài giây.</li>
+                    <li> <strong>Khuyến mãi:</strong> thường xuyên có các chương trình ưu đãi hoàn tiền, giảm giá khi thanh toán qua VNPay.</li>
+                </ul>
+
+                <h6 class="fw-bold mt-3">4. Lưu ý quan trọng</h6>
+                <ul>
+                    <li>Sau khi chuyển sang cổng VNPay, vui lòng không đóng trình duyệt cho đến khi giao dịch hoàn tất.</li>
+                    <li>Nếu gặp sự cố trong quá trình thanh toán, bạn có thể thử lại hoặc liên hệ bộ phận hỗ trợ.</li>
+                    <li>Giao dịch chỉ được xem là hoàn tất khi bạn nhận được xác nhận từ hệ thống và email đơn hàng.</li>
+                </ul>
+
+                <p class="mt-4 mb-0 text-muted fst-italic">Mọi thông tin giao dịch đều được ghi nhận bởi hệ thống bảo mật cao. Nếu cần hỗ trợ, quý khách vui lòng liên hệ qua hotline hoặc email chăm sóc khách hàng của chúng tôi.</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Vận chuyển & giao nhận -->
+<div class="modal fade" id="shippingModal" tabindex="-1" aria-labelledby="shippingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow rounded-4">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="shippingModalLabel">
+                    Chính sách vận chuyển & giao nhận
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body" style="line-height: 1.8;">
+                <p>Chúng tôi cam kết mang đến trải nghiệm giao hàng nhanh chóng, an toàn và đúng thời gian. Dưới đây là các quy định chi tiết về chính sách vận chuyển & giao nhận:</p>
+
+                <h6>1. Thời gian giao hàng</h6>
+                <ul>
+                    <li><strong>Thời gian ước tính:</strong> dao động từ <strong>10–40 phút</strong> kể từ khi đơn hàng được xác nhận, tùy thuộc vào vị trí địa lý và điều kiện giao thông tại thời điểm giao hàng.</li>
+                    <li>Khung thời gian này được tính từ lúc đơn hàng được hệ thống xử lý hoàn tất và chuyển đến bộ phận giao nhận.</li>
+                    <li>Trong giờ cao điểm hoặc thời tiết xấu, thời gian có thể bị ảnh hưởng. Chúng tôi sẽ thông báo nếu có thay đổi lớn.</li>
+                </ul>
+
+                <h6>2. Phạm vi giao hàng</h6>
+                <ul>
+                    <li>Hiện tại chúng tôi chỉ hỗ trợ giao hàng trong phạm vi <strong>nội thành thành phố Cần Thơ</strong>.</li>
+                    <li>Đối với các địa chỉ <strong>ngoài khu vực nội thành</strong>, hệ thống sẽ kiểm tra khả năng phục vụ và hiển thị thông báo cụ thể khi đặt hàng.</li>
+                    <li>Trường hợp đơn hàng nằm ngoài khu vực hỗ trợ, <strong>phí giao hàng phụ thu</strong> hoặc thời gian giao hàng bổ sung có thể được áp dụng.</li>
+                </ul>
+
+                <h6>3. Quy định khi giao trễ</h6>
+                <ul>
+                    <li>Nếu đơn hàng được <strong>giao trễ quá 40 phút</strong> so với thời gian dự kiến, khách hàng có quyền:</li>
+                    <ul>
+                        <li>Hủy đơn hàng ngay tại thời điểm nhận thông báo giao trễ.</li>
+                        <li>Yêu cầu hoàn tiền 100% nếu đã thanh toán qua VNPAY.</li>
+                    </ul>
+                    <li>Vui lòng liên hệ bộ phận CSKH qua hotline hoặc chat trực tuyến để xử lý yêu cầu.</li>
+                </ul>
+
+                <h6>4. Trường hợp bất khả kháng</h6>
+                <ul>
+                    <li>Trong các tình huống như thiên tai, dịch bệnh, giãn cách xã hội hoặc sự kiện bất khả kháng khác, thời gian và phạm vi giao hàng có thể thay đổi mà không cần thông báo trước.</li>
+                    <li>Chúng tôi sẽ cố gắng thông báo sớm nhất có thể nếu đơn hàng bị ảnh hưởng.</li>
+                </ul>
+
+                <h6>5. Trách nhiệm giao nhận</h6>
+                <ul>
+                    <li>Nhân viên giao hàng sẽ liên hệ qua số điện thoại quý khách cung cấp để xác nhận địa chỉ hoặc hỗ trợ giao tận tay.</li>
+                    <li>Khách hàng có trách nhiệm đảm bảo điện thoại hoạt động trong thời gian giao hàng để tránh trễ hoặc thất lạc đơn hàng.</li>
+                    <li>Trong trường hợp không thể liên hệ hoặc không có người nhận, đơn hàng sẽ được xử lý theo chính sách giao không thành công và không hoàn tiền.</li>
+                </ul>
+
+                <p class="mt-4"><em>Mọi thắc mắc về chính sách vận chuyển & giao nhận, quý khách vui lòng liên hệ trung tâm hỗ trợ để được giải đáp nhanh chóng.</em></p>
+            </div>
+            <div class="modal-footer border-0 justify-content-end px-4 pb-3">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
             </div>
         </div>
     </div>
