@@ -70,17 +70,23 @@ function showOrderList() {
     </td>
     <td>${donHang.tenKhachHang}</td>
     <td>${donHang.soDienThoai || 'Không có số'}</td>
-    <td class="text-nowrap text-truncate"
+    <td class="text-nowrap text-truncate text-center"
         style="max-width: 200px; cursor: help;"
         title="${donHang.diaChiGiaoHang}">
         ${donHang.diaChiGiaoHang}
     </td>
     <td class="text-center">${donHang.tongTien.toLocaleString('vi-VN')} VND</td>
-    <td>
-        <a class="btn btn-success btn-sm" onclick="confirmOrder('${donHang.id}')">
+     <td>
+    <div class="d-flex">
+        <a class="btn btn-primary btn-sm" onclick = "chiTietDonHangModal('${donHang.id}'), modalXemChiTiet()">
+            Chi tiết
+        </a>
+        <a class="btn btn-success btn-sm ms-2" onclick="confirmOrder('${donHang.id}')">
             Xác nhận
         </a>
-    </td>
+    </div>
+</td>
+
 </tr>
 
                     `;
@@ -110,24 +116,31 @@ function showDangGiaoList() {
                 donHangList.forEach(function (donHang, index) {
                     html += `
                       <tr>
-    <td>${index + 1}</td>
-    <td>
-        ${donHang.ngayDatHang}
-    </td>
-    <td>${donHang.tenKhachHang}</td>
-    <td>${donHang.soDienThoai || 'Không có số'}</td>
-    <td class="text-nowrap text-truncate"
-        style="max-width: 200px; cursor: help;"
-        title="${donHang.diaChiGiaoHang}">
-        ${donHang.diaChiGiaoHang}
-    </td>
-    <td class="text-center">${donHang.tongTien.toLocaleString('vi-VN')} VND</td>
-   <td>
-                                        <a class="btn btn-success btn-sm" onclick="completeOrder('${donHang.id}')">
-                                            Đã giao
-                                        </a>
-                                    </td>
+  <td>${index + 1}</td>
+  <td>${donHang.ngayDatHang}</td>
+  <td>${donHang.tenKhachHang}</td>
+  <td>${donHang.soDienThoai || 'Không có số'}</td>
+  <td class="text-nowrap text-truncate"
+      style="max-width: 200px; cursor: help;"
+      title="${donHang.diaChiGiaoHang}">
+    ${donHang.diaChiGiaoHang}
+  </td>
+  <td class="text-center">
+    ${donHang.tongTien.toLocaleString('vi-VN')} VND
+  </td>
+  <!-- Ô chứa 2 nút -->
+  <td>
+    <div class="d-flex gap-2">
+     <a class="btn btn-primary btn-sm" onclick = "chiTietDonHangModal('${donHang.id}'), modalXemChiTiet()">
+            Chi tiết
+        </a>
+      <a class="btn btn-success btn-sm" onclick="completeOrder('${donHang.id}')">
+        Đã giao
+      </a>
+    </div>
+  </td>
 </tr>
+
 
                     `;
                 });
@@ -168,6 +181,9 @@ function showHoanThanhList() {
         ${donHang.diaChiGiaoHang}
     </td>
     <td class="text-center">${donHang.tongTien.toLocaleString('vi-VN')} VND</td>
+    <td><a class="btn btn-primary btn-sm" onclick = "chiTietDonHangModal('${donHang.id}'), modalXemChiTiet()">
+            Chi tiết
+        </a></td>
 </tr>
 
                     `;
@@ -209,11 +225,16 @@ function showYeuCauDoiTraList() {
         ${donHang.diaChiGiaoHang}
     </td>
     <td class="text-center">${donHang.tongTien.toLocaleString('vi-VN')} VND</td>
-    <td>
-                                        <a href="#" onclick="showReason('${donHang.lydo}'), openAcceptModal(${donHang.id})">
+                                     <td>
+    <div class="d-flex gap-2">
+     <a class="btn btn-primary btn-sm" onclick = "chiTietDonHangModal('${donHang.id}'), modalXemChiTiet()">
+            Chi tiết
+        </a>
+      <a href="#" onclick="showReason('${donHang.lydo}'), openAcceptModal(${donHang.id})">
                                             Xem lý do
                                         </a>
-                                    </td>
+    </div>
+  </td>
 </tr>
 
                     `;
@@ -236,7 +257,6 @@ function showReason(lyDo) {
     $('#exchangeReasonModal').modal('show'); // Hiển thị modal
     $('#exchangeReason').val(lyDo);
 }
-
 
 //hàm hiển thị đơn hàng đổi trả
 function showDoiTraList() {
@@ -263,6 +283,9 @@ function showDoiTraList() {
         ${donHang.diaChiGiaoHang}
     </td>
     <td class="text-center">${donHang.tongTien.toLocaleString('vi-VN')} VND</td>
+    <td><a class="btn btn-primary btn-sm" onclick = "chiTietDonHangModal('${donHang.id}'), modalXemChiTiet()">
+            Chi tiết
+        </a></td>
 </tr>
 
                     `;
@@ -457,3 +480,110 @@ function RejectDoiTra(idHd) {
         }
     });
 }
+
+//Hàm mở modal 
+function modalXemChiTiet() {
+    $('#modalDonHangAd').modal('toggle');
+}
+
+// Hàm hiển thị danh sách chi tiet đơn hàng
+function chiTietDonHangModal(id) {
+    // URL API: truyền thẳng id đơn hàng
+    const apiUrl = `/Admin/QuanLyDonHang/GetDanhSachChiTiet/${id}`;
+
+    // Reset nội dung modal
+    $("#donHangContent").empty();
+    $("#tongThanhToan").text("0 VND");
+
+    // Mở modal ngay (đỡ phải gọi nhiều chỗ)
+
+    $.ajax({
+        url: apiUrl,
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+
+            if (!response.success || !Array.isArray(response.data) || response.data.length === 0) {
+                $("#donHangContent").html(
+                    '<p class="text-center text-muted">Không có đơn hàng nào.</p>'
+                );
+                return;
+            }
+
+            let htmlContent = "";
+            let tongTien = 0;
+
+            response.data.forEach(donHang => {
+                // cộng tổng tiền của đơn
+                tongTien += donHang.tongTien;
+
+                if (Array.isArray(donHang.chiTiets) && donHang.chiTiets.length) {
+                    donHang.chiTiets.forEach(chiTiet => {
+                        const anhMonAn = chiTiet.monAn?.anhMonAn || "default.jpg";
+                        const danhMuc = chiTiet.monAn?.danhMuc || "Không xác định";
+                        const ngayThanhToan = new Date(donHang.ngayTao)
+                            .toLocaleDateString();
+                        const tongGia = (chiTiet.gia * chiTiet.soLuong)
+                            .toLocaleString();
+
+                        htmlContent += `
+                            <div class="row py-3 align-items-center">
+                                <div class="col-12 col-md-4 text-center">
+                                    <img 
+                                        src="/uploads/monan/${anhMonAn}" 
+                                        alt="${chiTiet.tenMonAn}" 
+                                        class="img-fluid" 
+                                        style="height:170px; width:170px;"
+                                    >
+                                </div>
+                                <div class="col-12 col-md-8">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <h5>${chiTiet.tenMonAn}</h5>
+                                            <p class="mb-1">
+                                                <strong>Số lượng:</strong> ${chiTiet.soLuong}
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="mb-1">
+                                                <strong>Ngày thanh toán:</strong> ${ngayThanhToan}
+                                            </p>
+                                            <p class="mb-1">
+                                                <strong>Danh mục:</strong> ${danhMuc}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-sm-6">
+                                            <p class="mb-0">
+                                                <strong>Giá:</strong> ${chiTiet.gia.toLocaleString()} VND
+                                            </p>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <p class="mb-0">
+                                                <strong>Tổng:</strong> ${tongGia} VND
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-0">
+                        `;
+                    });
+                }
+            });
+
+            $("#donHangContentModal").html(htmlContent);
+            $("#tongThanhToanModal").text(`${tongTien.toLocaleString()} VND`);
+        },
+        error: function (xhr, status, error) {
+            console.error("📌 Lỗi AJAX:", xhr.responseText || error);
+            $("#donHangContentModal").html(
+                '<p class="text-center text-danger">Lỗi khi tải đơn hàng!</p>'
+            );
+        }
+    });
+}
+
+
+

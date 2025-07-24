@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.FlowAnalysis.DataFlow;
 using Microsoft.EntityFrameworkCore;
 using Web_Food_4TL.Data;
+using Web_Food_4TL.Services;
 
 namespace Web_Food_4TL.Areas.Admin.Controllers
 {
@@ -96,7 +98,7 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
             try
             {
                 var donHangDangGiao = await _context.HoaDons
-                .Where(h => h.TrangThaiDonHang == "Đã duyệt")
+                .Where(h => h.TrangThaiGiaoHang == "Đang giao")
                 .Select(h => new
                 {
                     h.Id,
@@ -270,11 +272,16 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
                 {
                     return Json(new { success = false, message = "Đơn hàng không tồn tại." });
                 }
-                donHang.TrangThaiDonHang = "Hoàn thành"; // Cập nhật trạng thái đơn hàng
                 donHang.TrangThaiGiaoHang = "Đã giao";
                 donHang.NgayNhan = DateTime.Now;
                 _context.HoaDons.Update(donHang);
                 await _context.SaveChangesAsync();
+
+                // Lên lịch job chạy sau 5 phút
+                BackgroundJob.Schedule<OrderService>(
+             svc => svc.AutoCompleteIfNoReturn(id),
+             TimeSpan.FromMinutes(1));
+
                 return Json(new { success = true, message = "Cập nhật đơn hàng thành công." });
             }
             catch (Exception)
@@ -329,6 +336,58 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
                 return Json(new { success = false, message = "Lỗi server!" });
             }
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetDanhSachChiTiet(int id)
+        {
+            try
+            {
+                var donHangs = await _context.HoaDons
+                    .AsNoTracking()
+                    .Where(hd => hd.Id == id)
+                    .OrderByDescending(hd => hd.NgayTao)
+                    .Select(hd => new
+                    {
+                        hd.Id,
+                        hd.TongTien,
+                        hd.TrangThai,
+                        hd.NgayTao,
+                        hd.DiaChiGiaoHang,
+                        hd.SoDienThoai,
+                        ChiTiets = hd.HoaDonChiTiets.Select(hct => new
+                        {
+                            hct.Id,
+                            hct.TenMonAn,
+                            hct.SoLuong,
+                            hct.Gia,
+                            MonAn = new
+                            {
+                                hct.MonAn.Id,
+                                hct.MonAn.TenMonAn,
+                                hct.MonAn.MoTa,
+                                hct.MonAn.Gia,
+                                DanhMuc = hct.MonAn.DanhMuc.TenDanhMuc,
+                                AnhMonAn = hct.MonAn.AnhMonAnh
+                                    .OrderBy(a => a.Id)
+                                    .Select(a => a.Url)
+                                    .FirstOrDefault()
+                            }
+                        })
+                    })
+                    .ToListAsync();
+
+                return Json(new { success = true, data = donHangs });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    success = false,
+                    message = "Đã có lỗi xảy ra khi truy xuất dữ liệu.",
+                    error = ex.Message  // hoặc không expose chi tiết exception ra client tùy policy
+                });
+            }
         }
     }
 }
