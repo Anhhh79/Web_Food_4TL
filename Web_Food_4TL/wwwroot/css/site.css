@@ -345,15 +345,6 @@ p {
 .f {
     font-size: larger;
 }
-/* Ẩn menu ở thiết bị nhỏ */
-#navbarNav {
-    display: none;
-}
-
-    /* Khi thêm class "show", hiển thị menu */
-    #navbarNav.show {
-        display: block;
-    }
 
 .about h3 {
     font-weight: 700;
@@ -500,3 +491,44 @@ h6 {
         .section-title p .description-title {
             color: var(--accent-color);
         }
+.navbar-nav .nav-link {
+    transition: color 0.3s;
+    font-weight: bold;
+}
+
+    .navbar-nav .nav-link:hover {
+        color: #ff3e3e;
+    }
+.navbar-nav .nav-link {
+    font-weight: bold;
+    position: relative;
+    transition: color 0.2s;
+}
+
+    .navbar-nav .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%; /* bắt đầu giữa */
+        transform: translateX(-50%); /* căn giữa thanh */
+        width: 0;
+        height: 2px;
+        background-color: #dc3545;
+        transition: width 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover::after,
+    .navbar-nav .nav-link.active::after {
+        width: 80%; /* hoặc 30%-50% tùy bạn */
+    }
+
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+        color: #dc3545;
+    }
+@media (max-width: 991.98px) {
+    .navbar-nav .nav-link::after {
+        display: none;
+    }
+
+}
