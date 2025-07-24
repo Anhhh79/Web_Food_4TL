@@ -96,7 +96,7 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
             try
             {
                 var donHangDangGiao = await _context.HoaDons
-                .Where(h => h.TrangThaiDonHang == "Đã duyệt")
+                .Where(h => h.TrangThaiGiaoHang == "Đang giao")
                 .Select(h => new
                 {
                     h.Id,
@@ -270,7 +270,6 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
                 {
                     return Json(new { success = false, message = "Đơn hàng không tồn tại." });
                 }
-                donHang.TrangThaiDonHang = "Hoàn thành"; // Cập nhật trạng thái đơn hàng
                 donHang.TrangThaiGiaoHang = "Đã giao";
                 donHang.NgayNhan = DateTime.Now;
                 _context.HoaDons.Update(donHang);

@@ -43,6 +43,8 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
         {
             var hd = await _context.HoaDons
                 .Include(h => h.HoaDonChiTiets)
+                    .ThenInclude(ct => ct.MonAn)
+                        .ThenInclude(ma => ma.AnhMonAnh)
                 .FirstOrDefaultAsync(h => h.Id == id);
             if (hd == null) return NotFound();
 
@@ -53,38 +55,58 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
                 hd.TrangThaiGiaoHang,
                 hd.Lydo,
                 hd.LyDoTuChoi,
+                hd.SoDienThoai,
+                hd.DiaChiGiaoHang,
                 HoaDonChiTiets = hd.HoaDonChiTiets.Select(d => new {
+                    d.MonAnId,
                     d.TenMonAn,
                     d.SoLuong,
-                    d.Gia
+                    d.Gia,
+                    AnhMonAn = d.MonAn.AnhMonAnh != null && d.MonAn.AnhMonAnh.Count > 0 ? d.MonAn.AnhMonAnh.First().Url : null
                 })
             });
         }
 
+
         // POST: /Customer/HoaDon/CapNhatTrangThai/5
-        [HttpPost("{id}")]
-        public async Task<IActionResult> CapNhatTrangThai(int id, [FromBody] dynamic body)
+        [HttpPost("CapNhatTrangThai/{id}")]
+        public async Task<IActionResult> CapNhatTrangThai(int id, [FromBody] System.Text.Json.JsonElement body)
         {
             var hd = await _context.HoaDons.FindAsync(id);
             if (hd == null) return NotFound();
 
-            hd.TrangThaiDonHang = (string)body.TrangThaiDonHang;
+            string trangThai = body.GetProperty("trangThai").GetString();
+            hd.TrangThaiDonHang = trangThai;
+            if (trangThai == "Hoàn thành")
+            {
+                hd.NgayNhan = DateTime.Now;
+            }
+
             _context.Update(hd);
             await _context.SaveChangesAsync();
-            return Ok();
+            return Json(new { success = true });
         }
 
         // POST: /Customer/HoaDon/GuiYeuCauHoanTien/5
-        [HttpPost("{id}")]
-        public async Task<IActionResult> GuiYeuCauHoanTien(int id, [FromBody] dynamic body)
+        [HttpPost("GuiYeuCauHoanTien/{id}")]
+        public async Task<IActionResult> GuiYeuCauHoanTien(int id, [FromBody] System.Text.Json.JsonElement body)
         {
-            var hd = await _context.HoaDons.FindAsync(id);
-            if (hd == null) return NotFound();
+            try
+            {
+                var hd = await _context.HoaDons.FindAsync(id);
+                if (hd == null) return NotFound();
 
-            hd.Lydo = (string)body.Lydo;
-            _context.Update(hd);
-            await _context.SaveChangesAsync();
-            return Ok();
+                string lyDo = body.GetProperty("Lydo").GetString();
+                hd.Lydo = lyDo;
+                hd.TrangThaiDonHang = "Chờ đổi trả";
+                _context.Update(hd);
+                await _context.SaveChangesAsync();
+                return Json(new { success = true, message = "Yêu cầu hoàn tiền đã được gửi thành công" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message, stack = ex.StackTrace });
+            }
         }
     }
 }
