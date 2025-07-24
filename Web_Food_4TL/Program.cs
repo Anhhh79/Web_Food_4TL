@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hangfire;
+using Hangfire.SqlServer;
+using Microsoft.EntityFrameworkCore;
 using Web_Food_4TL.Data;
+using Web_Food_4TL.Services;
 
 //123
 var builder = WebApplication.CreateBuilder(args);
@@ -7,9 +10,34 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
+
 //sql
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
+
+// Cấu hình Hangfire với storage SQL Server
+builder.Services.AddHangfire(config => config
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSqlServerStorage(
+        builder.Configuration.GetConnectionString("Default"),
+        new SqlServerStorageOptions
+        {
+            CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+            QueuePollInterval = TimeSpan.FromSeconds(15),
+            UseRecommendedIsolationLevel = true,
+            DisableGlobalLocks = true
+        }
+    )
+);
+
+// Đăng ký Hangfire server để chạy background job
+builder.Services.AddHangfireServer();
+// Đăng ký service chứa job method, nếu cần DI
+builder.Services.AddScoped<OrderService>();
 
 // Thêm Session vào dịch vụ
 builder.Services.AddSession(options =>
@@ -20,6 +48,9 @@ builder.Services.AddSession(options =>
 });
 
 var app = builder.Build();
+
+// Dashboard (tuỳ chọn) để theo dõi job
+app.UseHangfireDashboard("/hangfire");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

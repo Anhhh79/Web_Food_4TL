@@ -1,0 +1,147 @@
+﻿<div class="main" id="contentThanhToan">
+    <nav class="navbar navbar-expand px-4 py-3">
+        <div class="navbar-collapse collapse">
+            <ul class="navbar-nav justify-content-between" style="width: 1380px;">
+                <li>
+                    <h2 style="font-weight: bolder;">Quản lý đơn hàng</h2>
+                </li>
+                <li class="ms-3 dropdown">
+                    <button class="btn btn-secondary text-light dropdown-toggle d-none d-lg-block" id="userDropdown" data-bs-toggle="dropdown">
+                        <i class="fa fa-user-circle"></i> @Context.Session.GetString("UserName")
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-danger" href="/Customer/Account/Logout">Đăng xuất</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main class="content px-3 py-3">
+        <div class="container-fluid">
+            <div>
+                <div class="row align-items-center mb-3">
+                    <!-- Cột tìm kiếm bên trái -->
+                    <div class="col-md-3">
+                        
+                            
+                    </div>
+
+                    <!-- Cột chứa button, đẩy sang phải -->
+                    <div class="col-md-9 d-flex justify-content-end">
+                        <div class="d-flex gap-2">
+                            <a class="btn btn-primary text-center"
+                               asp-controller="QuanLyDonHang"
+                               asp-action="Index"
+                               style="width: 150px;">
+                                Chờ xác nhận
+                            </a>
+                            <a class="btn btn-primary text-center"
+                               asp-controller="QuanLyDonHang"
+                               asp-action="ViewDonDangGiao"
+                               style="width: 150px;">
+                                Đơn đang giao
+                            </a>
+                            <a class="btn btn-primary text-center"
+                               asp-controller="QuanLyDonHang"
+                               asp-action="ViewDonYeuCauDoiTra"
+                               style="width: 150px;">
+                                Yêu cầu đổi trả
+                            </a>
+                            <a class="btn btn-secondary text-center"
+                               asp-controller="QuanLyDonHang"
+                               asp-action="ViewDonDoiTra"
+                               style="width: 150px; pointer-events: none;">
+                                Đơn đổi trả
+                            </a>
+                            <a class="btn btn-primary text-center"
+                               asp-controller="QuanLyDonHang"
+                               asp-action="ViewDonHoanThanh"
+                               style="width: 160px;">
+                                Đơn hoàn thành
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <table class="table">
+                            <thead style="background: #0e2238;">
+                                <tr>
+                                    <th scope="col" class="col-1">STT</th>
+                                    <th scope="col" class="col-2">Thời gian</th>
+                                    <th scope="col" class="col-2">Tên khách hàng</th>
+                                    <th scope="col" class="col-2">Số điện thoại</th>
+                                    <th scope="col" class="col text-center">Địa chỉ</th>
+                                    <th scope="col" class="col-2 text-center">Thanh toán</th>
+                                    <th scope="col" class="col-1"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="listDoiTra">
+                                
+                            </tbody>
+                        </table>
+                        <!-- Modal xem ly do -->
+                        <div class="modal fade" id="exchangeReasonModal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Header -->
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exchangeReasonModalLabel">Lý do đổi hàng</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                    </div>
+                                    <!-- Body: textarea readonly -->
+                                    <div class="modal-body">
+                                        <div class="mb-4">
+                                            <textarea id="exchangeReason"
+                                                      class="form-control"
+                                                      rows="5"
+                                                      readonly>Khách hàng yêu cầu đổi sản phẩm vì kích thước không phù hợp và muốn đổi sang size lớn hơn.</textarea>
+                                        </div>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn btn-danger me-2" id="btnReject" onclick="modalXemLyDo()" data-bs-toggle="modal" data-bs-target="#rejectReasonModal">
+                                                Từ chối
+                                            </button>
+                                            <button type="button" class="btn btn-success" id="btnAccept" onclick="showConfirmModal('Đồng ý đổi trả, đơn hàng này sẽ được chuyển thành đơn đổi trả !')">
+                                                Đồng ý
+                                            </button>
+                                        </div>
+                                        
+                                    </div>
+                                   
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!--Modal Nhập lý do từ chối-->
+                        <div class="modal fade" id="rejectReasonModal" tabindex="-1" aria-labelledby="rejectReasonModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="rejectReasonModalLabel">Lý do từ chối đổi hàng</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <textarea id="rejectReason" class="form-control" rows="4" placeholder="Ví dụ: Sản phẩm đã hết hàng..."></textarea>
+                                        </div>
+                                        <div class="d-flex justify-content-end ">
+                                            <!-- Hủy: đóng modal thứ hai -->
+                                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Huỷ</button>
+                                            <!-- Xác nhận: gắn logic xử lý -->
+                                            <button type="button" class="btn btn-danger" id="btnConfirmReject" onclick="showConfirmModal('Từ chối đổi trả, đơn hàng này sẽ được chuyển thành đơn hoàn thành!')">Xác nhận</button>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
