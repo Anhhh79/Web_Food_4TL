@@ -46,7 +46,9 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("TenMonAn,MoTa,Gia,DanhMucId")] MonAn monAn, List<IFormFile> files)
+        public async Task<IActionResult> Create(
+            [Bind("TenMonAn,MoTa,Gia,DanhMucId")] MonAn monAn,
+            List<IFormFile> files)
         {
             ModelState.Remove("DanhMuc");
             ModelState.Remove("AnhMonAnh");
@@ -56,12 +58,20 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
                 return Json(new { success = false, message = "Danh mục không hợp lệ." });
             }
 
+            // ——————————————
+            // VALIDATION CHO GIÁ
+            if (monAn.Gia <= 0)
+            {
+                ModelState.AddModelError(nameof(monAn.Gia), "Giá phải là số nguyên dương.");
+            }
+            // ——————————————
+
             if (ModelState.IsValid)
             {
                 _context.MonAns.Add(monAn);
                 await _context.SaveChangesAsync();
 
-                if (files != null && files.Count > 0)
+                if (files?.Any() == true)
                 {
                     await SaveImages(monAn.Id, files);
                 }
@@ -69,13 +79,19 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
             }
             else
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
                 return Json(new { success = false, message = "Dữ liệu không hợp lệ.", errors });
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TenMonAn,MoTa,Gia,DanhMucId")] MonAn monAn, List<IFormFile> files)
+        public async Task<IActionResult> Edit(
+            int id,
+            [Bind("Id,TenMonAn,MoTa,Gia,DanhMucId")] MonAn monAn,
+            List<IFormFile> files)
         {
             // Bỏ qua validation cho DanhMuc và AnhMonAnh
             ModelState.Remove("DanhMuc");
@@ -89,15 +105,26 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
                 return Json(new { success = false, message = "Món ăn không tồn tại." });
             }
 
+            // ——————————————
+            // VALIDATION CHO GIÁ
+            if (monAn.Gia <= 0)
+            {
+                ModelState.AddModelError(nameof(monAn.Gia), "Giá phải là số nguyên dương.");
+            }
+            // ——————————————
+
             if (!ModelState.IsValid)
             {
-                var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                var errors = ModelState.Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
                 return Json(new { success = false, message = "Lỗi dữ liệu", errors });
             }
 
             // Xử lý xóa ảnh theo checkbox "imagesToDelete" từ form
             var imagesToDelete = Request.Form["imagesToDelete"].ToList();
-            if (imagesToDelete != null && imagesToDelete.Any())
+            if (imagesToDelete.Any())
             {
                 foreach (var imgIdStr in imagesToDelete)
                 {
@@ -106,12 +133,10 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
                         var image = existingMonAn.AnhMonAnh.FirstOrDefault(a => a.Id == imgId);
                         if (image != null)
                         {
-                            // Xóa file ảnh khỏi thư mục
                             string path = Path.Combine(_webHostEnvironment.WebRootPath, "uploads", "monan", image.Url);
                             if (System.IO.File.Exists(path))
-                            {
                                 System.IO.File.Delete(path);
-                            }
+
                             _context.AnhMonAns.Remove(image);
                         }
                     }
@@ -125,7 +150,7 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
             existingMonAn.DanhMucId = monAn.DanhMucId;
 
             // Nếu có file mới, lưu ảnh mới
-            if (files != null && files.Count > 0)
+            if (files?.Any() == true)
             {
                 await SaveImages(existingMonAn.Id, files);
             }
@@ -133,6 +158,7 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return Json(new { success = true });
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
