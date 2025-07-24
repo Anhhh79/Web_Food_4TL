@@ -280,7 +280,7 @@ namespace Web_Food_4TL.Areas.Admin.Controllers
                 // Lên lịch job chạy sau 5 phút
                 BackgroundJob.Schedule<OrderService>(
              svc => svc.AutoCompleteIfNoReturn(id),
-             TimeSpan.FromMinutes(1));
+             TimeSpan.FromMinutes(5));
 
                 return Json(new { success = true, message = "Cập nhật đơn hàng thành công." });
             }
