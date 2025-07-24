@@ -164,7 +164,24 @@ Luôn lắng nghe để cải thiện và mang đến trải nghiệm tuyệt v�
                             <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
                         }
                         <h5 class="dish-name">@monAn.TenMonAn</h5>
-                        <p>@monAn.MoTa</p>
+                        <div class="star-rating2 mb-2">
+                            @for (var i = 1; i <= 5; i++)
+                            {
+                                if (i <= Math.Floor(monAn.SaoTrungBinh))
+                                {
+                                    <i class="fas fa-star text-warning"></i> <!-- Sao đầy -->
+                                }
+                                else if (i - monAn.SaoTrungBinh < 1 && monAn.SaoTrungBinh % 1 >= 0.5)
+                                {
+                                    <i class="fas fa-star-half-alt text-warning"></i> <!-- Sao nửa -->
+                                }
+                                else
+                                {
+                                    <i class="far fa-star text-warning"></i> <!-- Sao rỗng -->
+                                }
+                            }
+                        </div>
+
                         <p class="price">@string.Format("{0:N0} đ", monAn.Gia)</p>
                         <button class="btn btn-primary view-detail"  data-id="@monAn.Id">Xem Chi Tiết</button>
                     </div>
@@ -187,7 +204,13 @@ Luôn lắng nghe để cải thiện và mang đến trải nghiệm tuyệt v�
                             <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
                         }
                         <h5 class="dish-name">@monAn.TenMonAn</h5>
-                        <p>@monAn.MoTa</p>
+                        <div class="star-rating2 mb-2">
+                            <label><i class="fas fa-star saoTrungBinh" data-value="1"></i></label>
+                            <label><i class="fas fa-star saoTrungBinh" data-value="2"></i></label>
+                            <label><i class="fas fa-star saoTrungBinh" data-value="3"></i></label>
+                            <label><i class="fas fa-star saoTrungBinh" data-value="4"></i></label>
+                            <label><i class="fas fa-star saoTrungBinh" data-value="5"></i></label>
+                        </div>
                         <p class="price">@string.Format("{0:N0} đ", monAn.Gia)</p>
                         <button class="btn btn-primary view-detail"  data-id="@monAn.Id">Xem Chi Tiết</button>
                     </div>
@@ -210,7 +233,13 @@ Luôn lắng nghe để cải thiện và mang đến trải nghiệm tuyệt v�
                             <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
                         }
                         <h5 class="dish-name">@monAn.TenMonAn</h5>
-                        <p>@monAn.MoTa</p>
+                        <div class="star-rating2 mb-2">
+                            <label><i class="fas fa-star saoTrungBinh" data-value="1"></i></label>
+                            <label><i class="fas fa-star saoTrungBinh" data-value="2"></i></label>
+                            <label><i class="fas fa-star saoTrungBinh" data-value="3"></i></label>
+                            <label><i class="fas fa-star saoTrungBinh" data-value="4"></i></label>
+                            <label><i class="fas fa-star saoTrungBinh" data-value="5"></i></label>
+                        </div>
                         <p class="price">@string.Format("{0:N0} đ", monAn.Gia)</p>
                         <button class="btn btn-primary view-detail"  data-id="@monAn.Id">Xem Chi Tiết</button>
                     </div>
@@ -233,7 +262,13 @@ Luôn lắng nghe để cải thiện và mang đến trải nghiệm tuyệt v�
                             <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
                         }
                         <h5 class="dish-name">@monAn.TenMonAn</h5>
-                        <p>@monAn.MoTa</p>
+                        <div class="star-rating2 mb-2">
+                            <label><i class="fas fa-star saoTrungBinh" data-value="1"></i></label>
+                            <label><i class="fas fa-star saoTrungBinh" data-value="2"></i></label>
+                            <label><i class="fas fa-star saoTrungBinh" data-value="3"></i></label>
+                            <label><i class="fas fa-star saoTrungBinh" data-value="4"></i></label>
+                            <label><i class="fas fa-star saoTrungBinh" data-value="5"></i></label>
+                        </div>
                         <p class="price">@string.Format("{0:N0} đ", monAn.Gia)</p>
                         <button class="btn btn-primary view-detail"  data-id="@monAn.Id">Xem Chi Tiết</button>
                     </div>

@@ -8,6 +8,7 @@
         public decimal Gia { get; set; }
         public int DanhMucId { get; set; } // Liên kết với danh mục
         public string TenDanhMuc { get; set; } // Tên danh mục
-        public List<string> AnhMonAn { get; set; } // Danh sách đường dẫn ảnh
+        public List<string> AnhMonAn { get; set; }
+        public double SaoTrungBinh { get; set; }// Danh sách đường dẫn ảnh
     }
 }

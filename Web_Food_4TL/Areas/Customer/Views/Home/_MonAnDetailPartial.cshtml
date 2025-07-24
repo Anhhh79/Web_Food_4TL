@@ -4,10 +4,11 @@
     <h5 class="modal-title">@Model.TenMonAn</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 </div>
+
 <div class="modal-body">
     <div class="row">
         <!-- Ảnh bên trái -->
-        <div class="col-md-5">
+        <div class="col-12 col-md-5 mb-3 mb-md-0 text-center">
             @if (Model.AnhMonAnh != null && Model.AnhMonAnh.Any())
             {
                 <img src="/uploads/monan/@Model.AnhMonAnh.FirstOrDefault().Url" class="img-fluid rounded shadow-sm" />
@@ -19,11 +20,11 @@
         </div>
 
         <!-- Nội dung bên phải -->
-        <div class="col-md-7">
-            <div class="d-flex justify-content-between">
-                <p><strong>Mô tả:</strong> @Model.MoTa</p>
-                <div class="d-flex">
-                    <p><strong>Đánh giá: </strong> <strong id="" class="text-warning averageRating1"></strong>/5 </p>
+        <div class="col-12 col-md-7">
+            <div class="row">
+                <p class="col-12 col-md-8"><strong>Mô tả:</strong> @Model.MoTa</p>
+                <div class="d-flex col-12 col-md-4 justify-content-md-end">
+                    <p class="mb-0"><strong>Đánh giá: </strong> <strong class="text-warning averageRating1"></strong>/5</p>
                     <img src="/img/star-svgrepo-com.svg" class="ms-1" alt="" style="width: 15px;height: 15px;">
                 </div>
             </div>
@@ -36,26 +37,26 @@
             </div>
         </div>
     </div>
+
     <div class="row">
-        <div class="col-12 p-4" style="border-radius: 10px; background-color: #FFF;">
+        <div class="col-12 p-4 mt-3" style="border-radius: 10px; background-color: #FFF;">
             <div class="row">
                 <!-- Bên trái: Điểm TB + Sao -->
-                <div class="col-lg-4 col-12 text-center mb-4 mb-lg-0">
+                <div class="col-12 col-lg-4 text-center mb-4 mb-lg-0">
                     <h3 class="text-warning mb-2">
                         <span class="averageRating1">0</span> / 5
                     </h3>
                     <div class="star-rating2 mb-2">
-                        <label><i class="fas fa-star saoTrungBinh" data-value="1"></i></label>
-                        <label><i class="fas fa-star saoTrungBinh" data-value="2"></i></label>
-                        <label><i class="fas fa-star saoTrungBinh" data-value="3"></i></label>
-                        <label><i class="fas fa-star saoTrungBinh" data-value="4"></i></label>
-                        <label><i class="fas fa-star saoTrungBinh" data-value="5"></i></label>
+                        @for (var i = 1; i <= 5; i++)
+                        {
+                            <i class="fas fa-star saoTrungBinh" data-value="@i"></i>
+                        }
                     </div>
                     <div class="mb-3">(<span id="totalReviews1">0</span> đánh giá)</div>
                 </div>
 
                 <!-- Bên phải: Thống kê sao -->
-                <div class="col-lg-8 col-12">
+                <div class="col-12 col-lg-8">
                     <div class="row g-2">
                         <div class="col-6 col-md-2">
                             <span class="p-2 d-block border bg-light thongKeDanhGia rounded text-center">
@@ -94,13 +95,7 @@
             <hr class="mt-3">
 
             <!-- Danh sách đánh giá -->
-            <div class="scroll-contents-DanhGia mt-4" id="bodyDanhGia">
-                
-            </div>
-
+            <div class="scroll-contents-DanhGia mt-4" id="bodyDanhGia"></div>
         </div>
     </div>
-
-
 </div>
-
