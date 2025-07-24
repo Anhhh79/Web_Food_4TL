@@ -1,0 +1,76 @@
+﻿<div class="main" id="content">
+    <nav class="navbar navbar-expand px-4 py-3">
+        <div class="navbar-collapse collapse">
+            <ul class="navbar-nav justify-content-between" style="width: 1380px;">
+                <li>
+                    <h2 style="font-weight: bolder;">Thông tin khách hàng</h2>
+                </li>
+                <li class="ms-3 dropdown">
+                    <button class="btn btn-secondary text-light dropdown-toggle d-none d-lg-block" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-user-circle"></i> @Context.Session.GetString("UserName")
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item text-danger" href="/Customer/Account/Logout">Đăng xuất</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main class="content px-3 py-3">
+        <div class="container-fluid">
+            <div>
+                <div class="row justify-content-between mx-1 mb-4">
+                    <div class="input-group d-flex align-items-center border border-dark rounded"
+                         style="width: 300px;padding: 0;">
+                        <i class="fa-solid fa-magnifying-glass fa-1x ms-2 "></i>
+                        <input type="text" class="form-control input-border" id="timKiemKhachHang" placeholder="Thông tin khách hàng"
+                               aria-label="Username" aria-describedby="basic-addon1" style="border: 0;">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <table class="table">
+                            <thead style="background: #0e2238;">
+                                <tr>
+                                    <th class="col-1" scope="col">STT</th>
+                                    <th class="col-2" scope="col">Tên khách hàng</th>
+                                    <th class="col-2" scope="col">Số điện thoại</th>
+                                    <th class="col-2" scope="col">Nội dung đánh giá</th>
+                                    <th class="col-2" scope="col">Số sao</th>
+                                    <th class="col-2 text-center" scope="col">Tên món ăn</th>
+                                    <th class="col-1" scope="col"></th>
+
+                                </tr>
+                            </thead>
+                            <tbody id="bodyThongTinDanhGia">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Modal Phản Hồi -->
+    <div class="modal fade" id="phanHoiModal" tabindex="-1" aria-labelledby="phanHoiModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="phanHoiModalLabel">Phản hồi đánh giá</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="danhGiaId" />
+                    <div class="mb-3">
+                        <label for="noiDungPhanHoi" class="form-label">Nội dung phản hồi</label>
+                        <textarea class="form-control" id="noiDungPhanHoi" rows="4"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" id="btnGuiPhanHoi">Gửi phản hồi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

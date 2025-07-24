@@ -19,6 +19,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
     <!-- Custom JavaScript -->
     <!-- LineIcons -->
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
@@ -39,6 +42,12 @@
                 </div>
             </div>
             <ul class="sidebar-nav">
+                <li class="sidebar-item">
+                    <a asp-area="Admin" asp-controller="QuanLyDonHang" asp-action="Index" class="sidebar-link">
+                        <i class="lni lni-dinner"></i>
+                        <span>Quản lý đơn hàng</span>
+                    </a>
+                </li>
                 <!-- Sidebar Links with ASP.NET Attributes -->
                 <li class="sidebar-item">
                     <a asp-area="Admin" asp-controller="QuanLyKhachHang" asp-action="Index" class="sidebar-link">
@@ -61,6 +70,12 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item">
+                    <a class="sidebar-link" asp-area="Admin" asp-controller="PhanHoiDanhGia" asp-action="Index">
+                        <i class="lni lni-comments"></i>
+                        <span>Phản hồi đánh giá</span>
+                    </a>
+                </li>
 
                 <!-- More Sidebar Links -->
                 <li class="sidebar-item">
@@ -96,9 +111,14 @@
             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <!--js thong báo -->
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
+    <script src="~/js/QuanLyDonHang.js"></script>
     <script src="~/js/QuanLyKhachHang.js"></script>
     <script src="~/js/ThongKe.js"></script>
+    <script src="~/js/PhanHoiDanhGia.js"></script>
 
     @RenderSection("Scripts", required: false)
 

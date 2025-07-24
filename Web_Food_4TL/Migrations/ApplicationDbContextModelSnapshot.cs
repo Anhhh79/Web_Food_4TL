@@ -69,6 +69,9 @@ namespace Web_Food_4TL.Migrations
                     b.Property<int>("SoSao")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("ThoiGian")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MonAnId");
