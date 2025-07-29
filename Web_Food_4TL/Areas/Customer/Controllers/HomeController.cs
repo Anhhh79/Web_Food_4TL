@@ -22,22 +22,26 @@ namespace Web_Food_4TL.Areas.Customer.Controllers
         public IActionResult Index()
         {
             var monAnList = _context.MonAns
-    .Include(m => m.AnhMonAnh) // Lấy danh sách ảnh
-    .Include(m => m.DanhMuc)   // Lấy thông tin danh mục
-    .Select(m => new MonAnVM
-    {
-        Id = m.Id,
-        TenMonAn = m.TenMonAn,
-        MoTa = m.MoTa,
-        Gia = m.Gia,
-        TenDanhMuc = m.DanhMuc.TenDanhMuc,
-        AnhMonAn = m.AnhMonAnh.Select(a => a.Url).ToList() // Lấy danh sách ảnh
-    })
-    .ToList();
+                .Include(m => m.AnhMonAnh)
+                .Include(m => m.DanhMuc)
+                .Select(m => new MonAnVM
+                {
+                    Id = m.Id,
+                    TenMonAn = m.TenMonAn,
+                    MoTa = m.MoTa,
+                    Gia = m.Gia,
+                    TenDanhMuc = m.DanhMuc.TenDanhMuc,
+                    AnhMonAn = m.AnhMonAnh.Select(a => a.Url).ToList(),
+                    SaoTrungBinh = _context.DanhGias
+                        .Where(d => d.MonAnId == m.Id)
+                        .Select(d => (double?)d.SoSao)
+                        .Average() ?? 0 // ✅ Nếu không có đánh giá thì mặc định 0
+                })
+                .ToList();
 
             return View(monAnList);
-
         }
+
 
         public IActionResult GetMonAnDetail(int id)
         {
